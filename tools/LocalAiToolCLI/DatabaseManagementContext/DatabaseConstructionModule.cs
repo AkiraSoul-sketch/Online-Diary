@@ -1,5 +1,7 @@
+using LocalAiToolCLI.FilesManagementContext;
 using LocalAiToolCLI.LoggingManagement;
 using LocalAiToolCLI.SettingsManagementContext;
+using Microsoft.Extensions.Options;
 using SQLitePCL;
 
 namespace LocalAiToolCLI.DatabaseManagementContext;
@@ -8,17 +10,18 @@ public static class DatabaseConstructionModule
 {
     extension(DatabaseInstance)
     {
-        public static DatabaseInstance Create(DatabaseSettings settings)
+        public static sqlite3 Create(IOptions<DatabaseSettings> options)
         {
+            DatabaseSettings settings = options.Value;
             string path = settings.UsingDatabasePath;
             sqlite3 db = Open(path);
-            DatabaseInstance instance = new(db, path);
-            PushExtensions(settings.ExtensionFiles, instance);
-            return instance;
+            PushExtensions(settings.ExtensionFiles, db);
+            return db;
         }
 
-        private static sqlite3 Open(string path)
+        public static sqlite3 Open(string path)
         {
+            Batteries_V2.Init();
             int rc = raw.sqlite3_open(path, out sqlite3 db);
             if (DatabaseInstance.IsError(rc))
             {
@@ -28,7 +31,7 @@ public static class DatabaseConstructionModule
             return db;
         }
 
-        private static void PushExtensions(string[]? ExtensionFiles, DatabaseInstance instance)
+        public static void PushExtensions(string[]? ExtensionFiles, sqlite3 db)
         {
             if (ExtensionFiles is null)
             {
@@ -42,9 +45,28 @@ public static class DatabaseConstructionModule
                 return;
             }
 
+            int rc = raw.sqlite3_enable_load_extension(db, 1);
+            if (DatabaseInstance.IsError(rc))
+            {
+                DatabaseInstance.HandleError(rc);
+            }
+
+            utf8z nullPointerWrapper = utf8z.FromIntPtr(IntPtr.Zero);
             foreach (string path in ExtensionFiles)
             {
-                instance.InstallExtension(path);
+                string fullPath = PathExtensions.CombineWithExecutableDirectory(path);
+                utf8z pointer = utf8z.FromString(fullPath);
+                rc = raw.sqlite3_load_extension(
+                    db,
+                    pointer,
+                    nullPointerWrapper,
+                    out utf8z errorMessage
+                );
+                if (DatabaseInstance.IsError(rc))
+                {
+                    DatabaseInstance.HandleError(rc, errorMessage);
+                }
+
                 $"Загружено расширение: {path}".PrintSuccessMessage();
             }
         }

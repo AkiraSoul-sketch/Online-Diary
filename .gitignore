@@ -21,6 +21,8 @@
 *.vscode/
 **/*/.vscode
 **/*/.vscode/
+embedding_model/
+generative_model/
 
 *.vs
 .vs

@@ -14,6 +14,14 @@ public static class DatabaseErrorsModule
             throw new ApplicationException($"Database error: {error}");
         }
 
+        public static void HandlePossibleError(int rc)
+        {
+            if (DatabaseInstance.IsError(rc))
+            {
+                DatabaseInstance.HandleError(rc);
+            }
+        }
+
         public static void HandleError(int rc)
         {
             if (!IsError(rc))

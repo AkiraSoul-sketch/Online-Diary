@@ -1,7 +1,17 @@
+using Microsoft.ML.OnnxRuntimeGenAI;
+
 namespace LocalAiToolCLI.LoggingManagement;
 
 public static class StringPrintingExtensions
 {
+    extension(Console)
+    {
+        public static void EmptyLine()
+        {
+            Console.WriteLine();
+        }
+    }
+
     extension(string input)
     {
         public void PrintSystemMessage()
@@ -28,6 +38,13 @@ public static class StringPrintingExtensions
         public void PrintSuccessMessage()
         {
             Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(input);
+            Console.ResetColor();
+        }
+
+        public void PrintUserInput()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine(input);
             Console.ResetColor();
         }

@@ -5,4 +5,10 @@ public sealed class LocalFile
     public required Guid Id { get; init; }
     public required string Name { get; init; }
     public required string Path { get; init; }
+
+    public string ReadContents()
+    {
+        using StreamReader reader = new(Path);
+        return reader.ReadToEnd();
+    }
 }

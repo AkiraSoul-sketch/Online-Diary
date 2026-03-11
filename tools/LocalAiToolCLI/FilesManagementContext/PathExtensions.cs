@@ -1,4 +1,4 @@
-namespace LocalAiToolCLI.DatabaseManagementContext;
+namespace LocalAiToolCLI.FilesManagementContext;
 
 public static class PathExtensions
 {

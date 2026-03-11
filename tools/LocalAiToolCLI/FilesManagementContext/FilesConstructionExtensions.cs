@@ -4,26 +4,54 @@ public static class FilesConstructionExtensions
 {
     extension(LocalFile)
     {
-        public static LocalFile[] GetFromDirectoryRoot(string directoryRootPath, string fileExtensions, string[]? filterNames = null)
+        public static LocalFile[] SearchForDocumentationFiles(
+            string directoryRootPath,
+            string[]? fileExtensions,
+            string[]? filterNames = null
+        )
         {
-            DirectoryInfo directory = new(directoryRootPath);
-            EnumerationOptions options = new() { RecurseSubdirectories = true };
-            IEnumerable<FileInfo> filesSequence = directory.EnumerateFiles(fileExtensions);
-            if (filterNames != null && filterNames.Length > 0)
-            {
-                filesSequence = filesSequence.Where(f => !filterNames.Any(fn => f.Name.Contains(fn, StringComparison.OrdinalIgnoreCase)));
-            }
-
-            return [.. filesSequence.Select(FromFileInfo)];
+            LocalFile[] files = GetFromDirectoryRoot(
+                directoryRootPath,
+                fileExtensions,
+                filterNames
+            );
+            return files;
         }
 
-        public static LocalFile FromFileInfo(FileInfo fileInfo)
-        {                        
+        private static LocalFile[] GetFromDirectoryRoot(
+            string rootPath,
+            string[]? extensions,
+            string[]? ignored = null
+        )
+        {
+            DirectoryInfo directory = new(rootPath);
+            EnumerationOptions options = new() { RecurseSubdirectories = true };
+            IEnumerable<FileInfo> files = directory.EnumerateFiles("*", options);
+
+            if (extensions != null && extensions.Length > 0)
+            {
+                files = files.Where(f =>
+                    extensions.Contains(f.Extension, StringComparer.OrdinalIgnoreCase)
+                );
+            }
+
+            if (ignored != null && ignored.Length > 0)
+            {
+                files = files.Where(f =>
+                    ignored.Any(fn => !f.Name.Contains(fn, StringComparison.OrdinalIgnoreCase))
+                );
+            }
+
+            return [.. files.Select(FromFileInfo)];
+        }
+
+        private static LocalFile FromFileInfo(FileInfo fileInfo)
+        {
             return new LocalFile()
             {
                 Id = Guid.NewGuid(),
                 Name = fileInfo.Name,
-                Path = fileInfo.FullName
+                Path = fileInfo.FullName,
             };
         }
     }

@@ -6,32 +6,43 @@ using Microsoft.ML.OnnxRuntime.Tensors;
 
 namespace LocalAiToolCLI.EmbeddingContext;
 
-public sealed class EmbeddingModel(IOptions<EmbeddingModelSettings> settings) : IDisposable
+public sealed class EmbeddingModel : IDisposable
 {
-    private readonly Lazy<InferenceSession> _model = new(() =>
+    public EmbeddingModel(IOptions<EmbeddingModelSettings> options)
     {
-        string path = settings.Value.ModelPath;
-        if (!File.Exists(path))
+        EmbeddingModelSettings settings = options.Value;
+        _options = new();
+        _options.RegisterOrtExtensions();
+        _model = new(() =>
         {
-            string error = $"Файл модели: {path} не найден.";
-            error.PrintErrorMessage();
-            throw new InvalidOperationException(error);
-        }
+            string path = settings.ModelPath;
+            if (!File.Exists(path))
+            {
+                string error = $"Файл модели: {path} не найден.";
+                error.PrintErrorMessage();
+                throw new InvalidOperationException(error);
+            }
 
-        return new InferenceSession(settings.Value.ModelPath);
-    });
-    private readonly Lazy<InferenceSession> _tokenizer = new(() =>
-    {
-        string path = settings.Value.TokenizerPath;
-        if (!File.Exists(path))
+            return new InferenceSession(settings.ModelPath, _options);
+        });
+        _tokenizer = new(() =>
         {
-            string error = $"Файл токенизатора: {path} не найден.";
-            error.PrintErrorMessage();
-            throw new InvalidOperationException(error);
-        }
+            string path = settings.TokenizerPath;
+            if (!File.Exists(path))
+            {
+                string error = $"Файл токенизатора: {path} не найден.";
+                error.PrintErrorMessage();
+                throw new InvalidOperationException(error);
+            }
 
-        return new InferenceSession(path);
-    });
+            return new InferenceSession(path, _options);
+        });
+    }
+
+    private readonly SessionOptions _options;
+
+    private readonly Lazy<InferenceSession> _model;
+    private readonly Lazy<InferenceSession> _tokenizer;
     private bool _disposed = false;
     private InferenceSession Model => _model.Value;
     private InferenceSession Tokenizer => _tokenizer.Value;
@@ -112,7 +123,6 @@ public sealed class EmbeddingModel(IOptions<EmbeddingModelSettings> settings) : 
     {
         if (_disposed)
         {
-            "Ресурсы модели уже были высвобождены. Dispose() не имеет смысла".PrintWarningMessage();
             return;
         }
 
@@ -127,6 +137,9 @@ public sealed class EmbeddingModel(IOptions<EmbeddingModelSettings> settings) : 
         }
 
         _disposed = true;
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, blocking: true, compacting: true);
+        GC.WaitForPendingFinalizers();
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Aggressive, blocking: true, compacting: true);
     }
 
     private static TokenizerOutput GenerateTokenizerOutput(
