@@ -8,7 +8,13 @@ public sealed class LocalFile
 
     public string ReadContents()
     {
-        using StreamReader reader = new(Path);
-        return reader.ReadToEnd();
+        if (Name == "общая_цветовая_схема.md")
+        {
+            int a = 0;
+        }
+
+        using StreamReader reader = File.OpenText(Path);
+        string text = reader.ReadToEnd();
+        return text;
     }
 }

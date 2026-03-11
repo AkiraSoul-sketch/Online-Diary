@@ -4,7 +4,7 @@ using LocalAiToolCLI.LoggingManagement;
 using LocalAiToolCLI.OnStartup;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LocalAiToolCli
+namespace LocalAiToolCliY
 {
     class Program
     {
@@ -12,7 +12,7 @@ namespace LocalAiToolCli
         {
             IServiceProvider services = InitializeServices();
             ProcessOnStartupActions(services);
-            args = ["-a", "Какие цвета используются для оценок в веб-приложении?"];
+            args = ["-a", "Как установить penpot в докере?"];
             await ProcessCliCommands(services, args);
         }
 

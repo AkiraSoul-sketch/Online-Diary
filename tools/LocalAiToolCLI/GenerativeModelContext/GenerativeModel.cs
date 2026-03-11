@@ -1,3 +1,4 @@
+using System.Text;
 using LocalAiToolCLI.LoggingManagement;
 using LocalAiToolCLI.SettingsManagementContext;
 using Microsoft.Extensions.Options;
@@ -18,7 +19,6 @@ public sealed class GenerativeModel : IDisposable
 
     public void RunInference(string userPrompt, string toolResponse)
     {
-        userPrompt.PrintUserInput();
         const string T_SYSTEM = "<|system|>";
         const string T_USER = "<|user|>";
         const string T_ASSISTANT = "<|assistant|>";
@@ -27,7 +27,7 @@ public sealed class GenerativeModel : IDisposable
 
         string systemText =
             "Вы — справочник по локальному репозиторию. Формируйте ответ КРАТКО и ТОЛЬКО на основе информации из блока '<|tool_response|>'. "
-            + "Если в '<|tool_response|>' сообщите, что не можете дать ответ.";
+            + " Если в '<|tool_response|>' сообщите, что не можете дать ответ. ";
 
         string prompt =
             T_SYSTEM
@@ -42,25 +42,44 @@ public sealed class GenerativeModel : IDisposable
             + T_ASSISTANT;
 
         Model model = _model.Value;
-        using Tokenizer tokenizer = new(model);
+
+        using Tokenizer tokenizer = new Tokenizer(model);
         using TokenizerStream stream = tokenizer.CreateStream();
-        using GeneratorParams generatorParams = new(model);
+
+        using GeneratorParams generatorParams = new GeneratorParams(model);
         generatorParams.SetSearchOption("do_sample", false);
-        generatorParams.SetSearchOption("temperature", 0.0);
-        generatorParams.SetSearchOption("num_beams", 1);
-        generatorParams.SetSearchOption("max_length", 1024);
-        generatorParams.SetSearchOption("early_stopping", true);
-        generatorParams.SetSearchOption("no_repeat_ngram_size", 3);
-        using Generator generator = new(model, generatorParams);
-        using Sequences sequences = tokenizer.Encode(prompt);
-        generator.AppendTokenSequences(sequences);
+        using Sequences promptSeq = tokenizer.Encode(prompt);
+        int promptTokens = promptSeq[0].Length;
+        const int desiredNewTokens = 512;
+        generatorParams.SetSearchOption("max_length", promptTokens + desiredNewTokens);
+
+        using var generator = new Generator(model, generatorParams);
+        generator.AppendTokenSequences(promptSeq);
+
         while (!generator.IsDone())
         {
             generator.GenerateNextToken();
-            ReadOnlySpan<int> token = generator.GetNextTokens();
-            string text = stream.Decode(token[0]);
+
+            ReadOnlySpan<int> tokens = generator.GetNextTokens();
+            if (tokens.Length == 0)
+            {
+                continue;
+            }
+
+            int tokenId = tokens[0];
+            string text = stream.Decode(tokenId);
             Console.Write(text);
         }
+    }
+
+    private static string EscapeJson(string s)
+    {
+        if (string.IsNullOrEmpty(s))
+            return "";
+        return s.Replace("\\", "\\\\")
+            .Replace("\"", "\\\"")
+            .Replace("\r", "\\r")
+            .Replace("\n", "\\n");
     }
 
     public void Dispose()
