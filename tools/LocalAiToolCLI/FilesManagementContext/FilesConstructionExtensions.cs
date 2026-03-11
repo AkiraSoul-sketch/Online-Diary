@@ -27,19 +27,15 @@ public static class FilesConstructionExtensions
             DirectoryInfo directory = new(rootPath);
             EnumerationOptions options = new() { RecurseSubdirectories = true };
             IEnumerable<FileInfo> files = directory.EnumerateFiles("*", options);
-
+            StringComparison comparison = StringComparison.OrdinalIgnoreCase;
             if (extensions != null && extensions.Length > 0)
             {
-                files = files.Where(f =>
-                    extensions.Contains(f.Extension, StringComparer.OrdinalIgnoreCase)
-                );
+                files = files.Where(f => extensions.Any(e => f.Name.EndsWith(e, comparison)));
             }
 
             if (ignored != null && ignored.Length > 0)
             {
-                files = files.Where(f =>
-                    ignored.Any(fn => !f.Name.Contains(fn, StringComparison.OrdinalIgnoreCase))
-                );
+                files = files.Where(f => ignored.Any(fn => !f.Name.Contains(fn, comparison)));
             }
 
             return [.. files.Select(FromFileInfo)];

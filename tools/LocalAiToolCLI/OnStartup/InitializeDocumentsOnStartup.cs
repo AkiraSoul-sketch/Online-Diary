@@ -40,7 +40,7 @@ public static class InitializeDocumentsOnStartupExtension
                     {
                         using EmbeddingModel model =
                             scope.ServiceProvider.GetRequiredService<EmbeddingModel>();
-                        "Найдены файлы для добавления в БД. Добавить эти файлы? [Y/y] [N/n]?".PrintWarningMessage();
+                        "Найдены файлы для добавления в БД. Добавить эти файлы? [Y/y] [N/n]?".PrintSystemMessage();
                         if (Console.UserPressedContinue() == false)
                         {
                             "Отказ от добавления несуществующих файлов в БД.".PrintWarningMessage();
@@ -89,7 +89,7 @@ public static class InitializeDocumentsOnStartupExtension
                 List<string> nonExistedPaths = [];
                 while ((rc = raw.sqlite3_step(stmt)) == raw.SQLITE_ROW)
                 {
-                    if (raw.sqlite3_column_type(stmt, 1) == raw.SQLITE_NULL)
+                    if (raw.sqlite3_column_type(stmt, 1) != raw.SQLITE_NULL)
                     {
                         continue;
                     }
@@ -122,14 +122,6 @@ public static class InitializeDocumentsOnStartupExtension
             EmbeddingModel model
         )
         {
-            "Для корректной работы инструмента, необходимо проинициализировать базу данных вашей документацией.".PrintSystemMessage();
-            "Нажмите [Y/y] чтобы продолжить. В противном случае нажмите [N/n].".PrintSystemMessage();
-            if (!Console.UserPressedContinue())
-            {
-                "Отмена инициализации базы данных документацией".PrintWarningMessage();
-                return;
-            }
-
             "Начало инициализации базы данных файлами из документации.".PrintSystemMessage();
             using DatabaseTransaction transaction = database.BeginTransaction();
             int batchLimit = 50;
@@ -162,10 +154,8 @@ public static class InitializeDocumentsOnStartupExtension
             {
                 for (int i = indexStart; i < indexEnd; i++)
                 {
-                    string fileName = $"Файл: {files[i].Name}";
                     string contents = files[i].ReadContents();
-                    string embeddingsText = sb.AppendLine(fileName).AppendLine(contents).ToString();
-                    float[] embeddings = model.Generate(embeddingsText);
+                    float[] embeddings = model.Generate(contents);
                     sb.Clear();
 
                     query = query

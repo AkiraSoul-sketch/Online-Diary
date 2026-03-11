@@ -43,7 +43,7 @@ public static class DatabaseExecutionModule
         public void InitializeVectorsForTable(string table, string column)
         {
             const string sql = """
-                    SELECT vector_init(?1, ?2, 'type=FLOAT32,dimension=1024');
+                    SELECT vector_init(?1, ?2, 'type=FLOAT32,dimension=1024,distance=cosine');
                 """;
             using DatabaseQuery query = instance
                 .CreateQuery(sql)

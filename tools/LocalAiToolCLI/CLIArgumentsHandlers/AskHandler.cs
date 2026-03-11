@@ -29,13 +29,10 @@ public sealed class AskHandler : ICliArgumentHandler
     {
         StringComparison comparison = StringComparison.OrdinalIgnoreCase;
 
-        if (arguments.Length != 2)
+        if (arguments.Length < 2)
         {
             return false;
         }
-
-        Console.WriteLine(arguments[0]);
-        Console.WriteLine(arguments[1]);
 
         string firstArg = arguments[0];
         return firstArg.Equals(keyword, comparison) || firstArg.Equals(alias, comparison);
@@ -43,7 +40,7 @@ public sealed class AskHandler : ICliArgumentHandler
 
     public async Task Handle(string[] arguments)
     {
-        string input = arguments[1];
+        string input = string.Join(" ", arguments.AsSpan().Slice(1));
         using (_database)
         {
             _database.InitializeVectorsForTable("documents", "embedding");

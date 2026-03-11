@@ -12,8 +12,8 @@ namespace LocalAiToolCli
         {
             IServiceProvider services = InitializeServices();
             ProcessOnStartupActions(services);
-            string[] normalized = ["-a", "Перечисли цвета в общей цветовой схеме"];
-            await ProcessCliCommands(services, normalized);
+            args = ["-a", "Какие цвета используются для оценок в веб-приложении?"];
+            await ProcessCliCommands(services, args);
         }
 
         private static IServiceProvider InitializeServices()
