@@ -1,13 +1,14 @@
+using LocalAiToolCLI.LoggingManagement;
 using LocalAiToolCLI.SettingsManagementContext;
 
 namespace LocalAiToolCLI.DatabaseManagementContext;
 
 public static class DatabaseSetupManagement
 {
-    private static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;        
+    private static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
 
     extension(DatabaseSettings settings)
-    {        
+    {
         public bool DatabaseCreated()
         {
             string usingDbPath = FormCurrentExecutionFolderBasedPath(settings.UsingDatabasePath);
@@ -23,21 +24,25 @@ public static class DatabaseSetupManagement
                 return;
             }
 
-            string fullUsingDbPath = FormCurrentExecutionFolderBasedPath(settings.UsingDatabasePath);
+            string fullUsingDbPath = FormCurrentExecutionFolderBasedPath(
+                settings.UsingDatabasePath
+            );
             File.Delete(fullUsingDbPath);
             if (settings.DatabaseCreated())
             {
-                string error = $"Не удалось удалить продуктовую базу данных: {settings.UsingDatabasePath}";
+                string error =
+                    $"Не удалось удалить продуктовую базу данных: {settings.UsingDatabasePath}";
                 error.PrintErrorMessage();
                 throw new InvalidOperationException(error);
             }
-        }        
+        }
 
         public void CloneDatabase()
         {
             if (settings.DatabaseCreated())
             {
-                string error = $"Продуктовая база данных: {settings.UsingDatabasePath} уже существует. Отмена создания.";
+                string error =
+                    $"Продуктовая база данных: {settings.UsingDatabasePath} уже существует. Отмена создания.";
                 error.PrintWarningMessage();
                 return;
             }
@@ -69,11 +74,11 @@ public static class DatabaseSetupManagement
         {
             string origDbPath = FormCurrentExecutionFolderBasedPath(settings.OriginalDatabasePath);
             return File.Exists(origDbPath);
-        }        
+        }
     }
 
     private static string FormCurrentExecutionFolderBasedPath(string path)
     {
         return Path.Combine(BasePath, path);
-    }    
+    }
 }
