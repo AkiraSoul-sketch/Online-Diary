@@ -35,7 +35,7 @@ public static class FilesConstructionExtensions
 
             if (ignored != null && ignored.Length > 0)
             {
-                files = files.Where(f => ignored.Any(fn => !f.Name.Contains(fn, comparison)));
+                files = files.Where(f => !ignored.Any(fn => string.Equals(f.Name, fn, comparison)));
             }
 
             return [.. files.Select(FromFileInfo)];

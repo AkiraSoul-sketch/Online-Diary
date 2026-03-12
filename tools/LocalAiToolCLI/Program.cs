@@ -4,7 +4,7 @@ using LocalAiToolCLI.LoggingManagement;
 using LocalAiToolCLI.OnStartup;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LocalAiToolCliY
+namespace LocalAiToolCLI
 {
     class Program
     {
@@ -12,7 +12,6 @@ namespace LocalAiToolCliY
         {
             IServiceProvider services = InitializeServices();
             ProcessOnStartupActions(services);
-            args = ["-a", "Как установить penpot в докере?"];
             await ProcessCliCommands(services, args);
         }
 

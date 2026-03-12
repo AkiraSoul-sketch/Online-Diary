@@ -8,9 +8,9 @@ public sealed class LocalFile
 
     public string ReadContents()
     {
-        if (Name == "общая_цветовая_схема.md")
+        if (this.IsPdfFile())
         {
-            int a = 0;
+            return this.ExtractPdfText();
         }
 
         using StreamReader reader = File.OpenText(Path);

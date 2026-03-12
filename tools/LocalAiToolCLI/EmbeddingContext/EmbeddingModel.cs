@@ -161,6 +161,17 @@ public sealed class EmbeddingModel : IDisposable
         return output;
     }
 
+    private static void PrintModelInputs(InferenceSession session)
+    {
+        foreach (KeyValuePair<string, NodeMetadata> meta in session.InputMetadata)
+        {
+            string key = meta.Key;
+            string type = meta.Value.ElementType.Name;
+            string dims = string.Join(", ", meta.Value.Dimensions);
+            Console.WriteLine($"Input: {key}, Type: {type}, Dims: {dims}");
+        }
+    }
+
     private sealed class ModelOutput
     {
         public float[] RawTokens { get; }
@@ -183,6 +194,7 @@ public sealed class EmbeddingModel : IDisposable
             DenseTensor<long> attentionMaskTensor
         )
         {
+            // PrintModelInputs(model);
             NamedOnnxValue[] inputs =
             [
                 NamedOnnxValue.CreateFromTensor("input_ids", inputIdsTensor),

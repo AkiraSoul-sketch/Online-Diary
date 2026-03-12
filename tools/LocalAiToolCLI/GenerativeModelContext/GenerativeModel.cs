@@ -1,4 +1,3 @@
-using System.Text;
 using LocalAiToolCLI.LoggingManagement;
 using LocalAiToolCLI.SettingsManagementContext;
 using Microsoft.Extensions.Options;
@@ -19,43 +18,78 @@ public sealed class GenerativeModel : IDisposable
 
     public void RunInference(string userPrompt, string toolResponse)
     {
-        const string T_SYSTEM = "<|system|>";
-        const string T_USER = "<|user|>";
-        const string T_ASSISTANT = "<|assistant|>";
-        const string T_END = "<|end|>";
-        const string T_TOOL_RESPONSE_OPEN = "<|tool_response|>";
+        const int THINK_START_ID = 151667;
+        const int THINK_END_ID = 151668;
+        const int IM_END_ID = 151645;
+        const int TOOL_CALL_START_ID = 151657;
+        const int TOOL_CALL_END_ID = 151658;
+        const int MAX_NEW_TOKENS = 1024;
 
-        string systemText =
-            "Вы — справочник по локальному репозиторию. Формируйте ответ КРАТКО и ТОЛЬКО на основе информации из блока '<|tool_response|>'. "
-            + " Если в '<|tool_response|>' сообщите, что не можете дать ответ. ";
+        string[] priming =
+        [
+            "<|im_start|>system",
+            "Ты — русскоязычный помощник, отвечающий на вопросы о документации и коде локального репозитория. ОТВЕЧАЙ ТОЛЬКО НА РУССКОМ.",
+            "Используй ИСКЛЮЧИТЕЛЬНО информацию из блока <tool_response>. Нельзя домысливать или добавлять данные извне.",
+            "Отвечай кратко и по существу. Если информации недостаточно — честно скажи: \"Не могу ответить на основании предоставленных данных.\"",
+            "Думай молча: проведи внутренний анализ <tool_response>, выбери релевантные факты и подготовь итоговый ответ. НЕЛЬЗЯ выводить теги <think>, <tool_call> или промежуточные рассуждения пользователю.",
+            "Если в <tool_response> есть команды или код, приводи ТОЛЬКО эти команды для ответа, а не на которых ты обучен.",
+            "ЗАВЕРШИ ОТВЕТ ТОКЕНОМ <|im_end|> (ровно этот токен).",
+            "<|im_end|>",
+            "<tool_call>",
+            "RAG retrieval: локальная векторная БД вернула top-K документов (дубликаты удалены).",
+            "</tool_call>",
+            "<tool_response>",
+            toolResponse,
+            "</tool_response>",
+            "<|im_start|>user",
+            $"Ответь на основе '<tool_response>': {userPrompt}",
+            "<|im_end|>",
+            "<|im_start|>assistant",
+        ];
 
-        string prompt =
-            T_SYSTEM
-            + systemText
-            + T_END
-            + T_TOOL_RESPONSE_OPEN
-            + toolResponse
-            + T_END
-            + T_USER
-            + userPrompt
-            + T_END
-            + T_ASSISTANT;
-
+        $"Промпт пользователя: {userPrompt}".PrintUserInput();
+        string prompt = string.Join(Environment.NewLine, priming);
         Model model = _model.Value;
-
-        using Tokenizer tokenizer = new Tokenizer(model);
+        using Tokenizer tokenizer = new(model);
         using TokenizerStream stream = tokenizer.CreateStream();
-
-        using GeneratorParams generatorParams = new GeneratorParams(model);
-        generatorParams.SetSearchOption("do_sample", false);
+        using GeneratorParams generatorParams = new(model);
         using Sequences promptSeq = tokenizer.Encode(prompt);
         int promptTokens = promptSeq[0].Length;
-        const int desiredNewTokens = 512;
-        generatorParams.SetSearchOption("max_length", promptTokens + desiredNewTokens);
-
-        using var generator = new Generator(model, generatorParams);
+        generatorParams.SetSearchOption("max_length", promptTokens + MAX_NEW_TOKENS);
+        generatorParams.SetSearchOption("do_sample", false);
+        generatorParams.SetSearchOption("repetition_penalty", 1.11);
+        generatorParams.SetSearchOption("no_repeat_ngram_size", 3);
+        using Generator generator = new(model, generatorParams);
         generator.AppendTokenSequences(promptSeq);
 
+        ExecuteModelInference(
+            generator,
+            stream,
+            THINK_START_ID,
+            THINK_END_ID,
+            IM_END_ID,
+            MAX_NEW_TOKENS,
+            TOOL_CALL_START_ID,
+            TOOL_CALL_END_ID
+        );
+    }
+
+    private static void ExecuteModelInference(
+        Generator generator,
+        TokenizerStream stream,
+        int thinkStartId,
+        int thinkEndId,
+        int imEndId,
+        int maxNewTokens,
+        int toolCallStartId,
+        int toolCallEndId
+    )
+    {
+        bool inThink = false;
+        bool inToolCall = false;
+        int generatedTokens = 0;
+        bool wroteNonWhitespace = false;
+        bool lastCharWasNewline = false;
         while (!generator.IsDone())
         {
             generator.GenerateNextToken();
@@ -67,19 +101,103 @@ public sealed class GenerativeModel : IDisposable
             }
 
             int tokenId = tokens[0];
-            string text = stream.Decode(tokenId);
-            Console.Write(text);
-        }
-    }
+            if (tokenId == thinkStartId)
+            {
+                "Начал думать".PrintSystemMessage();
+                inThink = true;
+                continue;
+            }
 
-    private static string EscapeJson(string s)
-    {
-        if (string.IsNullOrEmpty(s))
-            return "";
-        return s.Replace("\\", "\\\\")
-            .Replace("\"", "\\\"")
-            .Replace("\r", "\\r")
-            .Replace("\n", "\\n");
+            if (tokenId == thinkEndId)
+            {
+                "Формирую ответ:".PrintSystemMessage();
+                inThink = false;
+                continue;
+            }
+
+            if (inThink)
+            {
+                continue;
+            }
+
+            if (tokenId == toolCallStartId)
+            {
+                inToolCall = true;
+                continue;
+            }
+
+            if (tokenId == toolCallEndId)
+            {
+                inToolCall = false;
+                continue;
+            }
+
+            if (inToolCall)
+            {
+                continue;
+            }
+
+            if (tokenId == imEndId)
+            {
+                Console.EmptyLine();
+                "Ответ сформирован".PrintSystemMessage();
+                break;
+            }
+
+            if (generatedTokens >= maxNewTokens)
+            {
+                break;
+            }
+
+            string text = stream.Decode(tokenId);
+            if (text == null || text.Length == 0)
+            {
+                continue;
+            }
+
+            if (!wroteNonWhitespace)
+            {
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    continue;
+                }
+
+                string trimmed = text.Trim();
+                if (trimmed == "()" || trimmed == "(" || trimmed == ")")
+                {
+                    continue;
+                }
+
+                if (trimmed.Length <= 2 && trimmed.All(char.IsPunctuation))
+                {
+                    continue;
+                }
+
+                wroteNonWhitespace = true;
+            }
+
+            if (lastCharWasNewline)
+            {
+                if (text.StartsWith('\n'))
+                {
+                    int i = 0;
+                    while (i < text.Length && text[i] == '\n')
+                    {
+                        i++;
+                    }
+
+                    text = text[i..];
+                    if (text.Length == 0)
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            Console.Write(text);
+            lastCharWasNewline = text.Length > 0 && text[^1] == '\n';
+            generatedTokens++;
+        }
     }
 
     public void Dispose()
