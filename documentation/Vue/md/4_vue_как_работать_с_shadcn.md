@@ -13,10 +13,10 @@
 
 2. В vue-файлах в секции `<template></template>` начинайте набирать нужное название компонента.
 
-   _Импортируйте компоненты с коротким путем. Так, вы импортируете компоненты из TypeScript формата._
-
-   Например, вот корректный импорт компонента `Button` из shadcn/ui:
+   Например, вот импорт компонента `Button` из shadcn/ui:
 
    ```ts
    import { Button } from "./components/ui/button";
    ```
+
+   Импорт может быть без `{ Component }`, а например: `import Button from "./components/ui/button";`
