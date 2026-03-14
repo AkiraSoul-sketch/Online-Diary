@@ -1,5 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import GradesPage from "./modules/GradesContext/GradesPage.vue";
+</script>
 
-<template></template>
+<template>
+  <GradesPage />
+</template>
 
 <style scoped></style>
