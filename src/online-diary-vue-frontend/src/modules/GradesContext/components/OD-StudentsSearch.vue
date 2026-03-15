@@ -2,7 +2,7 @@
 import Button from "@/components/ui/button/Button.vue";
 import Card from "@/components/ui/card/Card.vue";
 import Input from "@/components/ui/input/Input.vue";
-import { XCircleIcon } from "lucide-vue-next";
+import { SearchIcon, XCircleIcon } from "lucide-vue-next";
 
 export default {
   components: {
@@ -10,6 +10,7 @@ export default {
     Card,
     Input,
     XCircleIcon,
+    SearchIcon,
   },
 };
 </script>
