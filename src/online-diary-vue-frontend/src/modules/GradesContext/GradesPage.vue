@@ -42,11 +42,74 @@ import PopoverContent from "@/components/ui/popover/PopoverContent.vue";
 import type { DateValue } from "reka-ui";
 import { CalendarDate } from "@internationalized/date";
 import { ref } from "vue";
+import GradesTableHeaderCell from "./components/GradesTable/GradesTableHeaderCell.vue";
 
 type ThemeInfo = {
   index: number;
   date: Date;
 };
+
+type StudentInfo = {
+  name: string;
+  grades: number[];
+};
+
+const studentNames: string[] = [
+  "Иванов Иван",
+  "Петров Петр",
+  "Сидоров Сидор",
+  "Кузнецов Кузьма",
+  "Смирнов Семён",
+  "Попов Павел",
+  "Васильев Василий",
+  "Михайлов Михаил",
+  "Новиков Николай",
+  "Фёдоров Фёдор",
+  "Григорьев Григорий",
+  "Алексеев Алексей",
+  "Сергеев Сергей",
+  "Андреев Андрей",
+  "Макаров Макар",
+  "Никитин Никита",
+  "Григорьев Григорий",
+  "Егоров Егор",
+  "Павлов Павел",
+];
+
+function generateRandomStudents(
+  count: number,
+  gradesPerStudent: number,
+): StudentInfo[] {
+  const students: StudentInfo[] = [];
+  for (let i = 0; i < count; i++) {
+    const student: StudentInfo = generateRandomStudent(gradesPerStudent);
+    students.push(student);
+  }
+  return students;
+}
+
+function calculateStudentAverageGrade(
+  student: StudentInfo,
+  fractionDigits: number = 2,
+): number {
+  const grades: number[] = student.grades;
+  const overall: number = grades.reduce((sum, grade) => sum + grade, 0);
+  const average: number = overall / grades.length;
+  const rounded_average: number = Number(average.toFixed(fractionDigits));
+  return rounded_average;
+}
+
+function generateRandomStudent(gradesCount: number): StudentInfo {
+  const maxStudents = studentNames.length;
+  const randomIndex = Math.floor(Math.random() * maxStudents);
+  const name = studentNames[randomIndex];
+  const grades: number[] = [];
+  for (let i = 0; i < gradesCount; i++) {
+    const randomGrade = Math.floor(Math.random() * 5) + 1;
+    grades.push(randomGrade);
+  }
+  return { name, grades };
+}
 
 function generateRandomThemes(count: number): ThemeInfo[] {
   const themes: ThemeInfo[] = [];
@@ -116,19 +179,22 @@ export default {
     SquarePlus,
     SearchCheckIcon,
     SearchXIcon,
+    GradesTableHeaderCell,
   },
   data() {
     return {
       theme_indexes: generateRandomThemes(25),
       date: new Date(Date.now()),
-      tableHeaderStyles: "text-start px-0 pr-0 p-0 border",
-      gradeTableHeaderStyles: "text-center px-0 pr-0 p-0 border",
-      gradeThemeHeaderLabelStyles: "block text-center p-1",
+      tableHeaderStyles: "text-start p-0 border inline-block",
+      gradeTableHeaderStyles: "text-center p-0 border inline-block",
+      gradeThemeHeaderLabelStyles: "text-center p-0 border inline-block",
     };
   },
   methods: {
     formatDate,
     convertDateToCalendarDate,
+    generateRandomStudents,
+    calculateStudentAverageGrade,
   },
   setup() {
     // создание реактивных переменных для хранения ширины элементов таблицы.
@@ -236,7 +302,7 @@ export default {
     <!-- // page container -->
     <Card :class="'h-full w-full gap-2 my-0'">
       <!-- page title -->
-      <ODGradesPagePageTitle />
+      <ODGradesPagePageTitle ref="tableContainerElementRef" />
       <CardContent :class="'px-2'">
         <section class="grid grid-cols-2 gap-2">
           <!-- edit journal items here -->
@@ -259,10 +325,7 @@ export default {
           <ODGradedThemesList />
         </section>
         <!-- начало таблицы оценок -->
-        <section
-          ref="tableContainerElementRef"
-          :class="'border rounded-md my-2'"
-        >
+        <section :class="'border rounded-md my-2'">
           <!-- контролы (фильтры, сортировка, кнопки над таблицей) -->
           <div :class="'inline-flex gap-2 items-center p-2'">
             <!-- поиск студента -->
@@ -323,12 +386,19 @@ export default {
             :class="'whitespace-nowrap overflow-x-auto'"
           >
             <Table :class="'border-t'">
-              <TableHeader :class="'flex'">
+              <!-- заголовки столбцов START -->
+              <TableHeader :class="'flex flex-row'">
+                <!-- <GradesTableHeaderCell
+                  :cell-class="tableHeaderStyles"
+                  :ref-name="'block-table-header'"
+                  :text="'Блокировка'"
+                  :text-position="'text-start'"
+                  @update:width="onHeaderWidth"
+                /> -->
+
                 <TableCell :class="tableHeaderStyles">
                   <div ref="block-table-header">
-                    <TableHead :class="'text-start px-0 pr-0 p-2'"
-                      >Блокировка</TableHead
-                    >
+                    <TableHead :class="'text-start'">Блокировка</TableHead>
                   </div>
                 </TableCell>
 
@@ -343,75 +413,107 @@ export default {
                   </div>
                 </TableCell>
                 <TableCell
-                  :class="gradeTableHeaderStyles"
                   v-for="index in theme_indexes"
+                  :class="tableHeaderStyles"
                 >
-                  <div ref="grade-value-header">
-                    <Label :class="gradeThemeHeaderLabelStyles">
+                  <div
+                    ref="grade-value-header"
+                    class="flex flex-col justify-center items-center gap-1 w-18"
+                  >
+                    <Label :class="'text-center p-0.5'">
                       {{ formatDate(index.date) }}
                     </Label>
-                    <Label :class="gradeThemeHeaderLabelStyles">
-                      {{ index.index }}</Label
-                    >
+                    <Separator />
+                    <Label :class="'text-center'"> {{ index.index }}</Label>
                   </div>
                 </TableCell>
               </TableHeader>
-              <TableBody :class="'flex flex-row items-center justify-start'">
-                <div class="inline-flex">
-                  <div class="border">
-                    <!-- блокировка -->
-                    <TableRow
-                      :style="{
-                        width: `${blockTableHeaderWidth}px`,
-                      }"
-                      :class="'flex items-center justify-center'"
-                    >
-                      <TableCell :class="'p-3'">
-                        <Button :size="'icon-sm'">
-                          <LockIcon />
-                        </Button>
-                      </TableCell>
+              <!-- заголовки столбцов END -->
+
+              <TableBody :class="'flex flex-col'">
+                <!-- Строка студента -->
+
+                <!-- Блокировка START -->
+                <TableHeader
+                  v-for="student in generateRandomStudents(9, 25)"
+                  :class="'flex flex-row'"
+                >
+                  <TableCell :class="tableHeaderStyles">
+                    <TableRow>
+                      <div>
+                        <TableHead
+                          :class="'justify-center text-center items-center'"
+                          :style="{
+                            width: `${blockTableHeaderWidth}px`,
+                          }"
+                        >
+                          <Button :size="'sm'">
+                            <LockIcon />
+                          </Button>
+                        </TableHead>
+                      </div>
                     </TableRow>
-                  </div>
-                  <!-- студент -->
-                  <div
-                    :style="{
-                      width: `${studentTableHeaderWidth + 2}px`,
-                    }"
-                    class="border flex"
+                  </TableCell>
+                  <!-- Блокировка END -->
+
+                  <!-- Студент START -->
+                  <TableCell :class="tableHeaderStyles">
+                    <TableRow>
+                      <div>
+                        <TableHead
+                          :class="'text-start '"
+                          :style="{
+                            width: `${studentTableHeaderWidth}px`,
+                          }"
+                          >{{ student.name }}</TableHead
+                        >
+                      </div>
+                    </TableRow>
+                  </TableCell>
+                  <!-- Студент END -->
+
+                  <!-- Успеваемость START -->
+                  <TableCell :class="tableHeaderStyles">
+                    <TableRow>
+                      <div>
+                        <TableHead
+                          :class="'p-0 justify-center text-center items-center'"
+                          :style="{
+                            width: `${gradeScoreValueHeaderWidth}px`,
+                          }"
+                          >{{
+                            calculateStudentAverageGrade(student)
+                          }}</TableHead
+                        >
+                      </div>
+                    </TableRow>
+                  </TableCell>
+                  <!-- Успеваемость END -->
+
+                  <!-- Оценки START -->
+                  <TableCell
+                    v-for="grade in student.grades"
+                    :class="tableHeaderStyles"
                   >
-                    <TableRow :class="'p-0 w-full'">
-                      <TableCell>
-                        <TableHead>Студент</TableHead>
-                      </TableCell>
+                    <TableRow>
+                      <div
+                        :style="{
+                          width: `${gradeHeaderWidth}px`,
+                        }"
+                      >
+                        <TableHead
+                          :class="'p-0 justify-center text-center items-center'"
+                          :style="{
+                            width: `${gradeScoreValueHeaderWidth}px`,
+                          }"
+                        >
+                          <label>{{ grade }}</label>
+                        </TableHead>
+                      </div>
                     </TableRow>
-                  </div>
-                  <div
-                    :style="{
-                      width: `${gradeScoreValueHeaderWidth + 2}px`,
-                    }"
-                    class="border flex"
-                  >
-                    <TableRow :class="'p-0 w-full'">
-                      <TableCell>
-                        <TableHead>Успев</TableHead>
-                      </TableCell>
-                    </TableRow>
-                  </div>
-                  <div
-                    :style="{
-                      width: `${gradeHeaderWidth + 2}px`,
-                    }"
-                    class="border block"
-                    v-for="index in theme_indexes"
-                  >
-                    <TableRow :class="'flex p-0 justify-center'">
-                      <TableCell>
-                        <TableHead>5</TableHead>
-                      </TableCell>
-                    </TableRow>
-                  </div>
-                </div>
+                  </TableCell>
+                  <!-- Оценки END -->
+                </TableHeader>
               </TableBody>
             </Table>
             <ScrollBar :orientation="'horizontal'" />
