@@ -1,12 +1,6 @@
 <script lang="ts">
 import { TableCell, TableHead } from "@/components/ui/table";
-import { onMounted, ref } from "@vue/runtime-dom";
-import { toRefs } from "@vueuse/core";
-
-function resolveWidthClass(width: number | undefined) {
-  if (!width) return "";
-  return `w-${width}`;
-}
+import { ref } from "@vue/runtime-dom";
 
 export default {
   components: {
@@ -35,39 +29,55 @@ export default {
       required: false,
     },
   },
-  setup(props, { emit }) {
-    const width = ref(0);
-
-    onMounted(() => {
-      if (props.refName) {
-        const element =
-          (document.querySelector(`#${props.refName}`) as HTMLElement) ?? null;
-        if (element) {
-          width.value = element.clientWidth;
-          const observer: ResizeObserver = new ResizeObserver((entries) => {
-            for (let entry of entries) {
-              console.log("Observed width change:", entry.contentRect.width);
-              width.value = entry.contentRect.width;
-              emit("update:width", width.value);
-            }
-          });
-          observer.observe(element);
-        }
-      }
-    });
-
-    return { ...toRefs(props), width };
+  setup() {
+    const resizeObserver = ref<ResizeObserver | null>(null);
+    return { resizeObserver };
+  },
+  mounted() {
+    this.observeCellForWidthResize(this.refName);
   },
   methods: {
-    resolveWidthClass,
+    getResizedWidthStyle(width: number | undefined): string | undefined {
+      if (!width) return undefined;
+      return `${width}px`;
+    },
+    observeCellForWidthResize(refName: string | undefined): void {
+      const refElement = this.getCurrentRefElement(refName);
+      if (!refElement) return;
+      if (this.resizeObserver) return;
+      this.resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          if (entry.target === refElement) {
+            const newWidth = refElement.clientWidth;
+            this.emitCellWidthChange(newWidth);
+          }
+        }
+      });
+      this.resizeObserver.observe(refElement);
+    },
+    getCurrentRefElement(refName: string | undefined): HTMLElement | undefined {
+      if (!refName) return undefined;
+      const refElement = this.$refs[refName] as HTMLElement | undefined;
+      if (!refElement) return undefined;
+      return refElement;
+    },
+    emitCellWidthChange(newWidth: number): void {
+      this.$emit("cellWidthChanged", newWidth);
+    },
   },
-  emits: ["update:width"],
+  emits: {
+    cellWidthChanged: (newWidth: number) => true,
+  },
 };
 </script>
 
 <template>
   <TableCell :class="cellClass">
-    <div :ref="refName" :class="resolveWidthClass(cellWidth)">
+    <div
+      :ref="refName"
+      :class="getResizedWidthStyle(cellWidth)"
+      :style="cellWidth ? { width: `${cellWidth}px` } : undefined"
+    >
       <TableHead :class="textPosition">
         {{ text }}
       </TableHead>
