@@ -1,6 +1,7 @@
 <script lang="ts">
 import Card from "@/components/ui/card/Card.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
+import { Item } from "@/components/ui/item";
 import Label from "@/components/ui/label/Label.vue";
 
 export default {
@@ -8,15 +9,13 @@ export default {
     Card,
     CardTitle,
     Label,
+    Item,
   },
 };
 </script>
 
 <template>
-  <Card :class="'inner-card-1 gap-0 p-2 h-fit'">
-    <CardTitle>
-      <Label :class="'text-xl'">Журнал Март 2026</Label>
-      <Label :class="'text-xl'"></Label>
-    </CardTitle>
-  </Card>
+  <Item :variant="'muted'" :class="'rounded-md h-full'">
+    <Label :class="'text-xl'">Март 2026</Label>
+  </Item>
 </template>

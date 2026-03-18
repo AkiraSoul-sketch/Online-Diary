@@ -36,6 +36,10 @@ export default {
       type: String,
       required: true,
     },
+    cellHeight: {
+      type: Number,
+      required: true,
+    },
   },
   setup() {
     const resizeObserver = ref<ResizeObserver | undefined>(undefined);
@@ -79,6 +83,7 @@ export default {
     <div
       :ref="cellRef"
       :class="'flex flex-col justify-center items-center gap-1 w-18'"
+      :style="{ height: `${cellHeight}px` }"
     >
       <Label :class="'text-center p-0.5'">
         {{ formatThemeDate(theme) }}

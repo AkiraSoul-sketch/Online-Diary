@@ -1,11 +1,14 @@
 <script lang="ts">
-import { ref } from "vue";
 import GradesTableControls from "./GradesTableControls.vue";
 import GradesTableGradeThemeCell from "./GradesTableGradeThemeCell.vue";
-import GradesTableHeaderCell from "./GradesTableHeaderCell.vue";
-import GradesTableStudentRow from "./GradesTableStudentRow.vue";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableHeader } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { LockIcon } from "lucide-vue-next";
+import GradesTableCell from "./GradesTableCell.vue";
+import GradesTableGradeValueCell from "./GradesTableGradeValueCell.vue";
+import GradesTableGradeScoreCell from "./GradesTableGradeScoreCell.vue";
+import GradesTableGradeLockCell from "./GradesTableGradeLockCell.vue";
 
 interface WidthProps {
   tableWrapperWidth: number;
@@ -27,15 +30,19 @@ interface StudentProp {
 
 export default {
   components: {
-    GradesTableHeaderCell,
-    GradesTableGradeThemeCell,
-    GradesTableStudentRow,
     GradesTableControls,
-    ScrollArea,
-    ScrollBar,
     Table,
     TableHeader,
+    GradesTableCell,
     TableBody,
+    ScrollArea,
+    Button,
+    LockIcon,
+    GradesTableGradeThemeCell,
+    GradesTableGradeValueCell,
+    GradesTableGradeScoreCell,
+    GradesTableGradeLockCell,
+    ScrollBar,
   },
   props: {
     widthProps: {
@@ -56,62 +63,80 @@ export default {
       tableHeaderStyles: "text-start p-0 border inline-block",
       gradeTableHeaderStyles: "text-center p-0 border inline-block",
       gradeThemeHeaderLabelStyles: "text-center p-0 border inline-block",
-    };
-  },
-  setup() {
-    const tableWrapperWidth = ref<number>(0);
-    const blockCellWidth = ref<number>(0);
-    const studentCellWidth = ref<number>(0);
-    const gradeScoreCellWidth = ref<number>(0);
-    const gradeValueCellWidth = ref<number>(0);
-    return {
-      tableWrapperWidth,
-      blockCellWidth,
-      studentCellWidth,
-      gradeScoreCellWidth,
-      gradeValueCellWidth,
+      cellsHeight: 0,
+      fixedPartWidth: 0,
+      scrollLimitWidth: 0,
+      blockCellWidth: 0,
+      studentCellWidth: 0,
+      gradeScoreCellWidth: 0,
+      gradeValueCellWidth: 0,
+      resizeObserver: null as ResizeObserver | null,
     };
   },
   mounted() {
     const widthProps: WidthProps = this.widthProps;
-    this.tableWrapperWidth = widthProps.tableWrapperWidth;
     this.blockCellWidth = widthProps.blockCellWidth;
     this.studentCellWidth = widthProps.studentCellWidth;
     this.gradeScoreCellWidth = widthProps.gradeScoreCellWidth;
     this.gradeValueCellWidth = widthProps.gradeValueCellWidth;
+    this.useFixedPartWidth();
+    this.$nextTick(() => {
+      const tableWrapper = document.getElementById("table-wrapper");
+      if (tableWrapper) {
+        const resizeObserver = new ResizeObserver(() => {
+          this.useScrollLimitWidth();
+        });
+        resizeObserver.observe(tableWrapper);
+        this.resizeObserver = resizeObserver;
+        window.addEventListener("resize", this.useScrollLimitWidth);
+      }
+    });
+  },
+  unmounted() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+    window.removeEventListener("resize", this.useScrollLimitWidth);
   },
   methods: {
     adjustBlockCellWidth(width: number): void {
-      this.blockCellWidth = width;
+      this.blockCellWidth = Math.floor(width);
     },
     adjustStudentCellWidth(width: number): void {
-      this.studentCellWidth = width;
+      this.studentCellWidth = Math.floor(width);
     },
     adjustGradeScoreCellWidth(width: number): void {
-      this.gradeScoreCellWidth = width;
+      this.gradeScoreCellWidth = Math.floor(width);
     },
     adjustGradeValueCellWidth(width: number): void {
-      this.gradeValueCellWidth = width;
+      this.gradeValueCellWidth = Math.floor(width);
+    },
+    adjustCellsHeight(height: number): void {
+      this.cellsHeight = Math.floor(height);
+    },
+    adjustScrollLimitWidth(): void {
+      const tableWrapperWidth = this.widthProps.tableWrapperWidth;
+      this.scrollLimitWidth = tableWrapperWidth - this.fixedPartWidth;
+    },
+    useFixedPartWidth(): void {
+      this.fixedPartWidth =
+        this.blockCellWidth + this.studentCellWidth + this.gradeScoreCellWidth;
+    },
+    useScrollLimitWidth(): void {
+      this.adjustScrollLimitWidth();
     },
   },
 };
 </script>
 
 <template>
-  <section :class="'border rounded-md my-2'">
-    <!-- контролы (фильтры, сортировка, кнопки над таблицей) -->
+  <section :class="'border rounded-md my-2'" :id="'table-wrapper'">
     <GradesTableControls />
-    <ScrollArea
-      :style="{
-        width: `${tableWrapperWidth - 19}px`,
-      }"
-      :class="'whitespace-nowrap overflow-x-auto'"
-    >
-      <Table :class="'border-t'">
-        <!-- заголовки таблицы -->
+    <Table :class="'border-t flex flex-row'">
+      <div :class="'flex flex-col'" :ref="'fixed-part-width'">
         <TableHeader :class="'flex flex-row'">
-          <!-- блокировка заголовок таблицы -->
-          <GradesTableHeaderCell
+          <!-- заголовок блокировки -->
+          <GradesTableCell
             :cell-class="tableHeaderStyles"
             :ref-name="'block-table-header'"
             :text="'Блокировка'"
@@ -119,54 +144,103 @@ export default {
             @cell-width-changed="adjustBlockCellWidth($event)"
           />
 
-          <!-- студент заголовок таблицы -->
-          <GradesTableHeaderCell
+          <!-- заголовок студента (имя) -->
+          <GradesTableCell
             :cell-class="tableHeaderStyles"
             :ref-name="'student-table-header'"
             :text="'Студент'"
             :text-position="'text-start'"
             :cell-width="200"
             @cell-width-changed="adjustStudentCellWidth($event)"
+            @cell-height-changed="adjustCellsHeight($event)"
           />
 
-          <!-- успеваемость (средняя) заголовок таблицы -->
-          <GradesTableHeaderCell
+          <!-- заголовок успеваемости -->
+          <GradesTableCell
             :cell-class="tableHeaderStyles"
             :ref-name="'grade-score-value-table-header'"
             :text="'Успеваемость'"
             :text-position="'text-center'"
             @cell-width-changed="adjustGradeScoreCellWidth($event)"
           />
+        </TableHeader>
+        <!-- часть таблицы, которая не скроллится по горизонтали -->
+        <TableBody>
+          <div
+            v-for="(student, index) in students"
+            :key="index"
+            :class="'flex flex-row w-full'"
+          >
+            <!-- блокировка ячейка -->
+            <GradesTableGradeLockCell
+              :cell-class="tableHeaderStyles"
+              :cell-width="blockCellWidth"
+            />
 
-          <!-- темы оценок заголовок таблицы -->
+            <!-- студент ячейка -->
+            <GradesTableCell
+              :cell-class="tableHeaderStyles"
+              :text="student.name"
+              :text-position="'text-start'"
+              :cell-width="studentCellWidth"
+            />
+
+            <!-- успеваемость (средняя) ячейка -->
+            <GradesTableGradeScoreCell
+              :student="student"
+              :cell-class="tableHeaderStyles"
+              :cell-width="gradeScoreCellWidth"
+              :text-position="'text-center'"
+              :text-wrapper-classes="[
+                'text-center',
+                'flex',
+                'justify-center',
+                'items-center',
+              ]"
+            />
+          </div>
+        </TableBody>
+      </div>
+
+      <!-- часть таблицы, которая скроллится по горизонтали -->
+      <ScrollArea
+        :style="{
+          width: `${scrollLimitWidth}px`,
+        }"
+        :class="'whitespace-nowrap overflow-x-auto'"
+      >
+        <!-- заголовки тем и дат -->
+        <section class="'flex flex-row'">
           <GradesTableGradeThemeCell
-            v-for="theme in themes"
-            :key="theme.number"
+            v-for="(theme, index) in themes"
+            :key="index"
             :cell-class="tableHeaderStyles"
             :cell-ref="'grade-value-header'"
+            :cell-height="cellsHeight"
             :theme="{ date: theme.date, number: theme.number }"
             @gradeThemeCellWidthChanged="adjustGradeValueCellWidth($event)"
           />
-        </TableHeader>
-
-        <TableBody :class="'flex flex-col'">
-          <!-- строка студента таблицы -->
-          <GradesTableStudentRow
-            :students="
-              students.map((s) => ({
-                name: s.name,
-                grades: s.grades,
-              }))
-            "
-            :block-cell-width="blockCellWidth"
-            :cell-class="tableHeaderStyles"
-            :grade-score-cell-width="gradeScoreCellWidth"
-            :grade-value-cell-width="gradeValueCellWidth"
-            :student-cell-width="studentCellWidth"
-          />
-        </TableBody>
-      </Table>
-      <ScrollBar :orientation="'horizontal'" />
-    </ScrollArea>
+        </section>
+        <!-- оценки -->
+        <section>
+          <div
+            v-for="(student, index) of students"
+            :key="index"
+            class="'flex flex-row'"
+          >
+            <GradesTableGradeValueCell
+              v-for="(grade, gradeIndex) of student.grades"
+              :key="gradeIndex"
+              :cell-class="tableHeaderStyles"
+              :cell-width="gradeValueCellWidth"
+              :cell-height="cellsHeight"
+              :grade="grade"
+              :text-position="'text-center'"
+            />
+          </div>
+        </section>
+        <ScrollBar :orientation="'horizontal'" />
+      </ScrollArea>
+    </Table>
   </section>
 </template>

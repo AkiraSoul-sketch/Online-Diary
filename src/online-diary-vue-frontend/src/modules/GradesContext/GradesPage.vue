@@ -8,6 +8,17 @@ import ODStudentsSearch from "./components/OD-StudentsSearch.vue";
 import ODGradedThemesList from "./components/GradedThemesList/OD-GradedThemesList.vue";
 import { ref, type Ref } from "vue";
 import GradesTable from "./components/GradesTable/GradesTable.vue";
+import { Item, ItemHeader, ItemMedia, ItemTitle } from "@/components/ui/item";
+import ItemContent from "@/components/ui/item/ItemContent.vue";
+import Table from "@/components/ui/table/Table.vue";
+import {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { UserRoundPen } from "lucide-vue-next";
 
 type ThemeInfo = {
   index: number;
@@ -87,6 +98,18 @@ export default {
     ODStudentsSearch,
     ODGradedThemesList,
     GradesTable,
+    Item,
+    ItemContent,
+    Table,
+    TableHeader,
+    TableRow,
+    TableBody,
+    TableCell,
+    TableHead,
+    ItemHeader,
+    ItemTitle,
+    ItemMedia,
+    UserRoundPen,
   },
   data() {
     return {
@@ -141,11 +164,11 @@ export default {
 </script>
 
 <template>
-  <section class="flex gap-0 p-0 mx-2">
+  <section class="flex gap-0 p-0 mx-2" :ref="'tableContainerElementRef'">
     <!-- // page container -->
     <Card :class="'h-full w-full gap-2 my-0'">
       <!-- page title -->
-      <div :ref="'tableContainerElementRef'">
+      <div>
         <ODGradesPagePageTitle />
       </div>
       <CardContent :class="'px-2'">
@@ -153,18 +176,35 @@ export default {
           <!-- edit journal items here -->
           <div :class="'grid grid-cols-2 gap-2'">
             <ODJournalEditBlock />
-            <!-- мини информация -->
-            <!-- Дата -->
-            <ODJournalDateBlock />
-            <!-- Placeholder временно -->
-            <Card :class="'inner-card-1 gap-0 p-2 h-fit'">
-              <CardTitle>
-                <Label :class="'text-xl'">Placeholder</Label>
-                <Label :class="'text-xl'"></Label>
-              </CardTitle>
-            </Card>
-            <!-- поиск студента -->
-            <ODStudentsSearch />
+            <!-- редакторы -->
+            <section :class="'col-span-2'">
+              <Item :variant="'muted'" :class="'text-xl h-full rounded-md'">
+                <ItemContent>
+                  <ItemTitle>
+                    <ItemMedia><UserRoundPen /></ItemMedia>
+                    Редакторы март 2026
+                  </ItemTitle>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead> Редактор </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell> Иванов Иван </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell> Петров Петр </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell> Сидоров Сидор </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </ItemContent>
+              </Item>
+            </section>
           </div>
           <!-- темы за которые выставлены оценки -->
           <ODGradedThemesList />
@@ -179,13 +219,13 @@ export default {
             tableWrapperWidth: tableWrapperWidth,
           }"
           :students="
-            generateRandomStudents(10, 25).map((s) => ({
+            generateRandomStudents(10, 20).map((s) => ({
               name: s.name,
               grades: s.grades,
             }))
           "
           :themes="
-            generateRandomThemes(25).map((t) => ({
+            generateRandomThemes(20).map((t) => ({
               date: t.date,
               number: t.index,
             }))

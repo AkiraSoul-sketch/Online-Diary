@@ -7,7 +7,7 @@ export default {
     GradesPage,
   },
   setup() {
-    useColorMode();
+    // useColorMode();
   },
 };
 </script>

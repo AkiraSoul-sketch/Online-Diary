@@ -49,7 +49,9 @@ export default {
         for (let entry of entries) {
           if (entry.target === refElement) {
             const newWidth = refElement.clientWidth;
+            const newHeight = refElement.clientHeight;
             this.emitCellWidthChange(newWidth);
+            this.emitCellHeightChange(newHeight);
           }
         }
       });
@@ -64,9 +66,13 @@ export default {
     emitCellWidthChange(newWidth: number): void {
       this.$emit("cellWidthChanged", newWidth);
     },
+    emitCellHeightChange(newHeight: number): void {
+      this.$emit("cellHeightChanged", newHeight);
+    },
   },
   emits: {
     cellWidthChanged: (newWidth: number) => true,
+    cellHeightChanged: (newHeight: number) => true,
   },
 };
 </script>
@@ -75,7 +81,6 @@ export default {
   <TableCell :class="cellClass">
     <div
       :ref="refName"
-      :class="getResizedWidthStyle(cellWidth)"
       :style="cellWidth ? { width: `${cellWidth}px` } : undefined"
     >
       <TableHead :class="textPosition">
