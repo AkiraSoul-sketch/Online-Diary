@@ -32,7 +32,7 @@ import {
   XCircleIcon,
 } from "lucide-vue-next";
 
-const mode = useColorMode();
+
 </script>
 
 <template>
