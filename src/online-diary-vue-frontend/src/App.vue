@@ -1,5 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useDark } from "@vueuse/core";
+import GradesPage from "./modules/GradesContext/GradesPage.vue";
+import TeacherPage from "./modules/TeacherContext/TeacherPage.vue";
 
-<template></template>
+const isDark = useDark();
+</script>
+
+<template>
+  <TeacherPage/>
+</template>
 
 <style scoped></style>
