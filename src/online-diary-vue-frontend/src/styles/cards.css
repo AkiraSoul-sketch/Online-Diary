@@ -1,0 +1,3 @@
+.inner-card-1 {
+  background: color-mix(in srgb, var(--card) 90%, white 10%);
+}
