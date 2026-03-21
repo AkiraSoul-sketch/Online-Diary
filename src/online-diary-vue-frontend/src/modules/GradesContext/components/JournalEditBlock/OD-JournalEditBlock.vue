@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-  <Card :class="'inner-card-1 gap-0 p-2 col-span-full'">
+  <Card :class="'gap-0 p-2 col-span-full'">
     <CardTitle>
       <Label :class="'text-2xl'">
         <BookOpenTextIcon> </BookOpenTextIcon>
