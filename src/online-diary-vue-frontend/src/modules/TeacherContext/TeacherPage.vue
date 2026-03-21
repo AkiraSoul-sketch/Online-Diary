@@ -104,9 +104,9 @@ export default {
 </script>
 
 <template>
-  <section :class="'p-2'">
-    <Card :class="'w-full gap-2'">
-      <div>
+  <section :class="'p-2 h-screen flex'">
+    <Card :class="'h-full w-full gap-2 flex flex-col grow'">
+      <div :class="'grow'">
         <Item>
           <ItemTitle :class="'text-xl'">Мои группы:</ItemTitle>
         </Item>
@@ -171,7 +171,7 @@ export default {
           </Table>
         </Item>
       </div>
-      <div>
+      <div :class="'grow'">
         <Item :class="'py-0'">
           <ItemTitle :class="'text-xl p-0'">Недавняя активность:</ItemTitle>
         </Item>
