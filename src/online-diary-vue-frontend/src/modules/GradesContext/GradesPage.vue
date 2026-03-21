@@ -166,7 +166,7 @@ export default {
 <template>
   <section class="flex gap-0 p-0 mx-2" :ref="'tableContainerElementRef'">
     <!-- // page container -->
-    <Card :class="'h-full w-full gap-2 my-0'">
+    <section :class="'h-full w-full gap-2 my-0'">
       <!-- page title -->
       <div>
         <ODGradesPagePageTitle />
@@ -233,6 +233,6 @@ export default {
         >
         </GradesTable>
       </CardContent>
-    </Card>
+    </section>
   </section>
 </template>

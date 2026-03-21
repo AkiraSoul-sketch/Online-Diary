@@ -36,18 +36,20 @@ export default {
     },
   },
   methods: {
-    resolveGradeColorClass(grade: number): string {
+    resolveGradeColorClass(grade: number): string | undefined {
       switch (grade) {
-        case 5:
-          return "bg-[#83b771]";
-        case 4:
-          return "bg-[#7c7bcb]";
-        case 3:
-          return "bg-[#b79671]";
         case 2:
-          return "bg-[#b16ef0]";
+          return "rgba(239, 68, 68, 0.4)";
+        case 3:
+          return "rgba(252, 211, 77, 0.4)";
+        case 4:
+          return "rgba(163, 230, 53, 0.4)";
+        case 5:
+          return "rgba(52, 211, 153, 0.4)";
+        case 1:
+          return "rgba(163, 163, 163, 0.4)";
         default:
-          return "bg-gray-500";
+          return undefined;
       }
     },
     resolveGradeDisplayText(grade: number): string {
@@ -78,17 +80,14 @@ export default {
     :show-text="false"
   >
     <TableRow
-      :class="'p-0 m-0 w-full flex justify-center items-center h-full'"
+      :class="'p-0 m-0 w-full flex justify-center items-center h-full bg-red cc'"
       :style="{
         width: `${cellWidth}px`,
         height: `${cellsHeight}px`,
+        backgroundColor: resolveGradeColorClass(grade),
       }"
     >
-      <Button
-        :class="`text-white ${resolveGradeColorClass(grade)} flex-none p-0 w-6 rounded-xl h-6 flex items-center justify-center`"
-      >
-        {{ resolveGradeDisplayText(grade) }}
-      </Button>
+      {{ resolveGradeDisplayText(grade) }}
     </TableRow>
   </GradesTableCell>
 </template>

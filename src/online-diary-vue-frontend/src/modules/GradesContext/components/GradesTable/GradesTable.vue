@@ -130,7 +130,7 @@ export default {
 </script>
 
 <template>
-  <section :class="'border rounded-md my-2'" :id="'table-wrapper'">
+  <section :class="'border rounded-md my-2 bg-card'" :id="'table-wrapper'">
     <GradesTableControls />
     <Table :class="'border-t flex flex-row'">
       <div :class="'flex flex-col'" :ref="'fixed-part-width'">
