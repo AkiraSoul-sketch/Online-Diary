@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import GradesPage from "./modules/GradesContext/GradesPage.vue";
-import ODAdminPanelSectionsContainer from "./modules/AdministratingContext/OD-AdminPanelSectionsContainer.vue";
-import ODAdminPanelSectionItem from "./modules/AdministratingContext/OD-AdminPanelSectionItem.vue";
-import ODAdminPanelRecentActionsListContainer from "./modules/AdministratingContext/OD-AdminPanelRecentActionsListContainer.vue";
-import ODAdminPanel from "./modules/AdministratingContext/OD-AdminPanel.vue";
+import AdminPanel from "./modules/AdministratingContext/AdminPanel.vue";
+import ODSideBar from "./modules/SidebarContext/OD-SideBar.vue";
+import ODAdminPanelRecentActionsListContainer from "./modules/AdministratingContext/component/OD-AdminPanelRecentActionsListContainer.vue";
 </script>
 
 <template>
-  <ODAdminPanel />
+  <AdminPanel />
 </template>
 
 <style scoped></style>
