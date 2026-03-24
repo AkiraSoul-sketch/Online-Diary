@@ -14,7 +14,7 @@ const props = defineProps<{
     data-slot="card-title"
     :class="cn('leading-none font-semibold card-text', props.class)"
   >
-    <div :class="'flex flex-row items-center gap-1'">
+    <div :class="'flex flex-row items-center gap-1 p-1.5'">
       <slot />
       <Label :class="'text-lg'">
         {{ props.text }}

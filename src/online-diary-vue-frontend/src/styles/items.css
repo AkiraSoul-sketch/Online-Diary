@@ -1,0 +1,9 @@
+.item {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: var(--bg-medium);
+}
+
+.item-text {
+  color: var(--text);
+}

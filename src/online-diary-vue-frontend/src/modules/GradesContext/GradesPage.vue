@@ -123,6 +123,12 @@ export default {
     this.useTableContainerElementWidthObserver();
   },
   methods: {
+    disposeTableResizeObserver(): void {
+      if (this.tableWidthResizeObserver) {
+        this.tableWidthResizeObserver.disconnect();
+        this.tableWidthResizeObserver = undefined;
+      }
+    },
     generateRandomStudent,
     generateRandomStudents,
     generateRandomThemes,
@@ -142,6 +148,9 @@ export default {
       });
       this.tableWidthResizeObserver.observe(element);
     },
+  },
+  unmounted() {
+    this.disposeTableResizeObserver();
   },
   setup() {
     const defaultWidth: number = 0;
@@ -178,15 +187,17 @@ export default {
             <ODJournalEditBlock />
             <!-- редакторы -->
             <section :class="'col-span-2'">
-              <Item :variant="'muted'" :class="'text-xl h-full rounded-md'">
+              <Item :class="'text-xl h-full rounded-md'">
                 <ItemContent>
-                  <ItemTitle>
+                  <ItemTitle :text="'Редакторы март 2026'">
                     <ItemMedia><UserRoundPen /></ItemMedia>
-                    Редакторы март 2026
                   </ItemTitle>
                   <Table>
                     <TableHeader>
-                      <TableRow>
+                      <TableRow
+                        :supress-hover-effect="true"
+                        :class="'text-(--text-default)'"
+                      >
                         <TableHead> Редактор </TableHead>
                       </TableRow>
                     </TableHeader>

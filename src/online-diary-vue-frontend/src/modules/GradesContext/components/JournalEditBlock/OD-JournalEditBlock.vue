@@ -32,7 +32,7 @@ export default {
     <CardDescription :class="'my-2'">
       Вы можете изменить группу и дисциплину, выбрав другую из списка.
     </CardDescription>
-    <CardAction :class="'p-0'">
+    <CardContent :class="'p-0'">
       <!-- group/disciplines selects -->
       <section class="grid grid-cols-2 gap-2 w-full h-full">
         <!-- group -->
@@ -40,6 +40,6 @@ export default {
         <!-- discipline -->
         <ODGroupDisciplinesSelect />
       </section>
-    </CardAction>
+    </CardContent>
   </Card>
 </template>

@@ -48,6 +48,7 @@
   --shadow: 0px 2px 2px oklch(0 0 0 / 0.2), 0px 4px 4px oklch(0 0 0 / 0.1);
   --bg: hsl(189 78% 93%);
   --bg-light: hsl(189 0% 98%);
+  --bg-medium: hsl(160, 80%, 96%);
   --text: hsl(189 43% 24%);
   --text-muted: hsl(189 25% 58%);
   --border: hsl(189 22% 46%);
