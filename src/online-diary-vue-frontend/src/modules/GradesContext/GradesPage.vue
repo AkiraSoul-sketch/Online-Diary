@@ -21,7 +21,6 @@ import {
 import { UserRoundPen } from "lucide-vue-next";
 import ODJournalEditorsList from "./components/JournalEditorsList/OD-JournalEditorsList.vue";
 
-<<<<<<< HEAD
 type ThemeInfo = {
   index: number;
   date: Date;
@@ -173,9 +172,6 @@ export default {
     };
   },
 };
-=======
-
->>>>>>> b11c6eb (Сверстана страница админ-панели)
 </script>
 
 <template>

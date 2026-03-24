@@ -1,28 +1,23 @@
 <script lang="ts">
 import { useColorMode } from "@vueuse/core";
 import GradesPage from "./modules/GradesContext/GradesPage.vue";
-<<<<<<< HEAD
-import Test from "./modules/GradesContext/Test.vue";
 
 export default {
   components: {
+    ODSideBar,
+    AdminPanel,
     GradesPage,
-    Test,
   },
   setup() {
     useColorMode();
   },
 };
-=======
-import ODAdminPanelSectionsContainer from "./modules/AdministratingContext/OD-AdminPanelSectionsContainer.vue";
-import ODAdminPanelSectionItem from "./modules/AdministratingContext/OD-AdminPanelSectionItem.vue";
-import ODAdminPanelRecentActionsListContainer from "./modules/AdministratingContext/OD-AdminPanelRecentActionsListContainer.vue";
-import ODAdminPanel from "./modules/AdministratingContext/OD-AdminPanel.vue";
->>>>>>> b11c6eb (Сверстана страница админ-панели)
+import AdminPanel from "./modules/AdministratingContext/AdminPanel.vue";
+import ODSideBar from "./modules/SidebarContext/OD-SideBar.vue";
 </script>
 
 <template>
-  <ODAdminPanel />
+  <AdminPanel />
 </template>
 
 <style scoped></style>
