@@ -53,16 +53,22 @@ export default {
 </script>
 
 <template>
-  <div :class="'inline-flex gap-2 items-center p-2'">
+  <div
+    :class="'inline-flex gap-2 items-center p-2 bg-(--text-muted) rounded-t-sm w-full'"
+  >
     <!-- поиск студента -->
-    <div :class="'inline-flex gap-2 flex-1 min-w-2/5 grow'">
+    <div :class="'flex flex-row items-start gap-2 min-w-2/5'">
       <Button :size="'icon'" :variant="'outline'" :id="'student-search-button'">
         <SearchCheckIcon for="student-search-button" />
       </Button>
       <Button :size="'icon'" :variant="'outline'" :id="'student-search-button'">
         <SearchXIcon for="student-search-button" />
       </Button>
-      <Input :placeholder="'Поиск студента'" id="student-search-icon"></Input>
+      <Input
+        :class="'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50'"
+        :placeholder="'Поиск студента'"
+        id="student-search-icon"
+      />
     </div>
     <Button :variant="'outline'" id="save-button">
       <SaveIcon for="save-button" />

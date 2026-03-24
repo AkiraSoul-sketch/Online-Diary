@@ -16,7 +16,6 @@ export default {
 <template>
   <!-- <ColorsShowcase> </ColorsShowcase> -->
   <GradesPage />
-  <Test />
 </template>
 
 <style scoped></style>

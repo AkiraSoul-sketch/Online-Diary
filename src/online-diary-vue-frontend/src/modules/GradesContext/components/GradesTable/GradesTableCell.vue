@@ -99,7 +99,13 @@ export default {
         <!-- Стандартный контент, если слот не используется -->
         <TableHead
           v-if="showText"
-          :class="textPosition + ' ' + getTextWrapperClasses()"
+          :class="
+            textPosition +
+            ' ' +
+            getTextWrapperClasses() +
+            ' ' +
+            ' cursor-pointer '
+          "
         >
           {{ text }}
         </TableHead>

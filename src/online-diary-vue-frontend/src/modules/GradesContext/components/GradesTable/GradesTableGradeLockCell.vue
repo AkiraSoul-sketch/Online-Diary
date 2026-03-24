@@ -29,7 +29,11 @@ export default {
     :cell-width="cellWidth"
   >
     <div :class="'flex justify-center items-center p-1'">
-      <Button :size="'sm'">
+      <Button
+        :variant="'outline'"
+        :class="'border-(--danger) shadow-sm'"
+        :size="'icon-sm'"
+      >
         <LockIcon />
       </Button>
     </div>

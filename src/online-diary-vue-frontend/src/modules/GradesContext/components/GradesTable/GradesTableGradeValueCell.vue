@@ -39,15 +39,15 @@ export default {
     resolveGradeColorClass(grade: number): string | undefined {
       switch (grade) {
         case 2:
-          return "rgba(239, 68, 68, 0.4)";
+          return "hsl(0 100% 90%)";
         case 3:
-          return "rgba(252, 211, 77, 0.4)";
+          return "hsl(40 100% 90%)";
         case 4:
-          return "rgba(163, 230, 53, 0.4)";
+          return "hsl(90 100% 90%)";
         case 5:
-          return "rgba(52, 211, 153, 0.4)";
+          return "hsl(200 100% 90%)";
         case 1:
-          return "rgba(163, 163, 163, 0.4)";
+          return "hsl(0 0% 90%)";
         default:
           return undefined;
       }
@@ -74,13 +74,14 @@ export default {
 
 <template>
   <GradesTableCell
-    :cell-class="cellClass"
+    :cell-class="cellClass + ' '"
     :text-position="'text-center'"
     :cell-width="cellWidth"
     :show-text="false"
   >
     <TableRow
-      :class="'p-0 m-0 w-full flex justify-center items-center h-full bg-red cc'"
+      :supress-hover-effect="false"
+      :class="'p-0 m-0 w-full cursor-pointer flex justify-center items-center h-full '"
       :style="{
         width: `${cellWidth}px`,
         height: `${cellsHeight}px`,

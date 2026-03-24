@@ -34,6 +34,7 @@ export default {
     <TableCell :class="spacing">{{ name }}</TableCell>
     <TableCell :class="spacing">
       <Button
+        :variant="'default'"
         :class="
           'w-1 rounded-xl h-6 flex items-center justify-center' + ' ' + spacing
         "

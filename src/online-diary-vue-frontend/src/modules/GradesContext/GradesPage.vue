@@ -175,13 +175,10 @@ export default {
 </script>
 
 <template>
-  <section class="flex gap-0 p-0 mx-2" :ref="'tableContainerElementRef'">
+  <section class="flex gap-0 p-2" :ref="'tableContainerElementRef'">
     <!-- // page container -->
-    <section :class="'h-full w-full gap-2 my-0'">
+    <section :class="'w-full gap-2 my-0'">
       <!-- page title -->
-      <div>
-        <ODGradesPagePageTitle />
-      </div>
       <CardContent :class="'px-2'">
         <section class="grid grid-cols-2 gap-2">
           <!-- edit journal items here -->

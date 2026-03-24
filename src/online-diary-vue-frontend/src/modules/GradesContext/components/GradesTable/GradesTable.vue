@@ -60,7 +60,8 @@ export default {
   },
   data() {
     return {
-      tableHeaderStyles: "text-start p-0 border inline-block",
+      tableHeaderStyles:
+        "text-start p-0 inline-block border-[0.5px] border-[color:var(--text-muted)]",
       gradeTableHeaderStyles: "text-center p-0 border inline-block",
       gradeThemeHeaderLabelStyles: "text-center p-0 border inline-block",
       cellsHeight: 0,
@@ -130,11 +131,16 @@ export default {
 </script>
 
 <template>
-  <section :class="'border rounded-md my-2 bg-card'" :id="'table-wrapper'">
+  <section
+    :class="' rounded-md my-2 shadow-sm border-input'"
+    :id="'table-wrapper'"
+  >
     <GradesTableControls />
-    <Table :class="'border-t flex flex-row'">
+    <Table :class="'flex flex-row bg-(--text-muted) p-1 rounded-b-[0.45rem]'">
       <div :class="'flex flex-col'" :ref="'fixed-part-width'">
-        <TableHeader :class="'flex flex-row'">
+        <TableHeader
+          :class="'flex flex-row bg-(--text-muted) text-(--highlight)  '"
+        >
           <!-- заголовок блокировки -->
           <GradesTableCell
             :cell-class="tableHeaderStyles"
@@ -173,13 +179,13 @@ export default {
           >
             <!-- блокировка ячейка -->
             <GradesTableGradeLockCell
-              :cell-class="tableHeaderStyles"
+              :cell-class="tableHeaderStyles + ' bg-(--bg-light) '"
               :cell-width="blockCellWidth"
             />
 
             <!-- студент ячейка -->
             <GradesTableCell
-              :cell-class="tableHeaderStyles"
+              :cell-class="tableHeaderStyles + ' bg-(--bg-light) '"
               :text="student.name"
               :text-position="'text-start'"
               :cell-width="studentCellWidth"
@@ -188,7 +194,7 @@ export default {
             <!-- успеваемость (средняя) ячейка -->
             <GradesTableGradeScoreCell
               :student="student"
-              :cell-class="tableHeaderStyles"
+              :cell-class="tableHeaderStyles + ' bg-(--bg-light) '"
               :cell-width="gradeScoreCellWidth"
               :text-position="'text-center'"
               :text-wrapper-classes="[
@@ -207,14 +213,14 @@ export default {
         :style="{
           width: `${scrollLimitWidth}px`,
         }"
-        :class="'whitespace-nowrap overflow-x-auto'"
+        :class="'whitespace-nowrap overflow-hidden'"
       >
         <!-- заголовки тем и дат -->
-        <section class="'flex flex-row'">
+        <section class="'flex flex-row bg-(--text-muted) '">
           <GradesTableGradeThemeCell
             v-for="(theme, index) in themes"
             :key="index"
-            :cell-class="tableHeaderStyles"
+            :cell-class="tableHeaderStyles + ' text-(--highlight)'"
             :cell-ref="'grade-value-header'"
             :cell-height="cellsHeight"
             :theme="{ date: theme.date, number: theme.number }"

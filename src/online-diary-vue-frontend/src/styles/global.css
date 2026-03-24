@@ -60,7 +60,7 @@
   --success: hsl(147 19% 36%);
   --info: hsl(217 22% 41%);
   --radius: 0.625rem;
-  --background: var(--bg-neutral-90);
+  --background: hsl(189 45 90%);
   --foreground: oklch(0.129 0.042 264.695);
   --card: hsl(210, 100%, 70%);
   --card-foreground: oklch(0.129 0.042 264.695);
