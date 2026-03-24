@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PenIcon } from "lucide-vue-next";
+import ODGradedThemesListItem from "./OD-GradedThemesListItem.vue";
 
 export default {
   components: {
@@ -20,6 +21,7 @@ export default {
     TableCell,
     Button,
     PenIcon,
+    ODGradedThemesListItem,
   },
 };
 </script>
@@ -27,42 +29,22 @@ export default {
 <template>
   <Table>
     <TableHeader>
-      <TableRow :class="'p-0 gap-0'">
-        <TableHead :class="'p-0.5 gap-0.5'"></TableHead>
-        <TableHead :class="'p-0.5 gap-0.5'"> Тема </TableHead>
-        <TableHead
-          :class="'flex p-0.5 gap-0.5 items-center justify-center w-fit'"
-        >
-        </TableHead>
+      <TableRow
+        :supress-hover-effect="true"
+        :class="'p-0 gap-0 text-(--text-default)'"
+      >
+        <TableHead :class="'px-0'"></TableHead>
+        <TableHead :class="'px-0'">Тема</TableHead>
+        <TableHead :class="'px-0'"></TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
-      <TableRow>
-        <TableCell :class="'p-0.5 gap-0.5'"> 1 </TableCell>
-        <TableCell :class="'p-0.5 gap-0.5'"> Тема 1 </TableCell>
-        <TableCell
-          :class="'p-0.5 gap-0.5 flex items-center justify-center w-fit'"
-        >
-          <Button
-            :class="'flex-none p-0 w-1 rounded-xl h-6 flex items-center justify-center'"
-          >
-            <PenIcon :size="15"> </PenIcon>
-          </Button>
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell :class="'p-0.5 gap-0.5'"> 2 </TableCell>
-        <TableCell :class="'p-0.5 gap-0.5'"> Тема 2 </TableCell>
-        <TableCell
-          :class="'p-0.5 gap-0.5 flex items-center justify-center w-fit'"
-        >
-          <Button
-            :class="'flex-none p-0 w-1 rounded-xl h-6 flex items-center justify-center'"
-          >
-            <PenIcon :size="15"> </PenIcon>
-          </Button>
-        </TableCell>
-      </TableRow>
+      <ODGradedThemesListItem :name="'Тема 1'" :number="1" />
+      <ODGradedThemesListItem :name="'Тема 2'" :number="1" />
+      <ODGradedThemesListItem :name="'Тема 3'" :number="1" />
+      <ODGradedThemesListItem :name="'Тема 4'" :number="1" />
+      <ODGradedThemesListItem :name="'Тема 5'" :number="1" />
+      <ODGradedThemesListItem :name="'Тема 6'" :number="1" />
     </TableBody>
   </Table>
 </template>

@@ -14,7 +14,7 @@ export default {
 </script>
 
 <template>
-  <Card :class="'inner-card-1 gap-0 p-2 h-full'">
+  <Card :class="'inner-card-1 gap-0 p-2 h-full item'">
     <ODGradedThemesListTitle />
     <CardContent>
       <ODGradedThemesListTable />

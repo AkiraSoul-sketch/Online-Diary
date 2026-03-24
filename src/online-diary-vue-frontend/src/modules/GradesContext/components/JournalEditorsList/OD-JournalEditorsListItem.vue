@@ -7,6 +7,11 @@ export default {
       type: String,
       required: true,
     },
+    spacing: {
+      type: String,
+      required: false,
+      default: "p-px",
+    },
   },
   components: {
     TableRow,
@@ -17,6 +22,6 @@ export default {
 
 <template>
   <TableRow>
-    <TableCell> Иванов Иван </TableCell>
+    <TableCell :class="spacing"> Иванов Иван </TableCell>
   </TableRow>
 </template>

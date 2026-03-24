@@ -13,10 +13,7 @@ export default {
 </script>
 
 <template>
-  <CardTitle>
-    <Label :class="'text-2xl'">
-      <BookOpenCheckIcon></BookOpenCheckIcon>
-      Темы: 2</Label
-    >
+  <CardTitle :text="'Темы: 2'">
+    <BookOpenCheckIcon />
   </CardTitle>
 </template>

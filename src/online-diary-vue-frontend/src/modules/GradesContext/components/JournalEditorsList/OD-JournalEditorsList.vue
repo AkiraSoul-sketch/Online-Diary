@@ -12,6 +12,13 @@ import { UserRoundPen } from "lucide-vue-next";
 import ODJournalEditorsListItem from "./OD-JournalEditorsListItem.vue";
 
 export default {
+  props: {
+    spacing: {
+      type: String,
+      required: false,
+      default: "p-px",
+    },
+  },
   components: {
     Item,
     ItemTitle,
@@ -41,7 +48,7 @@ export default {
             :supress-hover-effect="true"
             :class="'text-(--text-default)'"
           >
-            <TableHead> Редактор </TableHead>
+            <TableHead :class="spacing">Редактор</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UserRoundPen } from "lucide-vue-next";
+import ODJournalEditorsList from "./components/JournalEditorsList/OD-JournalEditorsList.vue";
 
 type ThemeInfo = {
   index: number;
@@ -110,6 +111,7 @@ export default {
     ItemTitle,
     ItemMedia,
     UserRoundPen,
+    ODJournalEditorsList,
   },
   data() {
     return {
@@ -187,34 +189,7 @@ export default {
             <ODJournalEditBlock />
             <!-- редакторы -->
             <section :class="'col-span-2'">
-              <Item :class="'text-xl h-full rounded-md'">
-                <ItemContent>
-                  <ItemTitle :text="'Редакторы март 2026'">
-                    <ItemMedia><UserRoundPen /></ItemMedia>
-                  </ItemTitle>
-                  <Table>
-                    <TableHeader>
-                      <TableRow
-                        :supress-hover-effect="true"
-                        :class="'text-(--text-default)'"
-                      >
-                        <TableHead> Редактор </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell> Иванов Иван </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell> Петров Петр </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell> Сидоров Сидор </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </ItemContent>
-              </Item>
+              <ODJournalEditorsList />
             </section>
           </div>
           <!-- темы за которые выставлены оценки -->
