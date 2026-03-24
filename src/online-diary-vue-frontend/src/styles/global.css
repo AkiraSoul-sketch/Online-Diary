@@ -41,14 +41,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-.card {
-  background: linear-gradient(var(--gradient));
-  border: var(--border-card);
-  border-top: var(--highlight);
-  border-radius: 1rem;
-  box-shadow: var(--shadow);
-}
-
 :root {
   --highlight: hsl(189 100% 96%);
   --border-card: solid 1px var(--border) var(--bg);
@@ -56,8 +48,8 @@
   --shadow: 0px 2px 2px oklch(0 0 0 / 0.2), 0px 4px 4px oklch(0 0 0 / 0.1);
   --bg: hsl(189 78% 93%);
   --bg-light: hsl(189 0% 98%);
-  --text: hsl(193 100% 3%);
-  --text-muted: hsl(189 43% 24%);
+  --text: hsl(189 43% 24%);
+  --text-muted: hsl(189 25% 58%);
   --border: hsl(189 22% 46%);
   --border-muted: hsl(189 25% 58%);
   --primary: hsl(187 100% 11%);
@@ -153,6 +145,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

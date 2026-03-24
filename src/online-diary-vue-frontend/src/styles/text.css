@@ -1,0 +1,7 @@
+.text-dimmed {
+  color: var(--text-muted);
+}
+
+.text-default {
+  color: var(--text);
+}

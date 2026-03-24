@@ -7,6 +7,7 @@ import Label from "@/components/ui/label/Label.vue";
 import { BookOpenTextIcon } from "lucide-vue-next";
 import ODStudentGroupsSelect from "./OD-StudentGroupsSelect.vue";
 import ODGroupDisciplinesSelect from "./OD-GroupDisciplinesSelect.vue";
+import { CardAction } from "@/components/ui/card";
 
 export default {
   components: {
@@ -15,6 +16,7 @@ export default {
     CardDescription,
     CardTitle,
     Label,
+    CardAction,
     BookOpenTextIcon,
     ODStudentGroupsSelect,
     ODGroupDisciplinesSelect,
@@ -24,16 +26,13 @@ export default {
 
 <template>
   <Card :class="'gap-0 p-2 col-span-full'">
-    <CardTitle>
-      <Label :class="'text-2xl'">
-        <BookOpenTextIcon> </BookOpenTextIcon>
-        Выбрать журнал
-      </Label>
+    <CardTitle :text="'Выбрать журнал'">
+      <BookOpenTextIcon />
     </CardTitle>
     <CardDescription :class="'my-2'">
       Вы можете изменить группу и дисциплину, выбрав другую из списка.
     </CardDescription>
-    <CardContent :class="'p-0'">
+    <CardAction :class="'p-0'">
       <!-- group/disciplines selects -->
       <section class="grid grid-cols-2 gap-2 w-full h-full">
         <!-- group -->
@@ -41,6 +40,6 @@ export default {
         <!-- discipline -->
         <ODGroupDisciplinesSelect />
       </section>
-    </CardContent>
+    </CardAction>
   </Card>
 </template>
