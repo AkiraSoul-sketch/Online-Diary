@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       tableHeaderStyles:
-        "text-start p-0 inline-block border-[0.5px] border-[color:var(--text-muted)]",
+        "text-start p-0 inline-block border-[0.1px] border-[color:var(--bg-muted)]",
       gradeTableHeaderStyles: "text-center p-0 border inline-block",
       gradeThemeHeaderLabelStyles: "text-center p-0 border inline-block",
       cellsHeight: 0,
@@ -136,11 +136,11 @@ export default {
     :id="'table-wrapper'"
   >
     <GradesTableControls />
-    <Table :class="'flex flex-row bg-(--text-muted) p-1 rounded-b-[0.45rem]'">
+    <Table
+      :class="'flex shadow-xs flex-row bg-(--bg-muted) p-1 rounded-b-[0.45rem]'"
+    >
       <div :class="'flex flex-col'" :ref="'fixed-part-width'">
-        <TableHeader
-          :class="'flex flex-row bg-(--text-muted) text-(--highlight)  '"
-        >
+        <TableHeader :class="'flex flex-row bg-(--bg-muted)'">
           <!-- заголовок блокировки -->
           <GradesTableCell
             :cell-class="tableHeaderStyles"
@@ -216,11 +216,11 @@ export default {
         :class="'whitespace-nowrap overflow-hidden'"
       >
         <!-- заголовки тем и дат -->
-        <section class="'flex flex-row bg-(--text-muted) '">
+        <section class="'flex flex-row bg-(--bg-muted) '">
           <GradesTableGradeThemeCell
             v-for="(theme, index) in themes"
             :key="index"
-            :cell-class="tableHeaderStyles + ' text-(--highlight)'"
+            :cell-class="tableHeaderStyles"
             :cell-ref="'grade-value-header'"
             :cell-height="cellsHeight"
             :theme="{ date: theme.date, number: theme.number }"
