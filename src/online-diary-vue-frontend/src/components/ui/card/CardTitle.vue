@@ -1,24 +1,17 @@
 <script setup lang="ts">
-import { cn } from "@/lib/utils";
-import type { HTMLAttributes } from "vue/dist/vue.js";
-import Label from "../label/Label.vue";
+import type { HTMLAttributes } from "vue"
+import { cn } from "@/lib/utils"
 
 const props = defineProps<{
-  class?: HTMLAttributes["class"];
-  text: string;
-}>();
+  class?: HTMLAttributes["class"]
+}>()
 </script>
 
 <template>
   <h3
     data-slot="card-title"
-    :class="cn('leading-none font-semibold card-text', props.class)"
+    :class="cn('leading-none font-semibold', props.class)"
   >
-    <div :class="'flex flex-row items-center gap-1 p-1.5'">
-      <slot />
-      <Label :class="'text-lg'">
-        {{ props.text }}
-      </Label>
-    </div>
+    <slot />
   </h3>
 </template>

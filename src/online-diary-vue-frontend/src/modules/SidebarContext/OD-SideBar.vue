@@ -1,39 +1,131 @@
-<script setup lang="ts">
-import Card from "@/components/ui/card/Card.vue";
-import CardTitle from "@/components/ui/card/CardTitle.vue";
+<script lang="ts">
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ItemTitle } from "@/components/ui/item";
+import Item from "@/components/ui/item/Item.vue";
+import ItemContent from "@/components/ui/item/ItemContent.vue";
+import ItemFooter from "@/components/ui/item/ItemFooter.vue";
 import Label from "@/components/ui/label/Label.vue";
-import Avatar from "@/components/ui/avatar/Avatar.vue";
-import AvatarFallback from "@/components/ui/avatar/AvatarFallback.vue";
-import Button from "@/components/ui/button/Button.vue";
+import Separator from "@/components/ui/separator/Separator.vue";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
+import SidebarMenuAction from "@/components/ui/sidebar/SidebarMenuAction.vue";
+import SidebarMenuSection from "./components/SidebarMenuSection.vue";
+import {
+  GraduationCap,
+  KeyRound,
+  LayersIcon,
+  PencilIcon,
+  Table2Icon,
+  UsersIcon,
+} from "lucide-vue-next";
+import SidebarMenuSectionItem from "./components/SidebarMenuSectionItem.vue";
+
+export default {
+  components: {
+    Sidebar,
+    SidebarHeader,
+    SidebarContent,
+    SidebarGroup,
+    SidebarFooter,
+    SidebarProvider,
+    SidebarMenu,
+    SidebarMenuItem,
+    SidebarMenuButton,
+    SidebarMenuAction,
+    SidebarMenuBadge,
+    SidebarMenuSection,
+    SidebarMenuSectionItem,
+    ItemContent,
+    Item,
+    ItemTitle,
+    ItemFooter,
+    Label,
+    Avatar,
+    AvatarFallback,
+    Separator,
+    Table2Icon,
+    PencilIcon,
+    UsersIcon,
+    LayersIcon,
+    GraduationCap,
+    KeyRound,
+  },
+  methods: {
+    joinClasses(...classes: string[]): string {
+      return classes.filter(Boolean).join(" ");
+    },
+  },
+  setup() {
+    const sideBarCardStyle: string = "bg-sky-600 border border-sky-700";
+    return {
+      sideBarCardStyle,
+    };
+  },
+};
 </script>
 <template>
-  <aside class="flex">
-    <Card>
-      <Card>
-        <CardTitle :text="'Online Diary'"> </CardTitle>
-      </Card>
-      <section>
-        <Card>
-          <Avatar :class="'self-center w-20 h-20'">
-            <AvatarFallback>И</AvatarFallback>
-          </Avatar>
-          <Label :class="'flex self-center'">ИВАНОВ И. И.</Label>
-          <Label :class="'flex self-center'">преподаватель</Label>
-        </Card>
-      </section>
-      <section class="flex grow">
-        <Card :class="'p-2 w-full'">
-          <CardTitle :class="'flex self-center'" :text="'Меню'">
-            <Label :class="'text-2xl'">Меню</Label>
-          </CardTitle>
-          <Button>Открыть профиль</Button>
-          <Button>Настройки профиля</Button>
-          <Button variant="destructive">Выйти</Button>
-        </Card>
-      </section>
-    </Card>
-    <div :class="'w-full'">
-      <slot />
-    </div>
-  </aside>
+  <SidebarProvider
+    :class="'flex flex-col h-full min-h-0 justify-start items-center'"
+  >
+    <SidebarHeader>
+      <Item :class="joinClasses(sideBarCardStyle)">
+        <ItemTitle :class="'text-zinc-200'">Онлайн журнал</ItemTitle>
+        <ItemFooter :class="'text-zinc-600'">
+          Филиала СибГУ в г.Лесосибирске
+        </ItemFooter>
+      </Item>
+    </SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <Item :class="joinClasses(sideBarCardStyle)">
+          <ItemContent :class="'flex items-center gap-2'">
+            <Avatar :class="'h-18 w-18'">
+              <AvatarFallback>ПП</AvatarFallback>
+            </Avatar>
+            <Separator />
+            <div :class="'flex flex-col items-center'">
+              <Label :class="'text-zinc-200 text-[0.8em]'"
+                >Преподаватель П. П.</Label
+              >
+              <Label :class="'text-zinc-200 text-[0.8em]'">Преподаватель</Label>
+            </div>
+          </ItemContent>
+        </Item>
+      </SidebarGroup>
+      <SidebarGroup :class="'flex'">
+        <SidebarMenu
+          :class="joinClasses(sideBarCardStyle, 'rounded-sm', 'p-1')"
+        >
+          <SidebarMenuSectionItem :name="'Страница преподавателя'">
+            <GraduationCap :size="15" />
+          </SidebarMenuSectionItem>
+          <SidebarMenuSectionItem :name="'Журналы'">
+            <Table2Icon :size="15" />
+          </SidebarMenuSectionItem>
+          <SidebarMenuSectionItem :name="'Участники'">
+            <UsersIcon :size="15" />
+          </SidebarMenuSectionItem>
+          <SidebarMenuSectionItem :name="'Дисциплины'">
+            <LayersIcon :size="15" />
+          </SidebarMenuSectionItem>
+          <SidebarMenuSectionItem :name="'Учетные записи'">
+            <KeyRound :size="15" />
+          </SidebarMenuSectionItem>
+        </SidebarMenu>
+      </SidebarGroup>
+    </SidebarContent>
+    <SidebarFooter :class="'bg-amber-200 inline-block w-full'">
+      <label>Футер</label>
+    </SidebarFooter>
+  </SidebarProvider>
 </template>
