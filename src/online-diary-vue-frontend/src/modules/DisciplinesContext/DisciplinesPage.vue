@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import CardContent from "@/components/ui/card/CardContent.vue";
 import { Input } from "@/components/ui/input";
 import { Item, ItemTitle } from "@/components/ui/item";
 import Separator from "@/components/ui/separator/Separator.vue";
