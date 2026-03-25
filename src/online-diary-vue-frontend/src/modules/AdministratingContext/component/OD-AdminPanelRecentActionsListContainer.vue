@@ -6,7 +6,16 @@ import CardTitle from "@/components/ui/card/CardTitle.vue";
 <template>
   <!-- recent activity -->
   <Card :class="'w-full'">
+<<<<<<< HEAD
     <CardTitle :class="'mx-2'" :text="'Недавние действия'"> </CardTitle>
     <slot></slot>
+=======
+    <CardTitle :class="'mx-2'">
+      <Label :class="'text-2x1'">Недавние действия</Label>
+    </CardTitle>
+    <div>
+      <slot />
+    </div>
+>>>>>>> ceb5089 (сделан сайдбар)
   </Card>
 </template>
