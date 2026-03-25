@@ -114,15 +114,18 @@ export default {
     ODJournalEditorsList,
   },
   data() {
+    const beforeTableSectionWrapper: number = 0;
     return {
       date: new Date(Date.now()),
       tableHeaderStyles: "text-start p-0 border inline-block",
       gradeTableHeaderStyles: "text-center p-0 border inline-block",
       gradeThemeHeaderLabelStyles: "text-center p-0 border inline-block",
+      beforeTableSectionWrapper: beforeTableSectionWrapper,
     };
   },
   mounted() {
     this.useTableContainerElementWidthObserver();
+    this.initializeBeforeTableSectionWrapper();
   },
   methods: {
     disposeTableResizeObserver(): void {
@@ -134,6 +137,19 @@ export default {
     generateRandomStudent,
     generateRandomStudents,
     generateRandomThemes,
+    findElementByRef(refName: string): HTMLElement | null {
+      const refs = this.$refs;
+      const element = refs[refName] as HTMLElement | undefined;
+      return element || null;
+    },
+    initializeBeforeTableSectionWrapper(): void {
+      const element: HTMLElement | null = this.findElementByRef(
+        "before-table-wrapper",
+      );
+      if (!element) return;
+      const height: number = element.clientHeight;
+      this.beforeTableSectionWrapper = height;
+    },
     useTableContainerElementWidthObserver(): void {
       const refs = this.$refs;
       const tableContainerKey: string = "tableContainerElementRef";
@@ -175,24 +191,25 @@ export default {
 </script>
 
 <template>
-  <section class="flex gap-0 p-2" :ref="'tableContainerElementRef'">
-    <!-- // page container -->
-    <section :class="'w-full gap-2 my-0'">
-      <!-- page title -->
-      <CardContent :class="'px-2'">
-        <section class="grid grid-cols-2 gap-2">
-          <!-- edit journal items here -->
-          <div :class="'grid grid-cols-2 gap-2'">
-            <ODJournalEditBlock />
-            <!-- редакторы -->
-            <section :class="'col-span-2'">
-              <ODJournalEditorsList />
-            </section>
-          </div>
-          <!-- темы за которые выставлены оценки -->
-          <ODGradedThemesList />
-        </section>
-        <!-- таблица оценок -->
+  <section
+    class="flex flex-col gap-2 my-0 p-2 h-screen"
+    :ref="'tableContainerElementRef'"
+  >
+    <CardContent :class="'flex-1 px-2'">
+      <section :class="'grid grid-cols-2 gap-2'" :ref="'before-table-wrapper'">
+        <!-- edit journal items here -->
+        <div :class="'grid grid-cols-2 gap-2'">
+          <ODJournalEditBlock />
+          <!-- редакторы -->
+          <section :class="'col-span-2'">
+            <ODJournalEditorsList />
+          </section>
+        </div>
+        <!-- темы за которые выставлены оценки -->
+        <ODGradedThemesList />
+      </section>
+      <!-- таблица оценок -->
+      <div>
         <GradesTable
           :width-props="{
             blockCellWidth: blockCellWidth,
@@ -215,7 +232,7 @@ export default {
           "
         >
         </GradesTable>
-      </CardContent>
-    </section>
+      </div>
+    </CardContent>
   </section>
 </template>

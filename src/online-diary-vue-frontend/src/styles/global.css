@@ -50,7 +50,7 @@
   --bg-light: hsl(189 0% 98%);
   --bg-medium: hsl(160, 80%, 96%);
   --text: hsl(189 43% 24%);
-  --bg-muted: hsl(189 25% 58%);
+  --bg-muted: hsl(189 25% 80%);
   --text-muted: hsl(189 25% 58%);
   --border: hsl(189 22% 46%);
   --border-muted: hsl(189 25% 58%);
@@ -61,7 +61,7 @@
   --success: hsl(147 19% 36%);
   --info: hsl(217 22% 41%);
   --radius: 0.625rem;
-  --background: hsl(189 45 90%);
+  --background: hsl(189 45% 98%);
   --foreground: oklch(0.129 0.042 264.695);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);

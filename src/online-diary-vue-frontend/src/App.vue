@@ -1,12 +1,10 @@
 <script lang="ts">
-import { useColorMode } from "@vueuse/core";
 import GradesPage from "./modules/GradesContext/GradesPage.vue";
-import Test from "./modules/GradesContext/Test.vue";
+import { useColorMode } from "@vueuse/core";
 
 export default {
   components: {
     GradesPage,
-    Test,
   },
   setup() {
     useColorMode();
