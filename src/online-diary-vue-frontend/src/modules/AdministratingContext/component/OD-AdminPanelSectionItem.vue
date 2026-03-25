@@ -2,16 +2,13 @@
 import Card from "@/components/ui/card/Card.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
 import CardContent from "@/components/ui/card/CardContent.vue";
-import Label from "@/components/ui/label/Label.vue";
 import Badge from "@/components/ui/badge/Badge.vue";
 import Button from "@/components/ui/button/Button.vue";
 </script>
 
 <template>
   <Card :class="'p-1'">
-    <CardTitle :class="'p-1'">
-      <Label>Управление студентами</Label>
-    </CardTitle>
+    <CardTitle :class="'p-1'" :text="'Управление студентами'"> </CardTitle>
     <CardContent>
       <div :class="'flex flex-row gap-2 p-2 justify-between'">
         <div class="flex flex-col gap-2">

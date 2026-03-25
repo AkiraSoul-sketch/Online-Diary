@@ -13,58 +13,35 @@ import ODAdminPanelRecentActionDiagram from "./component/OD-AdminPanelRecentActi
 import ODAdminPanelSectionItem from "./component/OD-AdminPanelSectionItem.vue";
 import ODAdminPanelRecentActionListItem from "./component/OD-AdminPanelRecentActionListItem.vue";
 import ODAdminPanelRecentActionsListContainer from "./component/OD-AdminPanelRecentActionsListContainer.vue";
-<<<<<<< HEAD
-=======
-import ODAdminPanelSectionsContainer from "./component/OD-AdminPanelSectionsContainer.vue";
->>>>>>> ceb5089 (сделан сайдбар)
 import ODSideBar from "../SidebarContext/OD-SideBar.vue";
+import ODAdminPanelSectionsContainer from "./component/OD-AdminPanelSectionsContainer.vue";
 
 const array = [1, 2, 3, 4, 5];
 </script>
 
 <template>
   <ODSideBar>
-<<<<<<< HEAD
     <!-- page begin -->
     <section class="gap-0 mx-2 w-full h-screen p-2">
       <Card :class="'w-full h-full gap-2 grow'">
         <CardTitle :class="'p-2'" :text="'Страница Администратора'">
-=======
-    <section class="gap-0 mx-2 w-full h-screen p-2">
-      <Card :class="'w-full h-full gap-2 grow'">
-        <CardTitle :class="'p-2'">
-          <Label :class="'text-2xl'">Страница Администратора</Label>
->>>>>>> ceb5089 (сделан сайдбар)
         </CardTitle>
         <div class="flex flex-col gap-2 h-full">
           <section class="grid grid-cols-2 gap-2 p-0 mx-2 h-full">
             <!-- users activity section -->
             <ODAdminPanelRecentActionDiagram></ODAdminPanelRecentActionDiagram>
             <ODAdminPanelRecentActionsListContainer>
-              <section v-for="a of [1, 2, 3, 4, 5]">
-                <ODAdminPanelRecentActionListItem></ODAdminPanelRecentActionListItem>
-              </section>
+              <div>
+                <section v-for="a of [1, 2, 3, 4, 5]">
+                  <ODAdminPanelRecentActionListItem></ODAdminPanelRecentActionListItem>
+                </section>
+              </div>
             </ODAdminPanelRecentActionsListContainer>
           </section>
 
           <!--administration section-->
-<<<<<<< HEAD
           <section class="gap-2 p-2 h-full grow">
-            <CardTitle :class="'p-2'" :text="'Секция администрирования'">
-            </CardTitle>
-            <div class="grid grid-cols-3 gap-2 w-full grow">
-              <section
-                v-for="a of [1, 2, 3, 4, 5, 6]"
-                :class="'grow min-h-42.5'"
-              >
-                <!--settings-->
-                <ODAdminPanelSectionItem></ODAdminPanelSectionItem>
-              </section>
-            </div>
-          </section>
-=======
-          <ODAdminPanelSectionsContainer>
-            <section class="gap-2 p-2 h-full grow">
+            <ODAdminPanelSectionsContainer>
               <div class="grid grid-cols-3 gap-2 w-full grow">
                 <section
                   v-for="a of [1, 2, 3, 4, 5, 6]"
@@ -74,9 +51,8 @@ const array = [1, 2, 3, 4, 5];
                   <ODAdminPanelSectionItem></ODAdminPanelSectionItem>
                 </section>
               </div>
-            </section>
-          </ODAdminPanelSectionsContainer>
->>>>>>> ceb5089 (сделан сайдбар)
+            </ODAdminPanelSectionsContainer>
+          </section>
         </div>
       </Card>
     </section>
