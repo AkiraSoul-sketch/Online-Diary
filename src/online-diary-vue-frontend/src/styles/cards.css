@@ -1,0 +1,12 @@
+.card {
+  background: linear-gradient(var(--gradient));
+  border: var(--border-card);
+  border-top: var(--highlight);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  color: var(--text);
+}
+
+.card-text {
+  color: var(--text);
+}
