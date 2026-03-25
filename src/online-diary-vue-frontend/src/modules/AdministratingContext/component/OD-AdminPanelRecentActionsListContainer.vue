@@ -7,8 +7,10 @@ import CardTitle from "@/components/ui/card/CardTitle.vue";
   <!-- recent activity -->
   <Card :class="'w-full'">
     <CardTitle :class="'mx-2'">
-      <Label class="text-2x1">Недавние действия</Label>
+      <Label :class="'text-2x1'">Недавние действия</Label>
     </CardTitle>
-    <slot></slot>
+    <div>
+      <slot />
+    </div>
   </Card>
 </template>
