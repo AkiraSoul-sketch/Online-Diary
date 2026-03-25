@@ -9,7 +9,7 @@ export default {
     DisciplinesPage,
   },
   setup() {
-    useColorMode();
+    // useColorMode();
   },
 };
 </script>

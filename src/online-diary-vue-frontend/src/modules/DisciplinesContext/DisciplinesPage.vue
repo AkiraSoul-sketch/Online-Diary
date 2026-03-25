@@ -14,6 +14,35 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Table from "@/components/ui/table/Table.vue";
+import { PencilIcon } from "lucide-vue-next";
+import type { Discipline } from "./models/Discipline";
+import DisciplineListItem from "./components/DisciplineListItem.vue";
+
+const DISCIPLINE_NAMES = [
+  "Математика",
+  "Физика",
+  "Программирование",
+  "Алгоритмы",
+  "Базы данных",
+  "Операционные системы",
+  "Дискретная математика",
+  "Геометрия",
+  "История",
+  "Иностранный язык",
+];
+
+const TEACHERS = [
+  "Иванов И.И.",
+  "Петров П.П.",
+  "Сидоров С.С.",
+  "Кузнецова А.А.",
+  "Смирнов В.В.",
+  "Коваленко Н.Н.",
+  "Морозова Е.Е.",
+  "Новиков К.К.",
+  "Федоров М.М.",
+  "Ершова О.О.",
+];
 
 export default {
   components: {
@@ -33,13 +62,37 @@ export default {
     CardContent,
     Input,
     Separator,
+    PencilIcon,
+    DisciplineListItem,
+  },
+  methods: {
+    generateDisciplines(amount: number): Discipline[] {
+      const disciplines: Discipline[] = [];
+      for (let i = 0; i < amount; i++) {
+        const name =
+          DISCIPLINE_NAMES[Math.floor(Math.random() * DISCIPLINE_NAMES.length)];
+        const teacher = TEACHERS[Math.floor(Math.random() * TEACHERS.length)];
+        const semester = Math.floor(Math.random() * 8) + 1; // 1..8
+        const group = `Группа ${Math.ceil(Math.random() * 6)}`; // Группа 1..6
+        const discipline = {
+          id: `${i + 1}`,
+          name,
+          group,
+          teacher,
+          semester,
+        } as Discipline;
+        disciplines.push(discipline);
+      }
+
+      return disciplines;
+    },
   },
 };
 </script>
 
 <template>
-  <section :class="'h-screen px-75 flex flex-col gap-20'">
-    <section :class="'flex flex-wrap shrink gap-10'">
+  <section :class="'h-screen my-20 px-75 flex flex-col gap-5'">
+    <section :class="'flex flex-wrap shrink gap-5'">
       <Item :class="'flex-[1_1_200px] shrink'">
         <ItemTitle :text="'Всего дисциплин'" />
       </Item>
@@ -65,7 +118,9 @@ export default {
       </Card>
     </section>
     <section :class="'flex flex-col shrink gap-10'">
-      <div :class="'rounded-md border border-border overflow-hidden'">
+      <div
+        :class="'rounded-md border border-border overflow-hidden bg-(--bg-light)'"
+      >
         <Table :class="'w-full'">
           <TableHeader :class="'block'">
             <TableRow
@@ -98,26 +153,32 @@ export default {
               <TableCell
                 :class="'py-2 px-0 flex flex-4 shrink justify-center items-center'"
               >
-                Математика
+                Дисциплина
               </TableCell>
               <TableCell
                 :class="'py-2 px-0 flex flex-1 shrink justify-center items-center'"
               >
-                Математика
+                Группа
               </TableCell>
               <TableCell
                 :class="'py-2 px-0 flex flex-2 shrink justify-center items-center'"
               >
-                Математика
+                Преподает
               </TableCell>
               <TableCell
                 :class="'py-2 px-0 flex flex-1 shrink justify-center items-center'"
               >
-                Математика
+                Семестр
               </TableCell>
               <TableCell
                 :class="'py-2 px-0 flex flex-1 shrink justify-center items-center'"
               >
+                <Button
+                  :class="'cursor-pointer rounded-3xl w-6 h-6'"
+                  :variant="'outline'"
+                >
+                  <PencilIcon :size="15" />
+                </Button>
               </TableCell>
             </TableRow>
           </TableBody>
