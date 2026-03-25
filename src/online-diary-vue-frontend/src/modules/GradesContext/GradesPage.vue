@@ -11,15 +11,6 @@ import GradesTable from "./components/GradesTable/GradesTable.vue";
 import { Item, ItemHeader, ItemMedia, ItemTitle } from "@/components/ui/item";
 import ItemContent from "@/components/ui/item/ItemContent.vue";
 import Table from "@/components/ui/table/Table.vue";
-import {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { UserRoundPen } from "lucide-vue-next";
-import ODJournalEditorsList from "./components/JournalEditorsList/OD-JournalEditorsList.vue";
 
 type ThemeInfo = {
   index: number;
@@ -102,16 +93,9 @@ export default {
     Item,
     ItemContent,
     Table,
-    TableHeader,
-    TableRow,
-    TableBody,
-    TableCell,
-    TableHead,
     ItemHeader,
     ItemTitle,
     ItemMedia,
-    UserRoundPen,
-    ODJournalEditorsList,
   },
   data() {
     const beforeTableSectionWrapper: number = 0;

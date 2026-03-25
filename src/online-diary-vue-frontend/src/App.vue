@@ -5,6 +5,8 @@ import { useColorMode } from "@vueuse/core";
 
 export default {
   components: {
+    ODSideBar,
+    AdminPanel,
     GradesPage,
     DisciplinesPage,
   },
@@ -12,6 +14,8 @@ export default {
     // useColorMode();
   },
 };
+import AdminPanel from "./modules/AdministratingContext/AdminPanel.vue";
+import ODSideBar from "./modules/SidebarContext/OD-SideBar.vue";
 </script>
 
 <template>
