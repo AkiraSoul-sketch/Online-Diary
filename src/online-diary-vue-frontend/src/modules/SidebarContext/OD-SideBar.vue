@@ -29,6 +29,7 @@ import {
   UsersIcon,
 } from "lucide-vue-next";
 import SidebarMenuSectionItem from "./components/SidebarMenuSectionItem.vue";
+import GradesPage from "../GradesContext/GradesPage.vue";
 
 export default {
   components: {
@@ -59,6 +60,7 @@ export default {
     LayersIcon,
     GraduationCap,
     KeyRound,
+    GradesPage,
   },
   methods: {
     joinClasses(...classes: string[]): string {
@@ -78,16 +80,16 @@ export default {
     :class="'flex flex-col h-full min-h-0 justify-start items-center'"
   >
     <SidebarHeader>
-      <Item :class="joinClasses(sideBarCardStyle)">
+      <Item :class="joinClasses(sideBarCardStyle, 'w-full')">
         <ItemTitle :class="'text-zinc-200'">Онлайн журнал</ItemTitle>
         <ItemFooter :class="'text-zinc-600'">
           Филиала СибГУ в г.Лесосибирске
         </ItemFooter>
       </Item>
     </SidebarHeader>
-    <SidebarContent>
+    <SidebarContent :class="'w-full'">
       <SidebarGroup>
-        <Item :class="joinClasses(sideBarCardStyle)">
+        <Item :class="joinClasses(sideBarCardStyle, 'w-full')">
           <ItemContent :class="'flex items-center gap-2'">
             <Avatar :class="'h-18 w-18'">
               <AvatarFallback>ПП</AvatarFallback>
@@ -102,9 +104,16 @@ export default {
           </ItemContent>
         </Item>
       </SidebarGroup>
-      <SidebarGroup :class="'flex'">
+      <SidebarGroup :class="'flex min-h-0 h-full grow'">
         <SidebarMenu
-          :class="joinClasses(sideBarCardStyle, 'rounded-sm', 'p-1')"
+          :class="
+            joinClasses(
+              sideBarCardStyle,
+              'rounded-sm',
+              'p-1',
+              'flex min-h-0 h-full grow',
+            )
+          "
         >
           <SidebarMenuSectionItem :name="'Страница преподавателя'">
             <GraduationCap :size="15" />
