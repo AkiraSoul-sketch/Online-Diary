@@ -1,9 +1,11 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import "./styles/global.css";
-import "./styles/cards.css";
-import "./styles/text.css";
-import "./styles/items.css";
-import "./styles/grades.css";
+import appRouter from "./routes";
+import { createPinia } from "pinia";
 
-createApp(App).mount("#app");
+const app = createApp(App);
+const pinia = createPinia();
+app.use(appRouter);
+app.use(pinia);
+app.mount("#app");

@@ -1,5 +1,4 @@
 <script lang="ts">
-import { Label } from "@/components/ui/label";
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import ODGradesPagePageTitle from "./components/OD-GradesPage-PageTitle.vue";
 import ODJournalEditBlock from "./components/JournalEditBlock/OD-JournalEditBlock.vue";
@@ -11,6 +10,7 @@ import GradesTable from "./components/GradesTable/GradesTable.vue";
 import { Item, ItemHeader, ItemMedia, ItemTitle } from "@/components/ui/item";
 import ItemContent from "@/components/ui/item/ItemContent.vue";
 import Table from "@/components/ui/table/Table.vue";
+import { Label } from "@/components/ui/label";
 
 type ThemeInfo = {
   index: number;
