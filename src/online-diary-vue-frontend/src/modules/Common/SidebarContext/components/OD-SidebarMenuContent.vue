@@ -36,6 +36,6 @@ function resolveIcon(item: SidebarNavigation): Component {
 
 <template>
   <SidebarMenuSectionItem v-for="item in store.navigations" :navigation="item">
-    <component :is="resolveIcon(item)" :size="15" />
+    <component :is="resolveIcon(item)" />
   </SidebarMenuSectionItem>
 </template>

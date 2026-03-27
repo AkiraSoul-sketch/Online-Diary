@@ -12,7 +12,9 @@ export default {
 
 <template>
   <Item :class="'w-full rounded-none'">
-    <ItemTitle>Онлайн журнал</ItemTitle>
-    <ItemFooter>Филиала СибГУ в г.Лесосибирске</ItemFooter>
+    <ItemTitle :class="'text-responsive'">Онлайн журнал</ItemTitle>
+    <ItemFooter :class="'text-responsive'"
+      >Филиала СибГУ в г.Лесосибирске</ItemFooter
+    >
   </Item>
 </template>

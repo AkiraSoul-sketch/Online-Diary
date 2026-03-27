@@ -19,13 +19,15 @@ export default {
 <template>
   <Item :class="'w-full rounded-none'">
     <ItemContent :class="'flex items-center gap-2'">
-      <Avatar :class="'h-18 w-18 border-2 shadow-basic'">
+      <Avatar
+        :class="'border-2 shadow-basic h-14 w-14 md:h-18 md:w-18 lg:h-20 lg:w-20 xl:h-28 xl:w-28'"
+      >
         <AvatarFallback>ПП</AvatarFallback>
       </Avatar>
       <Separator :class="'bg-(--text-main-color)'" />
       <div :class="'flex flex-col items-center'">
-        <Label :class="' text-[0.8em]'">Преподаватель П. П.</Label>
-        <Label :class="' text-[0.8em]'">Преподаватель</Label>
+        <Label :class="' text-responsive'">Преподаватель П. П.</Label>
+        <Label :class="' text-responsive'">Преподаватель</Label>
       </div>
     </ItemContent>
   </Item>

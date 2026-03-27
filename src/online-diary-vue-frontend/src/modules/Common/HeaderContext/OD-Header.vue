@@ -11,11 +11,6 @@ export default defineComponent({
       required: true,
     },
   },
-  watch: {
-    sideBarPanelWidth(newWidth: number): void {
-      console.log("Header: sidebar width updated:", newWidth);
-    },
-  },
   components: {
     ODHeaderSearch,
     ODSidebarToggle,
@@ -26,7 +21,7 @@ export default defineComponent({
 
 <template>
   <header
-    :class="'flex flex-row items-center justify-between w-full bg-(--header-background-color)'"
+    :class="'flex flex-row h-auto items-center justify-between w-full bg-(--header-background-color)'"
   >
     <ODSidebarToggle :sideBarPanelWidth="sideBarPanelWidth" />
     <section :class="'flex-1 px-1 max-w-80'">

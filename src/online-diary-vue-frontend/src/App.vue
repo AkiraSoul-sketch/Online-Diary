@@ -34,11 +34,6 @@ export default defineComponent({
   unmounted() {
     Components.DisposeResizeObserver(this.sidebarObserver);
   },
-  watch: {
-    sideBarWidth(newWidth: number): void {
-      console.log("Parent: sidebar width updated:", newWidth);
-    },
-  },
   methods: {
     useSidebarResizeObserver(): ResizeObserver | null {
       const key: string = "sidebar";
@@ -72,16 +67,16 @@ export default defineComponent({
 <template>
   <section :class="'flex flex-col h-screen w-full'">
     <ODHeader :side-bar-panel-width="sideBarWidth" />
-    <section :class="'h-full'">
+    <section :class="'flex flex-1 min-h-0'">
       <ResizablePanelGroup :direction="'horizontal'">
-        <ResizablePanel :default-size="15">
+        <ResizablePanel :default-size="15" :class="'flex flex-1 min-h-0'">
           <aside :class="'sidebar-bg'" :ref="'sidebar'">
             <ODSideBar />
           </aside>
         </ResizablePanel>
         <ResizableHandle :class="'w-0'" />
-        <ResizablePanel>
-          <main :class="'flex flex-col w-full h-full'">
+        <ResizablePanel :class="'flex flex-1 min-h-0'">
+          <main :class="'w-full'">
             <RouterView />
           </main>
         </ResizablePanel>

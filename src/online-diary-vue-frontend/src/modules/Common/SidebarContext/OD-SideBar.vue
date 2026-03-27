@@ -25,7 +25,7 @@ export default {
 </script>
 <template>
   <SidebarProvider
-    :class="'flex flex-col h-full min-h-0 justify-start items-center text-dark'"
+    :class="'flex flex-col h-full min-h-0 justify-start items-center text-dark gap-5 md:gap-6 lg:gap-7 xl:gap-8'"
   >
     <!-- хедер сайдбара -->
     <SidebarHeader :class="'p-0 w-full'">

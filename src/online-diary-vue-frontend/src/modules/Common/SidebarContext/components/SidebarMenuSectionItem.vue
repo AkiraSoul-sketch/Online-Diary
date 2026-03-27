@@ -11,12 +11,12 @@ defineProps<{
 <template>
   <RouterLink :to="navigation.link">
     <TableRow
-      :class="'border-0 rounded-none p-1.5 cursor-pointer flex justify-start items-center gap-2'"
+      :class="'border-0 rounded-none p-1.5 md:p-2.5 lg:p-3.5 xl:p-4.5 cursor-pointer flex justify-start items-center gap-2'"
     >
       <div :class="'cursor-pointer'">
         <slot></slot>
       </div>
-      <Label :class="'cursor-pointer  text-[0.7em]'">{{
+      <Label :class="'cursor-pointer text-responsive'">{{
         navigation.name
       }}</Label>
     </TableRow>

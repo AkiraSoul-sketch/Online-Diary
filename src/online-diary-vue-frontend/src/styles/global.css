@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -128,5 +132,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-responsive {
+    @apply text-sm md:text-base lg:text-lg xl:text-xl;
   }
 }

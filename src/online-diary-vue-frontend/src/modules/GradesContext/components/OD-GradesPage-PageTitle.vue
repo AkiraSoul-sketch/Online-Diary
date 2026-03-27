@@ -14,7 +14,7 @@ export default {
 
 <template>
   <CardTitle :class="'mx-2'">
-    <Label :class="'text-2xl'">Группа: ПСК-3-25 Дисциплина: 1</Label>
+    <Label :class="'text-responsive'">Группа: ПСК-3-25 Дисциплина: 1</Label>
     <Separator />
   </CardTitle>
 </template>

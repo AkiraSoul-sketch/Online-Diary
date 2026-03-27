@@ -17,7 +17,7 @@ export default {
 </script>
 <template>
   <SidebarMenuItem :class="'flex flex-col gap-0'">
-    <Label :class="'p-1 m-0 text-[0.7em] mx-2'">{{ sectionName }}</Label>
+    <Label :class="'p-1 m-0 text-responsive mx-2'">{{ sectionName }}</Label>
     <section :class="'flex flex-col gap-0.5'">
       <slot></slot>
     </section>

@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template>
-  <Item :class="'text-xl h-full rounded-md'">
+  <Item :class="'text-responsive h-full rounded-md'">
     <ItemContent>
       <ItemTitle :text="'Редакторы март 2026'">
         <ItemMedia><UserRoundPen /></ItemMedia>

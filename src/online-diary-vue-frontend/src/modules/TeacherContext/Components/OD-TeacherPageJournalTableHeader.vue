@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <Item :class="'p-1 mx-2'">
-    <ItemTitle :class="'text-xl'">{{ HeaderValue }}</ItemTitle>
-  </Item>
+  <ItemTitle :class="'p-4 text-responsive leading-4'">{{
+    HeaderValue
+  }}</ItemTitle>
 </template>

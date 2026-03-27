@@ -1,66 +1,46 @@
-<script lang="ts">
+<script setup lang="ts">
 import Button from "@/components/ui/button/Button.vue";
-import { TableBody } from "@/components/ui/table";
-import TableCell from "@/components/ui/table/TableCell.vue";
 import TableRow from "@/components/ui/table/TableRow.vue";
 import { BookOpenIcon } from "lucide-vue-next";
+import ODTeacherPageJournalsTableCell from "./OD-TeacherPageJournalsTableCell.vue";
 
 interface Desceplina {
   name: string;
   groupname: string;
   gradescount: number;
+  index?: number | undefined;
 }
 
-function generate(count: number): Desceplina[] {
-  const DesceplinaName = "Дисциплина 1";
-
-  const Desceplina = [];
-  for (let A = 0; A < count; A++) {
-    const desceplina: Desceplina = {
-      name: DesceplinaName,
-      groupname: "ПСК-3-25",
-      gradescount: 26,
-    };
-    Desceplina.push(desceplina);
+function resolveIndexBackgroundColor(index: number | undefined): string {
+  if (index === undefined) {
+    return "";
   }
-  return Desceplina;
+
+  if (index % 2 === 0) {
+    return "bg-[var(--accent-background-color-5)]";
+  } else {
+    return "bg-[var(--accent-background-color-4)]";
+  }
 }
 
-export default {
-  components: {
-    TableBody,
-    TableCell,
-    TableRow,
-    Button,
-    BookOpenIcon,
-  },
-  props: {
-    disiscipline: {
-      type: Object as () => Desceplina,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      GenerateDisciplina: generate(1),
-    };
-  },
-};
+const props = defineProps<Desceplina>();
 </script>
 
 <template>
-  <TableRow :class="'w-full'">
-    <TableCell :class="'text-center'">
-      {{ disiscipline.name }}
-    </TableCell>
-    <TableCell :class="'text-center'">
-      {{ disiscipline.groupname }}
-    </TableCell>
-    <TableCell :class="'text-center'">
-      {{ disiscipline.gradescount }}
-    </TableCell>
-    <TableCell :class="'text-center'">
-      <Button><BookOpenIcon></BookOpenIcon>Открыть</Button>
-    </TableCell>
+  <TableRow
+    :class="
+      'w-full ' +
+      resolveIndexBackgroundColor(props.index) +
+      ' hover:bg-[var(--accent-background-color-6)]'
+    "
+  >
+    <ODTeacherPageJournalsTableCell :cell-value="props.name" />
+    <ODTeacherPageJournalsTableCell :cell-value="props.groupname" />
+    <ODTeacherPageJournalsTableCell :cell-value="undefined">
+      <Button :class="'text-responsive text-center'"
+        ><BookOpenIcon />
+        Открыть
+      </Button>
+    </ODTeacherPageJournalsTableCell>
   </TableRow>
 </template>

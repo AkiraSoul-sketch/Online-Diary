@@ -27,7 +27,7 @@ export default {
   <TableRow :class="'flex justify-between'">
     <ItemGroup :class="'flex flex-row p-2'">
       <div :class="'flex flex-col gap-2'">
-        <Item :class="'p-0'">
+        <Item :class="'p-0 text-responsive'">
           <Avatar>
             <AvatarFallback>АА</AvatarFallback>
           </Avatar>
@@ -38,8 +38,5 @@ export default {
         </Item>
       </div>
     </ItemGroup>
-    <Avatar :class="'mx-5 self-center'">
-      <AvatarFallback :class="'bg-red-500'" />
-    </Avatar>
   </TableRow>
 </template>

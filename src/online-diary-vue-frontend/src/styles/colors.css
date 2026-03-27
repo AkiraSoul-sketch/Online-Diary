@@ -10,9 +10,27 @@
     hsl(210 80% 60% / 0.75) 100%
   );
 
+  --accent-background-color-2: hsl(210 80% 60% / 0.75);
+  --accent-background-color-3: hsl(210 80% 70% / 0.75);
+  --accent-background-color-4: hsl(210 80% 80% / 0.75);
+
+  --accent-background-color-5: hsl(210 80% 90%);
+  --accent-background-color-6: hsl(210 80% 80%);
+  --accent-background-color-7: hsl(210 80% 70%);
+  --accent-background-color-75: hsl(210 80% 75%);
+
   --header-background-color: hsl(100 80% 70%);
   --header-item-background-color-hovered: hsl(100 80% 35% / 0.5);
   --header-item-background-color: hsl(100 80% 55% / 0.5);
+
+  --bg-default: hsl(0 0% 98%);
+  --bg-default-highlight: hsl(0 0% 88%);
+  --bg-default-darker: hsl(0 0% 80%);
+  --bg-default-darker-2: hsl(0 0% 70%);
+
+  --text-light: hsl(0 0% 15%);
+  --text-default: hsl(0 0% 98%);
+  --text-dimmed: hsl(0 0% 50%);
 
   --text-main-color: hsl(0 0% 30%);
   --text-dark-color: hsl(0 0% 15%);

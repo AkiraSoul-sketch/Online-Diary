@@ -8,7 +8,7 @@ import Label from "@/components/ui/label/Label.vue";
   <Card>
     <CardTitle :class="'mx-2'" :text="'Активность пользователей'"> </CardTitle>
     <CardDescription>
-      <Label :class="'text-xl p-2'">Placeholder</Label>
+      <Label :class="'text-responsive p-2'">Placeholder</Label>
     </CardDescription>
   </Card>
 </template>

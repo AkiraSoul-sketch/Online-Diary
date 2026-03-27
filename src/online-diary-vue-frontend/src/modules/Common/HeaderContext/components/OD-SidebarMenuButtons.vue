@@ -8,19 +8,23 @@ import { Label } from "@/components/ui/label";
   <section>
     <Button
       id="register-button"
-      :class="'button-flat-default text-dark'"
+      :class="'button-flat-default text-dark h-auto'"
       :variant="'header'"
     >
       <UserPlus2Icon :class="'text-dark'" />
-      <Label :for="'register-button'" :class="'text-dark'">Регистрация</Label>
+      <Label :for="'register-button'" :class="'text-responsive text-dark'"
+        >Регистрация</Label
+      >
     </Button>
     <Button
       id="auth-button"
-      :class="'button-flat-default text-dark'"
+      :class="'button-flat-default text-dark h-auto'"
       :variant="'header'"
     >
       <LogInIcon :class="'text-dark'" />
-      <Label :for="'auth-button'" :class="'text-dark'">Авторизация</Label>
+      <Label :for="'auth-button'" :class="'text-responsive text-dark'"
+        >Авторизация</Label
+      >
     </Button>
   </section>
 </template>

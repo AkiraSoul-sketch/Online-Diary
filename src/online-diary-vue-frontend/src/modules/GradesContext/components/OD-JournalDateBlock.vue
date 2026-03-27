@@ -16,6 +16,6 @@ export default {
 
 <template>
   <Item :variant="'muted'" :class="'rounded-md h-full'">
-    <Label :class="'text-xl'">Март 2026</Label>
+    <Label :class="'text-responsive'">Март 2026</Label>
   </Item>
 </template>
