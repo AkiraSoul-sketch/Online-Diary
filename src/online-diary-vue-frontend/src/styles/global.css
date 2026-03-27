@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* кастомные импорты */
+@import "./cards.css";
+@import "./grades.css";
+@import "./colors.css";
+@import "./shadows.css";
+
+@font-face {
+  font-family: "Inter";
+  src: url("/public/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -42,6 +53,7 @@
 }
 
 :root {
+  font-family: "Inter";
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
