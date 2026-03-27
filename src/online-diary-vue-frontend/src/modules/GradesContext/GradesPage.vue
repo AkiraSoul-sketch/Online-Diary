@@ -1,212 +1,222 @@
-<script setup lang="ts">
-import { useColorMode } from "@vueuse/core";
-import Label from "../../components/ui/label/Label.vue";
-import SidebarProvider from "../../components/ui/sidebar/SidebarProvider.vue";
-import Sidebar from "../../components/ui/sidebar/Sidebar.vue";
-import SidebarHeader from "../../components/ui/sidebar/SidebarHeader.vue";
-import SidebarContent from "../../components/ui/sidebar/SidebarContent.vue";
-import Button from "../../components/ui/button/Button.vue";
-import Card from "../../components/ui/card/Card.vue";
-import CardTitle from "../../components/ui/card/CardTitle.vue";
-import CardFooter from "../../components/ui/card/CardFooter.vue";
-import CardContent from "../../components/ui/card/CardContent.vue";
-import CardDescription from "../../components/ui/card/CardDescription.vue";
-import Select from "../../components/ui/select/Select.vue";
-import SelectContent from "../../components/ui/select/SelectContent.vue";
-import SelectGroup from "../../components/ui/select/SelectGroup.vue";
-import SelectTrigger from "../../components/ui/select/SelectTrigger.vue";
-import SelectValue from "../../components/ui/select/SelectValue.vue";
-import SelectItem from "../../components/ui/select/SelectItem.vue";
-import Table from "../../components/ui/table/Table.vue";
-import TableHeader from "../../components/ui/table/TableHeader.vue";
-import TableHead from "../../components/ui/table/TableHead.vue";
-import TableRow from "../../components/ui/table/TableRow.vue";
-import TableBody from "../../components/ui/table/TableBody.vue";
-import TableCell from "../../components/ui/table/TableCell.vue";
-import Input from "../../components/ui/input/Input.vue";
-import {
-  BookOpenCheckIcon,
-  BookOpenTextIcon,
-  PenIcon,
-  SearchIcon,
-  XCircleIcon,
-} from "lucide-vue-next";
+<script lang="ts">
+import { Card, CardTitle, CardContent } from "@/components/ui/card";
+import ODGradesPagePageTitle from "./components/OD-GradesPage-PageTitle.vue";
+import ODJournalEditBlock from "./components/JournalEditBlock/OD-JournalEditBlock.vue";
+import ODJournalDateBlock from "./components/OD-JournalDateBlock.vue";
+import ODStudentsSearch from "./components/OD-StudentsSearch.vue";
+import ODGradedThemesList from "./components/GradedThemesList/OD-GradedThemesList.vue";
+import { ref, type Ref } from "vue";
+import GradesTable from "./components/GradesTable/GradesTable.vue";
+import { Item, ItemHeader, ItemMedia, ItemTitle } from "@/components/ui/item";
+import ItemContent from "@/components/ui/item/ItemContent.vue";
+import Table from "@/components/ui/table/Table.vue";
+import { Label } from "@/components/ui/label";
 
-const mode = useColorMode();
+type ThemeInfo = {
+  index: number;
+  date: Date;
+};
+
+type StudentInfo = {
+  name: string;
+  grades: number[];
+};
+
+const studentNames: string[] = [
+  "Иванов Иван",
+  "Петров Петр",
+  "Сидоров Сидор",
+  "Кузнецов Кузьма",
+  "Смирнов Семён",
+  "Попов Павел",
+  "Васильев Василий",
+  "Михайлов Михаил",
+  "Новиков Николай",
+  "Фёдоров Фёдор",
+  "Григорьев Григорий",
+  "Алексеев Алексей",
+  "Сергеев Сергей",
+  "Андреев Андрей",
+  "Макаров Макар",
+  "Никитин Никита",
+  "Григорьев Григорий",
+  "Егоров Егор",
+  "Павлов Павел",
+];
+
+function generateRandomStudents(
+  count: number,
+  gradesPerStudent: number,
+): StudentInfo[] {
+  const students: StudentInfo[] = [];
+  for (let i = 0; i < count; i++) {
+    const student: StudentInfo = generateRandomStudent(gradesPerStudent);
+    students.push(student);
+  }
+  return students;
+}
+
+function generateRandomStudent(gradesCount: number): StudentInfo {
+  const maxStudents = studentNames.length;
+  const randomIndex = Math.floor(Math.random() * maxStudents);
+  const name = studentNames[randomIndex];
+  const grades: number[] = [];
+  for (let i = 0; i < gradesCount; i++) {
+    const randomGrade = Math.floor(Math.random() * 5) + 1;
+    grades.push(randomGrade);
+  }
+  return { name, grades };
+}
+
+function generateRandomThemes(count: number): ThemeInfo[] {
+  const themes: ThemeInfo[] = [];
+  const currentDate = new Date();
+  for (let i = 0; i < count; i++) {
+    const info: ThemeInfo = { date: currentDate, index: i + 1 };
+    themes.push(info);
+  }
+  return themes;
+}
+
+export default {
+  components: {
+    Card,
+    CardContent,
+    CardTitle,
+    Label,
+    ODGradesPagePageTitle,
+    ODJournalEditBlock,
+    ODJournalDateBlock,
+    ODStudentsSearch,
+    ODGradedThemesList,
+    GradesTable,
+    Item,
+    ItemContent,
+    Table,
+    ItemHeader,
+    ItemTitle,
+    ItemMedia,
+  },
+  data() {
+    const beforeTableSectionWrapper: number = 0;
+    return {
+      date: new Date(Date.now()),
+      tableHeaderStyles: "text-start p-0 border inline-block",
+      gradeTableHeaderStyles: "text-center p-0 border inline-block",
+      gradeThemeHeaderLabelStyles: "text-center p-0 border inline-block",
+      beforeTableSectionWrapper: beforeTableSectionWrapper,
+    };
+  },
+  mounted() {
+    this.useTableContainerElementWidthObserver();
+    this.initializeBeforeTableSectionWrapper();
+  },
+  methods: {
+    disposeTableResizeObserver(): void {
+      if (this.tableWidthResizeObserver) {
+        this.tableWidthResizeObserver.disconnect();
+        this.tableWidthResizeObserver = undefined;
+      }
+    },
+    generateRandomStudent,
+    generateRandomStudents,
+    generateRandomThemes,
+    findElementByRef(refName: string): HTMLElement | null {
+      const refs = this.$refs;
+      const element = refs[refName] as HTMLElement | undefined;
+      return element || null;
+    },
+    initializeBeforeTableSectionWrapper(): void {
+      const element: HTMLElement | null = this.findElementByRef(
+        "before-table-wrapper",
+      );
+      if (!element) return;
+      const height: number = element.clientHeight;
+      this.beforeTableSectionWrapper = height;
+    },
+    useTableContainerElementWidthObserver(): void {
+      const refs = this.$refs;
+      const tableContainerKey: string = "tableContainerElementRef";
+      const element = refs[tableContainerKey] as HTMLElement | undefined;
+      if (!element) return;
+      if (this.tableWidthResizeObserver) return;
+      const width = element.clientWidth;
+      this.tableWidthResizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          if (entry.target === element) {
+            this.tableWrapperWidth = width;
+          }
+        }
+      });
+      this.tableWidthResizeObserver.observe(element);
+    },
+  },
+  unmounted() {
+    this.disposeTableResizeObserver();
+  },
+  setup() {
+    const defaultWidth: number = 0;
+    const tableWrapperWidth = ref(defaultWidth);
+    const blockCellWidth: Ref<number, number> = ref(defaultWidth);
+    const studentCellWidth: Ref<number, number> = ref(defaultWidth);
+    const gradeScoreCellWidth: Ref<number, number> = ref(defaultWidth);
+    const gradeValueCellWidth: Ref<number, number> = ref(defaultWidth);
+    const tableWidthResizeObserver = ref<ResizeObserver | undefined>(undefined);
+    return {
+      tableWrapperWidth,
+      blockCellWidth,
+      studentCellWidth,
+      gradeScoreCellWidth,
+      gradeValueCellWidth,
+      tableWidthResizeObserver,
+    };
+  },
+};
 </script>
 
 <template>
-  <SidebarProvider>
-    <Sidebar>
-      <SidebarHeader>
-        <Card>
-          <CardTitle>
-            <Label :class="'text-2xl mx-2'">Online</Label>
-            <Label :class="'text-2xl mx-10'">Diary</Label>
-          </CardTitle>
-          <CardFooter>
-            <Label :class="'justify-end'">Онлайн журнал</Label>
-          </CardFooter>
-        </Card>
-      </SidebarHeader>
-      <SidebarContent>
-        <Button>Element</Button>
-      </SidebarContent>
-    </Sidebar>
-    <!-- page begin -->
-    <section class="gap-0 p-0 mx-2 w-full">
-      <!-- // page container -->
-      <!-- // page container -->
-      <Card :class="'w-full h-full gap-2 my-0'">
-        <!-- page title -->
-        <CardTitle :class="'mx-2'">
-          <Label :class="'text-2xl'">Группа: ПСК-3-25</Label>
-          <Label :class="'text-2xl'">Дисциплина 1</Label>
-        </CardTitle>
-        <CardContent :class="'px-2'">
-          <section class="grid grid-cols-2 gap-2">
-            <!-- edit journal items here -->
-            <div :class="'grid grid-cols-2 gap-2'">
-              <Card :class="'inner-card-1 gap-0 p-2 col-span-full'">
-                <CardTitle>
-                  <Label :class="'text-2xl'">
-                    <BookOpenTextIcon> </BookOpenTextIcon>
-                    Выбрать журнал
-                  </Label>
-                </CardTitle>
-                <CardDescription :class="'my-2'">
-                  Вы можете изменить группу и дисциплину, выбрав другую из
-                  списка.
-                </CardDescription>
-                <CardContent :class="'p-0'">
-                  <!-- group/disciplines selects -->
-                  <section class="grid grid-cols-2 gap-2 w-full h-full">
-                    <!-- group -->
-                    <Select>
-                      <SelectTrigger :class="'w-full'">
-                        <SelectValue :placeholder="'Группы'"> </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="ПСК-3-25">ПСК-3-25</SelectItem>
-                          <SelectItem value="ПСК-3-26">ПСК-3-26</SelectItem>
-                          <SelectItem value="ПСК-3-27">ПСК-3-27</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <!-- discipline -->
-                    <Select>
-                      <SelectTrigger :class="'w-full'">
-                        <SelectValue :placeholder="'Дисциплины'"> </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="Дисциплина 1"
-                            >Дисциплина 1</SelectItem
-                          >
-                          <SelectItem value="Дисциплина 2"
-                            >Дисциплина 2</SelectItem
-                          >
-                          <SelectItem value="Дисциплина 3"
-                            >Дисциплина 3</SelectItem
-                          >
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </section>
-                </CardContent>
-              </Card>
-              <!-- мини информация -->
-              <Card :class="'inner-card-1 gap-0 p-2 h-fit'">
-                <CardTitle>
-                  <Label :class="'text-xl'">Журнал Март 2026</Label>
-                  <Label :class="'text-xl'"></Label>
-                </CardTitle>
-              </Card>
-              <Card :class="'inner-card-1 gap-0 p-2 h-fit'">
-                <CardTitle>
-                  <Label :class="'text-xl'">Placeholder</Label>
-                  <Label :class="'text-xl'"></Label>
-                </CardTitle>
-              </Card>
-              <!-- поиск студента -->
-              <Card
-                :class="'inner-card-1 flex flex-row gap-2 p-2 w-full col-span-2'"
-              >
-                <Input :class="'col-span-3'" :placeholder="'Поиск студента'"
-                  >Text:</Input
-                >
-                <Button :size="'icon-sm'">
-                  <SearchIcon></SearchIcon>
-                </Button>
-                <Button :size="'icon-sm'">
-                  <XCircleIcon></XCircleIcon>
-                </Button>
-              </Card>
-            </div>
-            <!-- темы за которые выставлены оценки -->
-            <div>
-              <Card :class="'inner-card-1 gap-0 p-2 h-full'">
-                <CardTitle>
-                  <Label :class="'text-2xl'">
-                    <BookOpenCheckIcon></BookOpenCheckIcon>
-                    Темы: 2</Label
-                  >
-                </CardTitle>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow :class="'p-0 gap-0'">
-                        <TableHead :class="'p-0.5 gap-0.5'"></TableHead>
-                        <TableHead :class="'p-0.5 gap-0.5'"> Тема </TableHead>
-                        <TableHead
-                          :class="'flex p-0.5 gap-0.5 items-center justify-center w-fit'"
-                        >
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell :class="'p-0.5 gap-0.5'"> 1 </TableCell>
-                        <TableCell :class="'p-0.5 gap-0.5'"> Тема 1 </TableCell>
-                        <TableCell
-                          :class="'p-0.5 gap-0.5 flex items-center justify-center w-fit'"
-                        >
-                          <Button
-                            :class="'flex-none p-0 w-1 rounded-xl h-6 flex items-center justify-center'"
-                          >
-                            <PenIcon :size="15"> </PenIcon>
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell :class="'p-0.5 gap-0.5'"> 2 </TableCell>
-                        <TableCell :class="'p-0.5 gap-0.5'"> Тема 2 </TableCell>
-                        <TableCell
-                          :class="'p-0.5 gap-0.5 flex items-center justify-center w-fit'"
-                        >
-                          <Button
-                            :class="'flex-none p-0 w-1 rounded-xl h-6 flex items-center justify-center'"
-                          >
-                            <PenIcon :size="15"> </PenIcon>
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </div>
-            <section class="col-span-full">
-              <Card :class="'inner-card-1 gap-0 p-2'">
-                <CardTitle>
-                  <Label :class="'text-2xl'">Оценки:</Label>
-                </CardTitle>
-              </Card>
-            </section>
+  <section
+    class="flex flex-col gap-2 my-0 p-2 h-screen"
+    :ref="'tableContainerElementRef'"
+  >
+    <CardContent :class="'flex-1 px-2'">
+      <section :class="'grid grid-cols-2 gap-2'" :ref="'before-table-wrapper'">
+        <!-- edit journal items here -->
+        <div :class="'grid grid-cols-2 gap-2'">
+          <ODJournalEditBlock />
+          <!-- редакторы -->
+          <section :class="'col-span-2'">
+            <ODJournalEditorsList />
           </section>
-        </CardContent>
-      </Card>
-    </section>
-  </SidebarProvider>
+        </div>
+        <!-- темы за которые выставлены оценки -->
+        <ODGradedThemesList />
+      </section>
+      <!-- таблица оценок -->
+      <div>
+        <GradesTable
+          :width-props="{
+            blockCellWidth: blockCellWidth,
+            studentCellWidth: studentCellWidth,
+            gradeScoreCellWidth: gradeScoreCellWidth,
+            gradeValueCellWidth: gradeValueCellWidth,
+            tableWrapperWidth: tableWrapperWidth,
+          }"
+          :students="
+            generateRandomStudents(10, 20).map((s) => ({
+              name: s.name,
+              grades: s.grades,
+            }))
+          "
+          :themes="
+            generateRandomThemes(20).map((t) => ({
+              date: t.date,
+              number: t.index,
+            }))
+          "
+        >
+        </GradesTable>
+      </div>
+    </CardContent>
+  </section>
 </template>

@@ -1,0 +1,15 @@
+:root {
+  --grade-nan-bg: hsl(0 0% 90%);
+  --grade-2-bg: hsl(0 100% 90%);
+  --grade-3-bg: hsl(40 100% 90%);
+  --grade-4-bg: hsl(90 100% 90%);
+  --grade-5-bg: hsl(200 100% 90%);
+}
+
+.dark {
+  --grade-nan-bg: hsl(0 0% 10%);
+  --grade-2-bg: hsl(0 100% calc(105% - 90%));
+  --grade-3-bg: hsl(40 100% calc(105% - 90%));
+  --grade-4-bg: hsl(90 100% calc(105% - 90%));
+  --grade-5-bg: hsl(200 100% calc(105% - 90%));
+}
