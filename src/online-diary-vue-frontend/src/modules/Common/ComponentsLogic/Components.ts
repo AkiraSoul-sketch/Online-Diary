@@ -11,4 +11,13 @@ export class Components {
     ] as HTMLElement | null;
     return element;
   }
+
+  public static DisposeResizeObserver(
+    observer: ResizeObserver | null | undefined,
+  ): void {
+    if (observer === null) return;
+    if (observer == undefined) return;
+    observer.disconnect();
+    observer = null;
+  }
 }

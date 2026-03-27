@@ -11,6 +11,7 @@ import { Item, ItemHeader, ItemMedia, ItemTitle } from "@/components/ui/item";
 import ItemContent from "@/components/ui/item/ItemContent.vue";
 import Table from "@/components/ui/table/Table.vue";
 import { Label } from "@/components/ui/label";
+import { Components } from "../Common/ComponentsLogic/Components";
 
 type ThemeInfo = {
   index: number;
@@ -121,23 +122,19 @@ export default {
     generateRandomStudent,
     generateRandomStudents,
     generateRandomThemes,
-    findElementByRef(refName: string): HTMLElement | null {
-      const refs = this.$refs;
-      const element = refs[refName] as HTMLElement | undefined;
-      return element || null;
-    },
     initializeBeforeTableSectionWrapper(): void {
-      const element: HTMLElement | null = this.findElementByRef(
-        "before-table-wrapper",
+      const elementKey: string = "before-table-wrapper";
+      const element: HTMLElement | null = Components.HTMLElementByRef(
+        this,
+        elementKey,
       );
       if (!element) return;
       const height: number = element.clientHeight;
       this.beforeTableSectionWrapper = height;
     },
     useTableContainerElementWidthObserver(): void {
-      const refs = this.$refs;
-      const tableContainerKey: string = "tableContainerElementRef";
-      const element = refs[tableContainerKey] as HTMLElement | undefined;
+      const elementKey: string = "tableContainerElementRef";
+      const element = Components.HTMLElementByRef(this, elementKey);
       if (!element) return;
       if (this.tableWidthResizeObserver) return;
       const width = element.clientWidth;
@@ -152,7 +149,7 @@ export default {
     },
   },
   unmounted() {
-    this.disposeTableResizeObserver();
+    Components.DisposeResizeObserver(this.tableWidthResizeObserver);
   },
   setup() {
     const defaultWidth: number = 0;

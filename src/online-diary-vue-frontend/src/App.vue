@@ -32,7 +32,7 @@ export default defineComponent({
     this.sidebarObserver = this.useSidebarResizeObserver();
   },
   unmounted() {
-    this.disposeResizeObserver();
+    Components.DisposeResizeObserver(this.sidebarObserver);
   },
   watch: {
     sideBarWidth(newWidth: number): void {
@@ -52,12 +52,6 @@ export default defineComponent({
       );
       observer.observe(element);
       return observer;
-    },
-    disposeResizeObserver(): void {
-      if (this.sidebarObserver) {
-        this.sidebarObserver.disconnect();
-        this.sidebarObserver = null;
-      }
     },
     updateSidebarWidthByObserver(entries: ResizeObserverEntry[]): void {
       const key: string = "sidebar";
