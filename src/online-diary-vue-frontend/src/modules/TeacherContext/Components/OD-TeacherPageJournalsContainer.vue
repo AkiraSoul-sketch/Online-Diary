@@ -50,16 +50,16 @@ export default {
   },
   data() {
     return {
-      GenerateDisciplina: generate(10),
+      GenerateDisciplina: generate(5),
     };
   },
 };
 </script>
 
 <template>
-  <Item :class="' p-0 flex flex-col w-full   items-stretch'" :variant="'muted'">
+  <Item :class="' p-0 flex flex-col w-full items-stretch'" :variant="'muted'">
     <ODTeacherPageJournalTableHeader :-header-value="'Мои группы:'" />
-    <ScrollArea :class="'h-80 min-h-0'">
+    <ScrollArea>
       <Table :no-wrapper="false">
         <TableHeader :class="'sticky top-0 bg-accent'">
           <TableHead :class="'text-center'"> Название дисциплины </TableHead>

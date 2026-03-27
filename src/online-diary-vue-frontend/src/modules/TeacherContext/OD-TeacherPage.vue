@@ -13,14 +13,12 @@ export default {
 </script>
 
 <template>
-  <section :class="'p-2 h-screen flex flex-col w-full'">
-    <Card :class="'py-2 gap-0 flex flex-col w-full'">
-      <div :class="'grow p-2'">
-        <ODTeacherPageJournalsContainer />
-      </div>
-      <div :class="'p-2'">
-        <ODTeacherPageRecentActionsContainer />
-      </div>
-    </Card>
+  <section :class="'p-2 gap h-full flex flex-col w-full'">
+    <div :class="'p-2 flex-1'">
+      <ODTeacherPageJournalsContainer />
+    </div>
+    <div :class="' p-2 flex-1'">
+      <ODTeacherPageRecentActionsContainer />
+    </div>
   </section>
 </template>

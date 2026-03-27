@@ -7,6 +7,7 @@ export const useSidebarStore = defineStore("sidebar", () => {
   appendNavigation("Журналы", "/grades", navigations);
   appendNavigation("Администрирование", "/admin", navigations);
   appendNavigation("Дисциплины", "/disciplines", navigations);
+  appendNavigation("Преподаватель", "/teacher", navigations);
   return { navigations };
 });
 

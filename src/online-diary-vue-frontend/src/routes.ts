@@ -20,6 +20,10 @@ const appRouter = createRouter({
       component: () =>
         import("/src/modules/DisciplinesContext/DisciplinesPage.vue"),
     },
+    {
+      path: "/teacher",
+      component: () => import("/src/modules/TeacherContext/OD-TeacherPage.vue"),
+    },
   ],
   history: createWebHistory(),
 });

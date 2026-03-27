@@ -47,16 +47,14 @@ export default {
       :class="'self-start'"
       :-header-value="'Недавняя активность:'"
     />
-    <ScrollArea :class="'h-80 mx-0 w-full rounded-md'">
-      <div :class="'flex flex-col'">
-        <ODTeacherPageRecentActionItem
-          v-for="activityPred of GenerateAcrivity"
-          :activityPred="{
-            name: activityPred.name,
-            data: activityPred.data,
-          }"
-        ></ODTeacherPageRecentActionItem>
-      </div>
+    <ScrollArea :class="'mx-0 w-full flex flex-col h-1/2 rounded-md'">
+      <ODTeacherPageRecentActionItem
+        v-for="activityPred of GenerateAcrivity"
+        :activityPred="{
+          name: activityPred.name,
+          data: activityPred.data,
+        }"
+      ></ODTeacherPageRecentActionItem>
     </ScrollArea>
   </Item>
 </template>
