@@ -1,48 +1,59 @@
-<script lang="ts">
-import {
-  SidebarContent,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
+<script setup lang="ts">
 import ODSidebarMenuContent from "./components/OD-SidebarMenuContent.vue";
 import ODSidebarAvatar from "./components/OD-SidebarAvatar.vue";
-import ODSidebarHeaderContent from "./components/OD-SidebarHeaderContent.vue";
+import { useCommonStore } from "@/common.store";
+import { ref, watch, type Ref } from "vue";
+import { XIcon } from "lucide-vue-next";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerClose,
+  DrawerDescription,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 
-export default {
-  components: {
-    SidebarProvider,
-    SidebarHeader,
-    ODSidebarHeaderContent,
-    SidebarContent,
-    SidebarGroup,
-    ODSidebarAvatar,
-    SidebarMenu,
-    ODSidebarMenuContent,
+const width: Ref<number> = ref(0);
+const common = useCommonStore();
+
+watch(
+  () => common.$state.viewPortWidth,
+  ($vpWidth) => {
+    const newWidth = $vpWidth / 6;
+    console.log("side bar width: ", newWidth);
+    width.value = newWidth;
   },
-};
+  {
+    immediate: true,
+  },
+);
 </script>
 <template>
-  <SidebarProvider
-    :class="'flex flex-col h-full min-h-0 justify-start items-center text-dark gap-5 md:gap-6 lg:gap-7 xl:gap-8'"
+  <Drawer
+    :open="common.$state.sideBarHidden"
+    :no-body-styles="true"
+    :direction="'left'"
   >
-    <!-- хедер сайдбара -->
-    <SidebarHeader :class="'p-0 w-full'">
-      <ODSidebarHeaderContent />
-    </SidebarHeader>
-    <!-- содержимое сайдбара -->
-    <SidebarContent :class="'w-full gap-0'">
-      <!-- аватарка сайдбара -->
-      <SidebarGroup :class="'p-0'">
+    <DrawerContent :class="'bg-accent'">
+      <DrawerHeader :class="'flex flex-row justify-between items-center h-20'">
+        <DrawerTitle :class="'flex items-center gap-5'">
+          <img src="/main_logo.svg" :class="'h-12 brightness-0'" />
+          Меню
+        </DrawerTitle>
+        <DrawerClose>
+          <Button
+            v-on:click="common.toggleSideBar"
+            :class="'border rounded-2xl w-9 shadow-(--shadow-basic)'"
+          >
+            <XIcon />
+          </Button>
+        </DrawerClose>
+      </DrawerHeader>
+      <DrawerDescription>
         <ODSidebarAvatar />
-      </SidebarGroup>
-      <!-- меню сайдбара -->
-      <SidebarGroup :class="'flex p-0'">
-        <SidebarMenu :class="'px-0 rounded-none flex'">
-          <ODSidebarMenuContent />
-        </SidebarMenu>
-      </SidebarGroup>
-    </SidebarContent>
-  </SidebarProvider>
+        <ODSidebarMenuContent />
+      </DrawerDescription>
+    </DrawerContent>
+  </Drawer>
 </template>
