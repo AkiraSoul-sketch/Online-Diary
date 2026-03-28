@@ -1,0 +1,11 @@
+.text-responsive-primary {
+  font-size: clamp(14px, 1vw + 8px, 22px);
+}
+
+.text-responsive-secondary {
+  font-size: clamp(13px, 1vw + 6px, 20px);
+}
+
+.text-responsive-tertiary {
+  font-size: clamp(12px, 1vw + 4px, 18px);
+}

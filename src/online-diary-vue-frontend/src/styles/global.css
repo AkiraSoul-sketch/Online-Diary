@@ -1,5 +1,21 @@
+* {
+  box-sizing: border-box;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
+
+/* кастомные импорты */
+@import "./cards.css";
+@import "./grades.css";
+@import "./colors.css";
+@import "./shadows.css";
+@import "./text-sizes.css";
+
+@font-face {
+  font-family: "Inter";
+  src: url("/public/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -42,6 +58,7 @@
 }
 
 :root {
+  font-family: "Inter";
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
@@ -116,5 +133,27 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .full-size {
+    @apply w-full h-full;
+  }
+
+  .text-responsive {
+    @apply text-sm md:text-base lg:text-lg xl:text-xl;
+  }
+
+  .flex-inner {
+    @apply flex-1 min-h-0;
+  }
+
+  .flex-inner-row {
+    @apply flex-1 min-w-0;
+  }
+
+  .flex-full {
+    @apply w-full h-full;
   }
 }
