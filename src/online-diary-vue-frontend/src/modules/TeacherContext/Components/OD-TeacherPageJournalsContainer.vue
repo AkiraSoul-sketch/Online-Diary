@@ -34,10 +34,6 @@ watch(
   },
 );
 
-const props = defineProps<{
-  containerHeight?: number;
-}>();
-
 function generate(count: number): Discipline[] {
   const DesceplinaName = "Дисциплина 1";
 

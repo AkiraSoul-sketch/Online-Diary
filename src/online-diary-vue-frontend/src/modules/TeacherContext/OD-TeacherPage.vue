@@ -21,12 +21,10 @@ watch(
   <div :class="'h-full flex flex-col md:flex-row'">
     <ODTeacherPageJournalsContainer
       v-if="commonStore.$state.viewPortHeight > 0"
-      :container-height="commonStore.$state.viewPortHeight"
     />
     <ODTeacherPageRecentActionsContainer
       :class="'flex-1 min-h-0'"
       v-if="commonStore.$state.viewPortHeight > 0"
-      :container-height="commonStore.$state.viewPortHeight"
     />
   </div>
 </template>

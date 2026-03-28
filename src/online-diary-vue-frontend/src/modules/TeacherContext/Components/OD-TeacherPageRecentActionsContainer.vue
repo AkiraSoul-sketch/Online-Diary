@@ -17,9 +17,6 @@ const containerSize = useElementSize(container);
 const titleSize = useElementSize(title);
 const inputSize = useElementSize(input);
 const scrollAreaLimit = ref(0);
-const props = defineProps<{
-  containerHeight?: number;
-}>();
 
 watch(
   () => [
