@@ -3,10 +3,7 @@ import { ref } from "vue";
 import { Components } from "../Common/ComponentsLogic/Components";
 import ODTeacherPageJournalsContainer from "./Components/OD-TeacherPageJournalsContainer.vue";
 import ODTeacherPageRecentActionsContainer from "./Components/OD-TeacherPageRecentActionsContainer.vue";
-import {
-  getObservedElementHeight,
-  useElementSizeObservability,
-} from "../Common/Composables/useElementSizeObservability";
+import { useElementSizeObservability } from "../Common/Composables/useElementSizeObservability";
 
 const mediaTracker = Components.CreateMediaQueryTracker();
 const disciplinesList = ref<HTMLElement | null>(null);
@@ -16,35 +13,31 @@ const activityListSize = useElementSizeObservability(activityList);
 </script>
 
 <template>
-  <div v-if="mediaTracker.isXl" :class="'flex flex-1 h-full w-full min-h-0'">
-    <section :class="'grid grid-cols-2 p-2 gap-2 h-full w-full flex-1 min-h-0'">
-      <div ref="disciplinesList">
+  <div v-if="mediaTracker.isXl" :class="'flex full-size flex-inner'">
+    <section :class="'grid grid-cols-2 p-2 gap-2 w-full'">
+      <div ref="disciplinesList" :class="'flex flex-inner'">
         <ODTeacherPageJournalsContainer
-          :class="'flex flex-col h-full min-h-0'"
-          :container-height="getObservedElementHeight(disciplinesListSize) - 72"
+          :container-height="disciplinesListSize.height"
         />
       </div>
-      <div ref="activityList">
+      <div ref="activityList" :class="'flex full-size flex-inner'">
         <ODTeacherPageRecentActionsContainer
-          :class="'flex flex-col h-full min-h-0'"
-          :container-height="getObservedElementHeight(activityListSize)"
+          :container-height="activityListSize.height"
         />
       </div>
     </section>
   </div>
 
-  <div v-if="mediaTracker.isLg" :class="'flex flex-1 h-full w-full min-h-0'">
-    <section :class="'p-2 gap-2 h-full flex flex-row w-full flex-1 min-h-0'">
+  <div v-if="mediaTracker.isLg" :class="'flex full-size flex-inner'">
+    <section :class="'p-2 gap-2 flex flex-row full-size flex-inner'">
       <div ref="disciplinesList">
         <ODTeacherPageJournalsContainer
-          :class="'flex flex-1 min-h-0'"
-          :container-height="getObservedElementHeight(activityListSize)"
+          :container-height="activityListSize.height"
         />
       </div>
       <div ref="activityList">
         <ODTeacherPageRecentActionsContainer
-          :class="'flex flex-1 min-h-0'"
-          :container-height="getObservedElementHeight(activityListSize)"
+          :container-height="activityListSize.height"
         />
       </div>
     </section>
@@ -54,9 +47,19 @@ const activityListSize = useElementSizeObservability(activityList);
 
   <div
     v-else-if="mediaTracker.isMd"
-    :class="'flex flex-1 h-full w-full min-h-0'"
+    :class="'flex full-size flex-row flex-1 min-w-0 p-2 gap-2'"
   >
-    <div>MD content</div>
+    <div ref="disciplinesList" :class="'flex-1 min-w-0'">
+      <ODTeacherPageJournalsContainer
+        :container-height="activityListSize.height"
+      />
+    </div>
+
+    <div ref="activityList" :class="'flex-1 min-w-0'">
+      <ODTeacherPageRecentActionsContainer
+        :container-height="activityListSize.height"
+      />
+    </div>
   </div>
 
   <div v-else-if="mediaTracker.isSm">

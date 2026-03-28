@@ -8,7 +8,7 @@ export default {
     ItemTitle,
   },
   props: {
-    HeaderValue: {
+    headerValue: {
       type: String,
       required: true,
     },
@@ -18,6 +18,6 @@ export default {
 
 <template>
   <ItemTitle :class="'p-4 text-responsive leading-4'">{{
-    HeaderValue
+    headerValue
   }}</ItemTitle>
 </template>

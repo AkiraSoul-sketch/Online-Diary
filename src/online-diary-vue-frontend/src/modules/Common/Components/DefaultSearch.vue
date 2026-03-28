@@ -9,7 +9,10 @@ import { SearchIcon } from "lucide-vue-next";
 <template>
   <Field>
     <InputGroup>
-      <InputGroupInput :class="'text-responsive'" placeholder="поиск..." />
+      <InputGroupInput
+        :class="'text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl'"
+        placeholder="поиск..."
+      />
       <InputGroupAddon :align="'inline-end'">
         <SearchIcon :class="'cursor-auto'" />
       </InputGroupAddon>

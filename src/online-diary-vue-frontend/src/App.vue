@@ -74,7 +74,7 @@ export default defineComponent({
             <ODSideBar />
           </aside>
         </ResizablePanel>
-        <ResizableHandle :class="'w-0'" />
+        <ResizableHandle :class="'w-0 flex-none min-h-0 min-w-0'" />
         <ResizablePanel :class="'flex flex-1 min-h-0'">
           <main :class="'w-full'">
             <RouterView />

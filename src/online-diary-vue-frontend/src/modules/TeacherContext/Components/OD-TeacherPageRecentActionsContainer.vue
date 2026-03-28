@@ -8,19 +8,24 @@ import CardContent from "@/components/ui/card/CardContent.vue";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ref, watch } from "vue";
 import { useElementSizeObservability } from "@/modules/Common/Composables/useElementSizeObservability";
+import { Components } from "@/modules/Common/ComponentsLogic/Components";
+import ODTeacherDisciplineCardMD from "./adaptive/OD-TeacherDisciplineCard-MD.vue";
+import ODTeacherActivityCardMD from "./adaptive/OD-TeacherActivityCard-MD.vue";
 
+const mediaTracker = Components.CreateMediaQueryTracker();
 const scrollAreaLimit = ref(0);
 const headerRef = ref<HTMLElement | null>(null);
 const props = defineProps<{
   containerHeight?: number;
 }>();
 const headerSize = useElementSizeObservability(headerRef);
+
 watch(
-  () => headerSize.size.value,
-  (size) => {
-    const subtract = size.height;
-    const containerHeight = props.containerHeight ?? 0;
-    const newLimit = containerHeight - subtract;
+  () => props.containerHeight,
+  (newHeight) => {
+    const headerHeightValue = headerSize.value.height;
+    const containerHeightValue = newHeight ?? 0;
+    const newLimit = containerHeightValue - headerHeightValue;
     scrollAreaLimit.value = newLimit;
   },
 );
@@ -42,17 +47,42 @@ function generateAcrivity(count: number): Activity[] {
 </script>
 
 <template>
-  <Card :class="'p-0 gap-0 shadow-(--shadow-basic) h-full flex-1 min-h-0'">
-    <CardContent :class="'my-5.5 flex flex-col flex-1 min-h-0'">
-      <div ref="headerRef">
+  <!-- MD screen size -->
+  <Card
+    v-if="mediaTracker.isMd"
+    :class="'p-0 gap-0 shadow-(--shadow-basic) h-full flex-inner'"
+  >
+    <CardContent :class="'my-5.5 flex flex-col flex-inner'">
+      <div ref="headerRef" :class="'self-start w-full'">
         <ODTeacherPageJournalTableHeader
-          :class="'self-start'"
-          :-header-value="'Недавняя активность:'"
+          :header-value="'Недавняя активность:'"
         />
         <DefaultSearch :class="'rounded-sm shadow-(--shadow-basic)'" />
       </div>
       <ScrollArea
-        :class="'mx-0 rounded-sm overflow-auto  shadow-(--shadow-basic) my-3'"
+        :class="'my-5'"
+        :style="{
+          height: `${scrollAreaLimit}px`,
+        }"
+      >
+        <ODTeacherActivityCardMD
+          v-for="activity of generateAcrivity(50)"
+          v-bind="activity"
+        />
+      </ScrollArea>
+    </CardContent>
+  </Card>
+  <!-- LG XL screen sizes -->
+  <Card v-else :class="'p-0 gap-0 shadow-(--shadow-basic) h-full flex-inner'">
+    <CardContent :class="'my-5.5 flex flex-col flex-inner'">
+      <div ref="headerRef" :class="'self-start w-full'">
+        <ODTeacherPageJournalTableHeader
+          :header-value="'Недавняя активность:'"
+        />
+        <DefaultSearch :class="'rounded-sm shadow-(--shadow-basic)'" />
+      </div>
+      <ScrollArea
+        :class="'mx-0 rounded-sm overflow-auto shadow-(--shadow-basic) my-3'"
         :style="{
           height: `${scrollAreaLimit}px`,
         }"

@@ -5,48 +5,34 @@ export type ElementSize = {
   width: number;
 };
 
-type LoggingOptions = {
-  alias: string;
-  useLogging: boolean;
-};
-
-export function getObservedElementHeight(size: {
-  size: Ref<ElementSize, ElementSize>;
-}): number {
-  return size.size.value.height;
-}
-
-export function getObservedElementWidth(size: {
-  size: Ref<ElementSize, ElementSize>;
-}): number {
-  return size.size.value.width;
-}
-
 export function useElementSizeObservability(
   elementRef: Ref<HTMLElement | null>,
   loggingOptions?: LoggingOptions,
 ) {
-  const size: Ref<ElementSize> = ref(createEmpty());
+  const $size: Ref<ElementSize> = ref(createEmpty());
   let observer: ResizeObserver | null = null as ResizeObserver | null;
+  let cachedElement: HTMLElement | null = null;
 
   // наблюдать за изменениями размера элемента
   watch(
-    () => elementRef.value,
+    () => elementRef?.value,
     (element) => {
+      const resolved = resolveHTMLElement(element);
+      if (cachedElement === resolved) return;
+
       observer?.disconnect();
       observer = null;
-      const resolved: HTMLElement | null = resolveHTMLElement(element);
-      if (resolved) observer = createObserver(resolved, size);
+      if (resolved) observer = createObserver(resolved, $size);
     },
-    { immediate: true },
   );
 
   // логировать
   watch(
-    () => size.value,
-    (v) => {
-      logSizeIfEnabled(loggingOptions, v);
+    $size,
+    (size) => {
+      logSizeIfEnabled(loggingOptions, size);
     },
+    { deep: true },
   );
 
   // нужно, чтобы контролировать ресурсы
@@ -54,8 +40,13 @@ export function useElementSizeObservability(
     observer?.disconnect();
   });
 
-  return { size };
+  return $size;
 }
+
+type LoggingOptions = {
+  alias: string;
+  useLogging: boolean;
+};
 
 function resolveHTMLElement(
   elementRef: HTMLElement | null,

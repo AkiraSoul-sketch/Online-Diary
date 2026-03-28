@@ -13,32 +13,24 @@ import ScrollBar from "@/components/ui/scroll-area/ScrollBar.vue";
 import { ref, watch } from "vue";
 import { useElementSizeObservability } from "@/modules/Common/Composables/useElementSizeObservability";
 import { Components } from "@/modules/Common/ComponentsLogic/Components";
-
-interface Discipline {
-  name: string;
-  groupname: string;
-  gradescount: number;
-}
+import type { Discipline } from "../Models/Discipline";
+import ODTeacherDisciplineCardMD from "./adaptive/OD-TeacherDisciplineCard-MD.vue";
 
 const mediaTracker = Components.CreateMediaQueryTracker();
+const scrollAreaLimit = ref(0);
+const headerRef = ref<HTMLElement | null>(null);
+const headerSize = useElementSizeObservability(headerRef);
 const props = defineProps<{
   containerHeight?: number;
 }>();
-const scrollAreaLimit = ref(0);
-const headerRef = ref<HTMLElement | null>(null);
-const headerRefSizeObservability = useElementSizeObservability(headerRef);
+
 watch(
-  [
-    () => headerRefSizeObservability.size.value.height,
-    () => props.containerHeight,
-  ],
-  ([headerHeight, containerHeight]) => {
-    const containerHeightValue = containerHeight ?? 0;
-    const newLimit = containerHeightValue - headerHeight;
+  () => props.containerHeight,
+  ($containerHeight) => {
+    const headerHeight = headerSize.value.height;
+    const containerHeight = $containerHeight ?? 0;
+    const newLimit = containerHeight - headerHeight;
     scrollAreaLimit.value = newLimit;
-  },
-  {
-    immediate: true,
   },
 );
 
@@ -59,10 +51,39 @@ function generate(count: number): Discipline[] {
 </script>
 
 <template>
-  <Card :class="'shadow-(--shadow-basic) h-full flex-1 min-h-0'">
-    <CardContent>
+  <Card
+    v-if="mediaTracker.isMd"
+    :class="'shadow-(--shadow-basic) h-full flex-inner'"
+  >
+    <CardContent :class="'flex-col flex flex-inner'">
       <div ref="headerRef">
-        <ODTeacherPageJournalTableHeader :-header-value="'Мои группы:'" />
+        <ODTeacherPageJournalTableHeader :header-value="'Мои группы:'" />
+        <DefaultSearch :class="'shadow-(--shadow-basic) rounded-md w-full'" />
+      </div>
+      <ScrollArea
+        :class="'my-3 overflow-auto p-2.5'"
+        :style="{
+          height: `${scrollAreaLimit}px`,
+        }"
+      >
+        <section :class="'flex flex-wrap gap-2'">
+          <ODTeacherDisciplineCardMD
+            v-for="(discipline, index) of generate(50)"
+            :key="index"
+            :name="discipline.name"
+            :groupname="discipline.groupname"
+            :gradescount="discipline.gradescount"
+          />
+        </section>
+        <ScrollBar />
+      </ScrollArea>
+    </CardContent>
+  </Card>
+  <!-- for LG and XL screens. -->
+  <Card v-else :class="'shadow-(--shadow-basic) h-full flex-inner'">
+    <CardContent :class="'flex-col flex flex-inner'">
+      <div ref="headerRef">
+        <ODTeacherPageJournalTableHeader :header-value="'Мои группы:'" />
         <DefaultSearch :class="'shadow-(--shadow-basic) rounded-md'" />
       </div>
       <ScrollArea

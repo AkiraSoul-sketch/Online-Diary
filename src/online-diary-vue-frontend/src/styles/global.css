@@ -136,7 +136,23 @@
 }
 
 @layer utilities {
+  .full-size {
+    @apply w-full h-full;
+  }
+
   .text-responsive {
     @apply text-sm md:text-base lg:text-lg xl:text-xl;
+  }
+
+  .flex-inner {
+    @apply flex-1 min-h-0;
+  }
+
+  .flex-inner-row {
+    @apply flex-1 min-w-0;
+  }
+
+  .flex-full {
+    @apply w-full h-full;
   }
 }
