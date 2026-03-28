@@ -10,6 +10,7 @@
 @import "./grades.css";
 @import "./colors.css";
 @import "./shadows.css";
+@import "./text-sizes.css";
 
 @font-face {
   font-family: "Inter";
