@@ -2,11 +2,14 @@ import { defineStore } from "pinia";
 import type {
   AdminPanelMenuCategory,
   AdminPanelMenuCategoryItem,
-} from "./models/admin-panel.models";
-import { ref, type Ref } from "vue";
+} from "./components/AdminPanelMenu/models/admin-panel.models";
+import { computed, ref, type Ref } from "vue";
 
 export const useAdminStore = defineStore("admin", () => {
+  const menuTitleValue: Ref<string> = ref("Аудит");
   const categories: Ref<AdminPanelMenuCategory[]> = ref([]);
+  const menuTitle = computed(() => menuTitleValue.value);
+
   addCategory(categories, "Система", "left", [
     {
       menuName: "Аудит",
@@ -26,7 +29,11 @@ export const useAdminStore = defineStore("admin", () => {
     },
   ]);
 
-  return { categories };
+  function changeTitle(newTitle: string): void {
+    menuTitleValue.value = newTitle;
+  }
+
+  return { categories, changeTitle, menuTitle };
 });
 
 function addCategory(

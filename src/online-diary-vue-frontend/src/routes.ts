@@ -9,8 +9,7 @@ const appRouter = createRouter({
     },
     {
       path: "/admin",
-      component: () =>
-        import("/src/modules/AdministratingContext/AdminPanel.vue"),
+      component: () => import("@/modules/AdministratingContext/AdminPanel.vue"),
       children: adminRoutes,
     },
     {

@@ -5,7 +5,7 @@ import { ref, type Ref } from "vue";
 export const useSidebarStore = defineStore("sidebar", () => {
   const navigations = ref<SidebarNavigation[]>([]);
   appendNavigation("Журналы", "/grades", navigations);
-  appendNavigation("Администрирование", "/admin", navigations);
+  appendNavigation("Администрирование", "/admin/audit", navigations);
   appendNavigation("Дисциплины", "/disciplines", navigations);
   appendNavigation("Преподаватель", "/teacher", navigations);
   return { navigations };

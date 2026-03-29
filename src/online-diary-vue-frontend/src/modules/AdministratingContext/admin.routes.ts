@@ -13,6 +13,6 @@ export const adminRoutes: RouteRecordRaw[] = [
   {
     path: "audit",
     component: () =>
-      import("@/modules/AdministratingContext/component/AdminPanelMenu/AdminAuditPage.vue"),
+      import("@/modules/AdministratingContext/subpages/AdminAuditPage.vue"),
   },
 ];

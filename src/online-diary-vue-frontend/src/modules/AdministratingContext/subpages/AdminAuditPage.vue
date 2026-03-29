@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AdminActivityChart from "./AdminActivityChart.vue";
-import AdminActivityList from "./AdminActivityList.vue";
+import AdminActivityChart from "../components/AdminActivityChart.vue";
+import AdminActivityList from "../components/AdminActivityList.vue";
 </script>
 
 <template>

@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import AdminPanelMenu from "./component/AdminPanelMenu/AdminPanelMenu.vue";
+import Separator from "@/components/ui/separator/Separator.vue";
+import AdminPanelMenu from "./components/AdminPanelMenu/AdminPanelMenu.vue";
+import { useAdminStore } from "./admin.store";
+
+const adminStore = useAdminStore();
 
 // TODO: 2. Переработать страницу Пользователи
 // TODO: 3. Переработать страницу учебные планы.
@@ -9,8 +13,12 @@ import AdminPanelMenu from "./component/AdminPanelMenu/AdminPanelMenu.vue";
 
 <template>
   <section :class="'w-full h-full min-h-0 flex flex-col flex-1'">
-    <div :class="'self-center '">
-      <AdminPanelMenu />
+    <div :class="'flex flex-col w-full self-center'">
+      <AdminPanelMenu :class="'self-center'" />
+      <h3 :class="'text-responsive-primary mx-10 self-start'">
+        {{ adminStore.menuTitle }}
+      </h3>
+      <Separator />
     </div>
     <section :class="'flex flex-1 min-h-0'">
       <RouterView />

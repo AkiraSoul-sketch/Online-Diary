@@ -16,11 +16,6 @@ export const useCommonStore = defineStore("common", () => {
 
   function toggleSideBar(): void {
     sideBarHidden.value = !sideBarHidden.value;
-    if (sideBarHidden.value) {
-      console.log("sidebar hidden");
-    } else {
-      console.log("sidebar shown");
-    }
   }
 
   return {

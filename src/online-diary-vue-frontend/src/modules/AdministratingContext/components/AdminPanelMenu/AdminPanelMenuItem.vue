@@ -7,9 +7,14 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import type { AdminPanelMenuCategory } from "./models/admin-panel.models";
+import type {
+  AdminPanelMenuCategory,
+  AdminPanelMenuCategoryItem,
+} from "./models/admin-panel.models";
+import { useAdminStore } from "../../admin.store";
 
 const props = defineProps<AdminPanelMenuCategory>();
+const adminStore = useAdminStore();
 
 function resolveButtonClass(category: AdminPanelMenuCategory): string {
   switch (category.type) {
@@ -22,6 +27,10 @@ function resolveButtonClass(category: AdminPanelMenuCategory): string {
     default:
       return "";
   }
+}
+
+function setAdminMenuTitle(item: AdminPanelMenuCategoryItem): void {
+  adminStore.changeTitle(item.menuName);
 }
 
 function hasMenuItems() {
@@ -37,6 +46,7 @@ function hasMenuItems() {
     <DropdownMenuContent v-if="hasMenuItems()">
       <DropdownMenuGroup>
         <RouterLink
+          v-on:click="() => setAdminMenuTitle(item)"
           v-for="item in props.items"
           :key="item.menuName"
           :to="item.route"
