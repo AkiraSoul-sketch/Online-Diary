@@ -14,6 +14,8 @@ const viewportReadiness = useViewPortReadiness();
 const widthTracker = useGlobalContainerWidthTracker();
 </script>
 
+// TODO фикс проблемы с выходом за высоту страницы в журнале.
+
 <template>
   <section :class="'w-full h-screen'" :ref="widthTracker.container">
     <ODSideBar />
