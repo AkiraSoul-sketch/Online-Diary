@@ -1,4 +1,4 @@
-<script lang="ts">
+<script setup lang="ts">
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
@@ -14,7 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Table from "@/components/ui/table/Table.vue";
-import { PencilIcon } from "lucide-vue-next";
+import { PencilIcon, PlusIcon } from "lucide-vue-next";
 import type { Discipline } from "./models/Discipline";
 import DisciplineListItem from "./components/DisciplineListItem.vue";
 
@@ -44,145 +44,211 @@ const TEACHERS = [
   "Ершова О.О.",
 ];
 
-export default {
-  components: {
-    Item,
-    ItemTitle,
-    Table,
-    TableHead,
-    TableHeader,
-    TableRow,
-    TableBody,
-    TableFooter,
-    TableCell,
-    Button,
-    ButtonGroup,
-    Card,
-    CardTitle,
-    CardContent,
-    Input,
-    Separator,
-    PencilIcon,
-    DisciplineListItem,
-  },
-  methods: {
-    generateDisciplines(amount: number): Discipline[] {
-      const disciplines: Discipline[] = [];
-      for (let i = 0; i < amount; i++) {
-        const name =
-          DISCIPLINE_NAMES[Math.floor(Math.random() * DISCIPLINE_NAMES.length)];
-        const teacher = TEACHERS[Math.floor(Math.random() * TEACHERS.length)];
-        const semester = Math.floor(Math.random() * 8) + 1; // 1..8
-        const group = `Группа ${Math.ceil(Math.random() * 6)}`; // Группа 1..6
-        const discipline = {
-          id: `${i + 1}`,
-          name,
-          group,
-          teacher,
-          semester,
-        } as Discipline;
-        disciplines.push(discipline);
-      }
+function generateDisciplines(amount: number): Discipline[] {
+  const disciplines: Discipline[] = [];
+  for (let i = 0; i < amount; i++) {
+    const name =
+      DISCIPLINE_NAMES[Math.floor(Math.random() * DISCIPLINE_NAMES.length)];
+    const teacher = TEACHERS[Math.floor(Math.random() * TEACHERS.length)];
+    const semester = Math.floor(Math.random() * 8) + 1; // 1..8
+    const group = `Группа ${Math.ceil(Math.random() * 6)}`; // Группа 1..6
+    const discipline = {
+      id: `${i + 1}`,
+      name,
+      group,
+      teacher,
+      semester,
+    } as Discipline;
+    disciplines.push(discipline);
+  }
 
-      return disciplines;
-    },
-  },
-};
+  return disciplines;
+}
 </script>
 
 <template>
-  <section :class="'h-screen my-20 px-75 flex flex-col gap-5'">
-    <section :class="'flex flex-wrap shrink gap-5'">
-      <Item :class="'flex-[1_1_200px] shrink'">
-        <ItemTitle :text="'Всего дисциплин'" />
-      </Item>
-      <Item :class="'flex-[1_1_200px] shrink'">
-        <ItemTitle :text="'Не преподаются'" />
-      </Item>
-      <Item :class="'flex-[1_1_200px] shrink'">
-        <ItemTitle :text="'Активные'" />
-      </Item>
-    </section>
-    <section :class="'block'">
-      <Card>
-        <CardContent
-          :class="'flex flex-row justify-around w-full shrink items-center align-middle gap-2'"
-        >
-          <Input
-            :class="'bg-(--bg-light)'"
-            placeholder="Поиск по названию дисциплины"
-          />
-          <Separator :orientation="'vertical'" />
-          <Button variant="outline">Добавить дисциплину</Button>
+  <!-- Корневой контейнер страницы: flex-col с корректным сжатием -->
+  <section class="flex flex-col min-h-0 flex-1 my-6 px-6 gap-6">
+    <!-- Статистические карточки -->
+    <section class="flex flex-wrap gap-4">
+      <Card class="flex-1 min-w-[200px] shadow-(--shadow-basic)">
+        <CardContent class="p-4">
+          <div class="text-responsive-secondary text-slate-500">
+            Всего дисциплин
+          </div>
+          <div class="text-responsive-primary font-semibold">12</div>
+        </CardContent>
+      </Card>
+
+      <Card class="flex-1 min-w-[200px] shadow-(--shadow-basic)">
+        <CardContent class="p-4">
+          <div class="text-responsive-secondary text-slate-500">
+            Преподаются преподавателями
+          </div>
+          <div class="text-responsive-primary font-semibold">8</div>
+        </CardContent>
+      </Card>
+
+      <Card class="flex-1 min-w-[200px] shadow-(--shadow-basic)">
+        <CardContent class="p-4">
+          <div class="text-responsive-secondary text-slate-500">Активные</div>
+          <div class="text-responsive-primary font-semibold">10</div>
         </CardContent>
       </Card>
     </section>
-    <section :class="'flex flex-col shrink gap-10'">
+
+    <!-- Панель: поиск + кнопка Создать -->
+    <section>
+      <Card class="shadow-(--shadow-basic)">
+        <CardContent class="flex flex-col sm:flex-row items-center gap-3 p-4">
+          <Input
+            class="flex-1 bg-(--bg-light)"
+            placeholder="Поиск по названию дисциплины"
+          />
+          <div class="flex items-center gap-2 ml-auto">
+            <Button variant="outline" class="flex items-center gap-2">
+              <PlusIcon :size="16" />
+              <span class="text-responsive-tertiary">Создать</span>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </section>
+
+    <!-- Нижний CRUD-контейнер: flex-row (на малых — колонка), с корректным сжатием -->
+    <section class="flex flex-col md:flex-row flex-1 min-h-0 gap-6">
+      <!-- Список дисциплин (основная колонка) -->
       <div
-        :class="'rounded-md border border-border overflow-hidden bg-(--bg-light)'"
+        class="flex-1 min-h-0 flex flex-col rounded-md overflow-hidden border border-border bg-(--bg-light) shadow-(--shadow-basic)"
       >
-        <Table :class="'w-full'">
-          <TableHeader :class="'block'">
-            <TableRow
-              :supress-hover-effect="true"
-              :class="'flex flex-row flex-wrap justify-around'"
-            >
-              <TableHead
-                :class="'px-0 flex flex-4 shrink flex-wrap justify-center items-center'"
-                >Название</TableHead
+        <div class="p-4 border-b border-border">
+          <div class="text-responsive-secondary font-semibold">
+            Список дисциплин
+          </div>
+        </div>
+
+        <div class="flex-1 min-h-0 overflow-auto">
+          <Table :class="'w-full'">
+            <TableHeader>
+              <TableRow
+                :supress-hover-effect="true"
+                class="flex flex-row flex-wrap"
               >
-              <TableHead
-                :class="'px-0 flex flex-1 shrink flex-wrap justify-center items-center'"
-                >Группа</TableHead
-              >
-              <TableHead
-                :class="'px-0 flex flex-2 shrink flex-wrap justify-center items-center'"
-                >Преподает</TableHead
-              >
-              <TableHead
-                :class="'px-0 flex flex-1 shrink flex-wrap justify-center items-center'"
-                >Семестр</TableHead
-              >
-              <TableHead
-                :class="'px-0 flex flex-1 shrink flex-wrap justify-center items-center'"
-              ></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow :class="'flex flex-row flex-wrap justify-around'">
-              <TableCell
-                :class="'py-2 px-0 flex flex-4 shrink justify-center items-center'"
-              >
-                Дисциплина
-              </TableCell>
-              <TableCell
-                :class="'py-2 px-0 flex flex-1 shrink justify-center items-center'"
-              >
-                Группа
-              </TableCell>
-              <TableCell
-                :class="'py-2 px-0 flex flex-2 shrink justify-center items-center'"
-              >
-                Преподает
-              </TableCell>
-              <TableCell
-                :class="'py-2 px-0 flex flex-1 shrink justify-center items-center'"
-              >
-                Семестр
-              </TableCell>
-              <TableCell
-                :class="'py-2 px-0 flex flex-1 shrink justify-center items-center'"
-              >
-                <Button
-                  :class="'cursor-pointer rounded-3xl w-6 h-6'"
-                  :variant="'outline'"
+                <TableHead class="px-4 py-3 flex-[4] text-center"
+                  >Название</TableHead
                 >
-                  <PencilIcon :size="15" />
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+                <TableHead class="px-4 py-3 flex-[2] text-center"
+                  >Группировка</TableHead
+                >
+                <TableHead class="px-4 py-3 flex-[3] text-center"
+                  >Преподает</TableHead
+                >
+                <TableHead class="px-4 py-3 flex-[1] text-center"
+                  >Семестр</TableHead
+                >
+                <TableHead class="px-4 py-3 flex-[1] text-center"></TableHead>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              <!-- Пример элемента списка (повторяется для демонстрации верстки) -->
+              <TableRow class="flex flex-row flex-wrap items-center">
+                <TableCell
+                  class="px-4 py-3 flex-[4] text-center text-responsive-tertiary"
+                  >Математика</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[2] text-center text-responsive-tertiary"
+                  >Группа 1, Группа 3</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[3] text-center text-responsive-tertiary"
+                  >Иванов И.И.</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[1] text-center text-responsive-tertiary"
+                  >1</TableCell
+                >
+                <TableCell class="px-4 py-3 flex-[1] text-center">
+                  <Button
+                    class="cursor-pointer rounded-3xl w-8 h-8 flex items-center justify-center"
+                    variant="outline"
+                  >
+                    <PencilIcon :size="15" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+
+              <TableRow class="flex flex-row flex-wrap items-center">
+                <TableCell
+                  class="px-4 py-3 flex-[4] text-center text-responsive-tertiary"
+                  >Программирование</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[2] text-center text-responsive-tertiary"
+                  >Группа 2</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[3] text-center text-responsive-tertiary"
+                  >Петров П.П.</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[1] text-center text-responsive-tertiary"
+                  >2</TableCell
+                >
+                <TableCell class="px-4 py-3 flex-[1] text-center">
+                  <Button
+                    class="cursor-pointer rounded-3xl w-8 h-8 flex items-center justify-center"
+                    variant="outline"
+                  >
+                    <PencilIcon :size="15" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+
+              <TableRow class="flex flex-row flex-wrap items-center">
+                <TableCell
+                  class="px-4 py-3 flex-[4] text-center text-responsive-tertiary"
+                  >Базы данных</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[2] text-center text-responsive-tertiary"
+                  >Группа 4, Группа 5</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[3] text-center text-responsive-tertiary"
+                  >Сидоров С.С.</TableCell
+                >
+                <TableCell
+                  class="px-4 py-3 flex-[1] text-center text-responsive-tertiary"
+                  >3</TableCell
+                >
+                <TableCell class="px-4 py-3 flex-[1] text-center">
+                  <Button
+                    class="cursor-pointer rounded-3xl w-8 h-8 flex items-center justify-center"
+                    variant="outline"
+                  >
+                    <PencilIcon :size="15" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+
+      <!-- Доп. колонка: место для формы / деталей (пустой блок верстки) -->
+      <div
+        class="w-full md:w-80 flex-shrink-0 min-h-0 rounded-md overflow-hidden border border-border bg-(--bg-light) shadow-(--shadow-basic)"
+      >
+        <div class="p-4">
+          <div class="text-responsive-secondary font-semibold">
+            Детали / Форма
+          </div>
+          <div class="text-responsive-tertiary text-slate-500 mt-2">
+            Здесь будет форма создания/редактирования дисциплины.
+          </div>
+        </div>
       </div>
     </section>
   </section>

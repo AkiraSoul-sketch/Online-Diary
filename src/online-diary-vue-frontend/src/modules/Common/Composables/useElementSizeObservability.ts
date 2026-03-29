@@ -5,6 +5,8 @@ export type ElementSize = {
   width: number;
 };
 
+// хук для отслеживания изменения ширины и высоты html элемента.
+// не работает с компонентами.
 export function useElementSizeObservability(
   elementRef: Ref<HTMLElement | null>,
   loggingOptions?: LoggingOptions,

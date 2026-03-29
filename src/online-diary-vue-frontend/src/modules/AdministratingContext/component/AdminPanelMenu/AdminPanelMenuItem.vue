@@ -4,18 +4,19 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuLabel,
+  DropdownMenu,
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
+import type {
+  AdminPanelMenuCategory,
+  AdminPanelMenuCategoryItem,
+} from "./models/admin-panel.models";
 
-const props = defineProps<{
-  menuName: string;
-  type: "left" | "right" | "item";
-  menuItems?: string[];
-}>();
+const props = defineProps<AdminPanelMenuCategory>();
 
-function resolveButtonClass(type: "left" | "right" | "item"): string {
-  switch (type) {
+function resolveButtonClass(category: AdminPanelMenuCategory): string {
+  switch (category.type) {
     case "left":
       return "rounded-l-md rounded-r-none border";
     case "right":
@@ -28,21 +29,25 @@ function resolveButtonClass(type: "left" | "right" | "item"): string {
 }
 
 function hasMenuItems() {
-  return props.menuItems && props.menuItems.length > 0;
+  return props.items && props.items.length > 0;
 }
 </script>
 
 <template>
-  <DropdownMenuTrigger :class="'rounded-none'">
-    <Button :class="resolveButtonClass(props.type)">{{
-      props.menuName
-    }}</Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent v-if="hasMenuItems()">
-    <DropdownMenuGroup>
-      <DropdownMenuLabel v-for="item in props.menuItems" :key="item">{{
-        item
-      }}</DropdownMenuLabel>
-    </DropdownMenuGroup>
-  </DropdownMenuContent>
+  <DropdownMenu>
+    <DropdownMenuTrigger :class="'rounded-none'">
+      <Button :class="resolveButtonClass(props)">{{ props.menuName }}</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent v-if="hasMenuItems()">
+      <DropdownMenuGroup>
+        <RouterLink
+          v-for="item in props.items"
+          :key="item.menuName"
+          :to="item.route"
+        >
+          <DropdownMenuLabel>{{ item.menuName }}</DropdownMenuLabel>
+        </RouterLink>
+      </DropdownMenuGroup>
+    </DropdownMenuContent>
+  </DropdownMenu>
 </template>

@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FieldContent, Field } from "@/components/ui/field";
 import { InfoIcon } from "lucide-vue-next";
 import InputWithIcon from "../Components/InputWithIcon.vue";
-import { useCommonStore } from "@/common.store";
+import { useCommonStore } from "@/modules/Common/Stores/common.store";
 
 const common = useCommonStore();
 

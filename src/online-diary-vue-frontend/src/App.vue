@@ -1,32 +1,25 @@
 <script setup lang="ts">
 import ODHeader from "./modules/Common/HeaderContext/OD-Header.vue";
-import { nextTick, onMounted, ref, type Ref } from "vue";
 import ODFooter from "./modules/Common/FooterContext/OD-Footer.vue";
-import { useCommonStore } from "./common.store";
 import ODSideBar from "./modules/Common/SidebarContext/OD-SideBar.vue";
+import { useGlobalContainerWithTracker } from "./modules/Common/Composables/useGlobalContainerWidthTracker";
+import { useViewPortReadiness } from "./modules/Common/Composables/useViewportReadiness";
 
-const viewport: Ref<HTMLElement | null> = ref(null);
-const store = useCommonStore();
-
-function viewPortSizeReady(): boolean {
-  return store.$state.viewPortHeight > 0 && store.$state.viewPortWidth > 0;
-}
-
-onMounted(async () => {
-  await nextTick();
-  if (viewport.value) {
-    const height = viewport.value.getBoundingClientRect().height;
-    store.$state.viewPortHeight = height;
-  }
-});
+// для отслеживания размеры вьюпорта, используется для того, чтобы не рендерить страницу
+// до тех пор, пока не будут известны размеры вьюпорта,
+// так как от этого зависит отображение некоторых компонентов.
+const viewportReadiness = useViewPortReadiness();
+// для отслеживания глобального контейнера страницы.
+// Используется, чтобы обновлять размеры графика в admin activity page.
+const widthTracker = useGlobalContainerWithTracker();
 </script>
 
 <template>
-  <section :class="'w-full h-screen'">
+  <section :class="'w-full h-screen'" :ref="widthTracker.container">
     <ODSideBar />
     <div :class="'grid grid-rows-[auto_1fr_auto] h-full'">
       <ODHeader />
-      <main :class="'flex-1 min-h-0'" ref="viewport">
+      <main :class="'flex-1 min-h-0'" :ref="viewportReadiness.viewport">
         <!-- <section
           :class="'grid grid-cols-[auto_1fr] h-full'"
           v-if="viewPortSizeReady()"
@@ -34,7 +27,7 @@ onMounted(async () => {
           <ODSideBar />
           <RouterView />
         </section> -->
-        <RouterView v-if="viewPortSizeReady()" />
+        <RouterView v-if="viewportReadiness.ready" />
       </main>
       <ODFooter />
     </div>

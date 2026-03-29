@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import ODTeacherPageJournalsContainer from "./Components/OD-TeacherPageJournalsContainer.vue";
-import { useCommonStore } from "@/common.store";
+import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import ODTeacherPageRecentActionsContainer from "./Components/OD-TeacherPageRecentActionsContainer.vue";
 
 const commonStore = useCommonStore();

@@ -1,31 +1,19 @@
 <script setup lang="ts">
 import AdminPanelMenu from "./component/AdminPanelMenu/AdminPanelMenu.vue";
-import AdminActivityChart from "./component/AdminPanelMenu/AdminActivityChart.vue";
-import AdminActivityList from "./component/AdminPanelMenu/AdminActivityList.vue";
+
+// TODO: 2. Переработать страницу Пользователи
+// TODO: 3. Переработать страницу учебные планы.
+// TODO: 4. Добавить роутинг для кнопок категорий меню.
+// TODO: 5. Добавить возможность ховера с появлением подменю для категорий меню, у которых есть элементы меню.
 </script>
 
 <template>
   <section :class="'w-full h-full min-h-0 flex flex-col flex-1'">
     <div :class="'self-center '">
-      <AdminPanelMenu
-        :items="[
-          {
-            menuName: 'Система',
-            menuItems: ['Аудит'],
-            type: 'left',
-          },
-          {
-            menuName: 'Пользователи',
-            type: 'item',
-          },
-          {
-            menuName: 'Учебные объекты',
-            type: 'right',
-          },
-        ]"
-      />
+      <AdminPanelMenu />
     </div>
-    <AdminActivityChart :class="'flex-1 min-h-0'" />
-    <AdminActivityList :class="'flex flex-1 min-h-0'" />
+    <section :class="'flex flex-1 min-h-0'">
+      <RouterView />
+    </section>
   </section>
 </template>

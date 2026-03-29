@@ -1,81 +1,97 @@
 <script setup lang="ts">
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
-import type {
-  ChartConfig,
-  ChartTooltip,
-  ChartCrosshair,
-  ChartContainer,
-} from "@/components/ui/chart";
-import { VisXYContainer, VisArea, VisLine, VisAxis } from "@unovis/vue";
+import { type ChartConfig } from "@/components/ui/chart";
+import ChartContainer from "@/components/ui/chart/ChartContainer.vue";
+import { useGlobalContainerStore } from "@/modules/Common/Stores/globalContainer.store";
+import {
+  VisTooltip,
+  VisXYContainer,
+  VisStackedBar,
+  VisAxis,
+  VisCrosshair,
+} from "@unovis/vue";
 
 const chartData = [
-  { date: new Date("2024-01-01"), desktop: 186, mobile: 80 },
-  { date: new Date("2024-02-01"), desktop: 305, mobile: 200 },
-  { date: new Date("2024-03-01"), desktop: 237, mobile: 120 },
-  { date: new Date("2024-04-01"), desktop: 73, mobile: 190 },
-  { date: new Date("2024-05-01"), desktop: 209, mobile: 130 },
-  { date: new Date("2024-06-01"), desktop: 214, mobile: 140 },
+  { weekDay: 1, activity: 10 },
+  { weekDay: 2, activity: 12 },
+  { weekDay: 3, activity: 14 },
+  { weekDay: 4, activity: 16 },
+  { weekDay: 5, activity: 14 },
+  { weekDay: 6, activity: 12 },
+  { weekDay: 7, activity: 12 },
 ];
 
 type Data = (typeof chartData)[number];
 
+const days = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+
+function resolveWeekDayText(i: number): string {
+  return days[i - 1];
+}
+
+// используется, чтобы обновлять график при ресайзе страницы.
+const globalContainerStore = useGlobalContainerStore();
+
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#2563eb",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
+  activity: {
+    label: "Активность",
+    color: "#CCCCCC 50%",
   },
 } satisfies ChartConfig;
 </script>
 
 <template>
-  <Card :class="'p-2 my-2 flex-1 min-h-0'">
-    <CardTitle>График активностей</CardTitle>
-    <CardContent
-      :class="'p-2 flex-1 min-h-0 shadow-(--shadow-basic) rounded-sm'"
+  <div :class="'p-2 my-2 min-h-0 min-w-0 shrink'" ref="container">
+    <Card
+      :class="'p-0 flex flex-1 min-w-0 shrink flex-col border-none shadow-none'"
     >
-      <ChartContainer :config="chartConfig">
-        <VisXYContainer :data="chartData">
-          <VisArea
-            :x="(d: Data) => d.date"
-            :y="[(d: Data) => d.mobile, (d: Data) => d.desktop]"
-            :color="
-              (_d: Data, i: number) =>
-                [chartConfig.mobile.color, chartConfig.desktop.color][i]
-            "
-            :opacity="0.4"
-          />
-          <VisLine
-            :x="(d: Data) => d.date"
-            :y="[(d: Data) => d.mobile, (d: Data) => d.desktop + d.mobile]"
-          />
-          <VisAxis
-            type="x"
-            :x="(d: Data) => d.date"
-            :tick-line="false"
-            :domain-line="false"
-            :grid-line="false"
-            :num-ticks="6"
-            :tick-format="
-              (_: number, index: number) => {
-                const date = chartData[index].date as Date;
-                return date.toLocaleString('default', { month: 'short' });
-              }
-            "
-          />
-          <VisAxis
-            :type="'y'"
-            :num-ticks="3"
-            :tick-line="false"
-            :domain-line="false"
-          />
-        </VisXYContainer>
-        <ChartTooltip />
-        <ChartCrosshair />
-      </ChartContainer>
-    </CardContent>
-  </Card>
+      <CardTitle>График активностей</CardTitle>
+      <CardContent
+        :class="'flex-1 min-h-0  min-w-0 shrink shadow-(--shadow-basic) rounded-sm'"
+      >
+        <ChartContainer :config="chartConfig">
+          <VisXYContainer :key="globalContainerStore.width" :data="chartData">
+            <VisStackedBar
+              :x="(d: Data) => d.weekDay"
+              :y="(d: Data) => d.activity"
+              :color="chartConfig.activity.color"
+            />
+
+            <VisAxis
+              type="x"
+              label="День недели"
+              :tick-format="
+                (i: number) => {
+                  if (i < 1 || i > 7) return;
+                  return resolveWeekDayText(i);
+                }
+              "
+              :grid-line="true"
+              :tickValues="chartData.map((d) => d.weekDay)"
+            />
+            <VisAxis type="y" label="Активность" />
+            <VisTooltip />
+            <VisCrosshair
+              :x="(d: Data) => d.weekDay"
+              :y="(d: Data) => d.activity"
+              :color="'#a1fb95'"
+              :strokeColor="'#000000'"
+              :strokeWidth="'5px'"
+              :template="
+                (d: Data) =>
+                  [d.activity, resolveWeekDayText(d.weekDay)].join(', ')
+              "
+            />
+          </VisXYContainer>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  </div>
 </template>
+
+<style scoped lang="css">
+::v-deep svg path.css-ix1mbc-bar {
+  stroke: #000 !important;
+  stroke-width: 1px !important;
+}
+</style>

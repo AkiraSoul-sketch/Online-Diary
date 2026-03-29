@@ -13,8 +13,7 @@ const titleSize = useElementSizeObservability(title);
 watch(
   () => [containerSize.value.height, titleSize.value.height],
   ([$containerHeight, $titleHeight]) => {
-    scrollAreaLimit.value = $containerHeight - $titleHeight - 36;
-    console.log(scrollAreaLimit.value);
+    scrollAreaLimit.value = $containerHeight - $titleHeight - 56;
   },
   {
     immediate: true,
@@ -23,8 +22,8 @@ watch(
 </script>
 
 <template>
-  <div :class="'flex-1 h-full flex flex-col'" ref="container">
-    <Card :class="'flex-1 min-h-0 flex-col gap-1 p-2'">
+  <div :class="'gap-6 p-2 my-2'" ref="container">
+    <Card :class="'flex-1 min-h-0 flex-col gap-6 p-0 border-none shadow-none'">
       <div ref="title">
         <CardTitle>Список действий</CardTitle>
       </div>

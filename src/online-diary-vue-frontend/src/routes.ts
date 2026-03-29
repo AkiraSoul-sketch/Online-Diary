@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { adminRoutes } from "./modules/AdministratingContext/admin.routes";
 
 const appRouter = createRouter({
   routes: [
@@ -10,6 +11,7 @@ const appRouter = createRouter({
       path: "/admin",
       component: () =>
         import("/src/modules/AdministratingContext/AdminPanel.vue"),
+      children: adminRoutes,
     },
     {
       path: "/grades",

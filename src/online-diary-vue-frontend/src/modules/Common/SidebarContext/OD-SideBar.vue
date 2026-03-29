@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ODSidebarMenuContent from "./components/OD-SidebarMenuContent.vue";
 import ODSidebarAvatar from "./components/OD-SidebarAvatar.vue";
-import { useCommonStore } from "@/common.store";
+import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { ref, watch, type Ref } from "vue";
 import { XIcon } from "lucide-vue-next";
 import {
@@ -21,7 +21,6 @@ watch(
   () => common.$state.viewPortWidth,
   ($vpWidth) => {
     const newWidth = $vpWidth / 6;
-    console.log("side bar width: ", newWidth);
     width.value = newWidth;
   },
   {
