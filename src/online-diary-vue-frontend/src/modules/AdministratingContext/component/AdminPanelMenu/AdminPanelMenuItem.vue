@@ -6,12 +6,8 @@ import {
   DropdownMenuLabel,
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
-
 import { Button } from "@/components/ui/button";
-import type {
-  AdminPanelMenuCategory,
-  AdminPanelMenuCategoryItem,
-} from "./models/admin-panel.models";
+import type { AdminPanelMenuCategory } from "./models/admin-panel.models";
 
 const props = defineProps<AdminPanelMenuCategory>();
 

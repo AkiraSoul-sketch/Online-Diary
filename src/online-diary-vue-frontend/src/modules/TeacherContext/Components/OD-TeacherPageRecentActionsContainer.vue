@@ -5,18 +5,15 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ref, watch } from "vue";
 import ODTeacherActivityCardMD from "./OD-TeacherActivityCard.vue";
 import ScrollBar from "@/components/ui/scroll-area/ScrollBar.vue";
-import { useElementSize } from "@vueuse/core";
 import { SearchIcon } from "lucide-vue-next";
 import InputWithIcon from "@/modules/Common/Components/InputWithIcon.vue";
+import { useElementSizeObservabilityV2 } from "@/modules/Common/Composables/useElementSizeObservabilityV2";
 
 const activities: Activity[] = generateAcrivity(51);
-const container = ref<HTMLElement | null>(null);
-const title = ref<HTMLElement | null>(null);
-const input = ref<HTMLElement | null>(null);
-const containerSize = useElementSize(container);
-const titleSize = useElementSize(title);
-const inputSize = useElementSize(input);
 const scrollAreaLimit = ref(0);
+const containerSize = useElementSizeObservabilityV2();
+const titleSize = useElementSizeObservabilityV2();
+const inputSize = useElementSizeObservabilityV2();
 
 watch(
   () => [
@@ -52,14 +49,14 @@ function generateAcrivity(count: number): Activity[] {
 </script>
 
 <template>
-  <div :class="'flex flex-col p-1 flex-1 h-full'" ref="container">
+  <div :class="'flex flex-col p-1 flex-1 h-full'" :ref="containerSize.element">
     <Card
       :class="'flex-1 min-h-0 flex flex-col gap-1 shadow-(--shadow-basic) p-2'"
     >
-      <div ref="title">
+      <div :ref="titleSize.element">
         <CardTitle :class="'text-responsive'">Недавние дейсвия</CardTitle>
       </div>
-      <div ref="input">
+      <div :ref="inputSize.element">
         <InputWithIcon :icon="SearchIcon" :place-holder="'Поиск...'" />
       </div>
       <CardContent>

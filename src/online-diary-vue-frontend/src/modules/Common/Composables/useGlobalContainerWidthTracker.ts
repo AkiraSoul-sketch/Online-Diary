@@ -1,15 +1,19 @@
 import { ref, watch, type Ref } from "vue";
-import { useElementSizeObservability } from "./useElementSizeObservability";
 import { useGlobalContainerStore } from "../Stores/globalContainer.store";
+import { useElementSizeObservabilityV2 } from "./useElementSizeObservabilityV2";
 
 export const useGlobalContainerWithTracker = () => {
   const container: Ref<HTMLElement | null> = ref(null);
-  const size = useElementSizeObservability(container);
+  const size = useElementSizeObservabilityV2();
   const store = useGlobalContainerStore();
-  watch(() => size.value.width, update);
+  watch(() => size.width.value, update);
+  watch(() => container.value, initializeContainer);
   function update(width: number): void {
-    console.log("updated");
     store.adjustWidth(width);
   }
+  function initializeContainer(container: HTMLElement | null): void {
+    size.element.value = container;
+  }
+
   return { container };
 };

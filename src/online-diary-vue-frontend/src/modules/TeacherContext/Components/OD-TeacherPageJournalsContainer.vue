@@ -4,24 +4,21 @@ import { ref, watch } from "vue";
 import type { Discipline } from "../Models/Discipline";
 import { SearchIcon } from "lucide-vue-next";
 import ODTeacherDisciplineCard from "./OD-TeacherDisciplineCard.vue";
-import { useElementSizeObservability } from "@/modules/Common/Composables/useElementSizeObservability";
 import InputWithIcon from "@/modules/Common/Components/InputWithIcon.vue";
 import ScrollableContent from "@/modules/Common/Components/ScrollableContent.vue";
+import { useElementSizeObservabilityV2 } from "@/modules/Common/Composables/useElementSizeObservabilityV2";
 
 const cards: Discipline[] = generate(51);
-const container = ref<HTMLElement | null>(null);
-const title = ref<HTMLElement | null>(null);
-const input = ref<HTMLElement | null>(null);
-const containerSize = useElementSizeObservability(container);
-const titleSize = useElementSizeObservability(title);
-const inputSize = useElementSizeObservability(input);
 const scrollAreaLimit = ref(0);
+const containerSize = useElementSizeObservabilityV2();
+const titleSize = useElementSizeObservabilityV2();
+const inputSize = useElementSizeObservabilityV2();
 
 watch(
   () => [
-    containerSize.value.height,
-    titleSize.value.height,
-    inputSize.value.height,
+    containerSize.height.value,
+    titleSize.height.value,
+    inputSize.height.value,
   ],
   ([$containerHeight, $titleHeight, $inputHeight]) => {
     scrollAreaLimit.value = Math.max(
@@ -51,12 +48,12 @@ function generate(count: number): Discipline[] {
 </script>
 
 <template>
-  <div :class="'flex-1 h-full flex flex-col p-1'" ref="container">
+  <div :class="'flex-1 h-full flex flex-col p-1'" :ref="containerSize.element">
     <Card :class="'flex-1 min-h-0 flex-col gap-1 shadow-(--shadow-basic) p-2'">
-      <div ref="title">
+      <div :ref="titleSize.element">
         <CardTitle :class="'text-responsive'">Журналы</CardTitle>
       </div>
-      <div ref="input">
+      <div :ref="inputSize.element">
         <InputWithIcon :icon="SearchIcon" :placeHolder="'Поиск...'" />
       </div>
       <CardContent>
