@@ -25,19 +25,16 @@ export default {
 </script>
 
 <template>
-  <Card :class="'gap-0 p-2 col-span-full'">
-    <CardTitle :text="'Выбрать журнал'">
-      <BookOpenTextIcon />
+  <Card :class="'gap-0 p-1 col-span-full shadow-(--shadow-basic)'">
+    <CardTitle :class="'p-1'">
+      <div :class="'inline-flex gap-2 items-center text-responsive'">
+        <BookOpenTextIcon />
+        Выбрать журнал
+      </div>
     </CardTitle>
-    <CardDescription :class="'my-2'">
-      Вы можете изменить группу и дисциплину, выбрав другую из списка.
-    </CardDescription>
     <CardContent :class="'p-0'">
-      <!-- group/disciplines selects -->
       <section class="grid grid-cols-2 gap-2 w-full h-full">
-        <!-- group -->
         <ODStudentGroupsSelect />
-        <!-- discipline -->
         <ODGroupDisciplinesSelect />
       </section>
     </CardContent>

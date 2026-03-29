@@ -2,7 +2,7 @@
 import ODHeader from "./modules/Common/HeaderContext/OD-Header.vue";
 import ODFooter from "./modules/Common/FooterContext/OD-Footer.vue";
 import ODSideBar from "./modules/Common/SidebarContext/OD-SideBar.vue";
-import { useGlobalContainerWithTracker } from "./modules/Common/Composables/useGlobalContainerWidthTracker";
+import { useGlobalContainerWidthTracker } from "./modules/Common/Composables/useGlobalContainerWidthTracker";
 import { useViewPortReadiness } from "./modules/Common/Composables/useViewportReadiness";
 
 // для отслеживания размеры вьюпорта, используется для того, чтобы не рендерить страницу
@@ -11,7 +11,7 @@ import { useViewPortReadiness } from "./modules/Common/Composables/useViewportRe
 const viewportReadiness = useViewPortReadiness();
 // для отслеживания глобального контейнера страницы.
 // Используется, чтобы обновлять размеры графика в admin activity page.
-const widthTracker = useGlobalContainerWithTracker();
+const widthTracker = useGlobalContainerWidthTracker();
 </script>
 
 <template>

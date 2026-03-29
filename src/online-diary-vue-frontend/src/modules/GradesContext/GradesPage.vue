@@ -1,219 +1,190 @@
-<script lang="ts">
-import { Card, CardTitle, CardContent } from "@/components/ui/card";
-import ODGradesPagePageTitle from "./components/OD-GradesPage-PageTitle.vue";
+<script setup lang="ts">
+import { onMounted, ref, type Ref } from "vue";
+import { useElementSizeObservabilityV2 } from "../Common/Composables/useElementSizeObservabilityV2";
+import Gradebook from "./components/Gradebook.vue";
+import Card from "@/components/ui/card/Card.vue";
+import CardContent from "@/components/ui/card/CardContent.vue";
+import FieldGroup from "@/components/ui/field/FieldGroup.vue";
+import InputWithIcon from "../Common/Components/InputWithIcon.vue";
+import {
+  ChevronDownIcon,
+  Grid2X2Icon,
+  Grid2X2PlusIcon,
+  LockIcon,
+  SaveIcon,
+  SearchIcon,
+} from "lucide-vue-next";
+import Button from "@/components/ui/button/Button.vue";
+import Label from "@/components/ui/label/Label.vue";
+import type { DateValue } from "reka-ui";
+import { CalendarDate } from "@internationalized/date";
+import Popover from "@/components/ui/popover/Popover.vue";
+import PopoverTrigger from "@/components/ui/popover/PopoverTrigger.vue";
+import PopoverContent from "@/components/ui/popover/PopoverContent.vue";
+import Calendar from "@/components/ui/calendar/Calendar.vue";
 import ODJournalEditBlock from "./components/JournalEditBlock/OD-JournalEditBlock.vue";
-import ODJournalDateBlock from "./components/OD-JournalDateBlock.vue";
-import ODStudentsSearch from "./components/OD-StudentsSearch.vue";
-import ODGradedThemesList from "./components/GradedThemesList/OD-GradedThemesList.vue";
-import { ref, type Ref } from "vue";
-import GradesTable from "./components/GradesTable/GradesTable.vue";
-import { Item, ItemHeader, ItemMedia, ItemTitle } from "@/components/ui/item";
-import ItemContent from "@/components/ui/item/ItemContent.vue";
-import Table from "@/components/ui/table/Table.vue";
-import { Label } from "@/components/ui/label";
-import { Components } from "../Common/ComponentsLogic/Components";
 
-type ThemeInfo = {
+export type ThemeInfo = {
   index: number;
   date: Date;
 };
 
-type StudentInfo = {
+export type StudentInfo = {
+  id: number;
   name: string;
-  grades: number[];
+  grades: Grade[];
 };
 
+export type Grade = {
+  theme: number;
+  student: number;
+  gradeValue: number;
+};
+
+const date: Date = new Date(Date.now());
+
 const studentNames: string[] = [
-  "Иванов Иван",
-  "Петров Петр",
-  "Сидоров Сидор",
-  "Кузнецов Кузьма",
-  "Смирнов Семён",
-  "Попов Павел",
-  "Васильев Василий",
-  "Михайлов Михаил",
-  "Новиков Николай",
-  "Фёдоров Фёдор",
-  "Григорьев Григорий",
-  "Алексеев Алексей",
-  "Сергеев Сергей",
-  "Андреев Андрей",
-  "Макаров Макар",
-  "Никитин Никита",
-  "Григорьев Григорий",
-  "Егоров Егор",
-  "Павлов Павел",
+  "Иванов Иван Иванович",
+  "Петров Петр Петрович",
+  "Сидоров Сидор Сидорович",
+  "Кузнецов Кузьма Кузьмич",
+  "Смирнов Семён Семёнович",
+  "Попов Павел Павлович",
+  "Васильев Василий Васильевич",
+  "Михайлов Михаил Михайлович",
+  "Новиков Николай Николаевич",
+  "Фёдоров Фёдор Фёдорович",
+  "Григорьев Григорий Григорьевич",
+  "Алексеев Алексей Алексеевич",
+  "Сергеев Сергей Сергеевич",
+  "Андреев Андрей Андреевич",
+  "Макаров Макар Макарович",
+  "Никитин Никита Никитич",
+  "Григорьев Григорий Григорьевич",
+  "Егоров Егор Егорович",
+  "Павлов Павел Павлович",
 ];
 
 function generateRandomStudents(
   count: number,
-  gradesPerStudent: number,
+  themes: ThemeInfo[],
 ): StudentInfo[] {
   const students: StudentInfo[] = [];
   for (let i = 0; i < count; i++) {
-    const student: StudentInfo = generateRandomStudent(gradesPerStudent);
+    const student: StudentInfo = generateRandomStudent(i, themes);
     students.push(student);
   }
   return students;
 }
 
-function generateRandomStudent(gradesCount: number): StudentInfo {
+function generateRandomStudent(
+  studentId: number,
+  themes: ThemeInfo[],
+): StudentInfo {
+  const name = generateRandomStudentName();
+  const grades: Grade[] = [];
+  for (const theme of themes) {
+    const grade: Grade = {
+      theme: theme.index,
+      student: studentId,
+      gradeValue: generateRandomGradeValue(),
+    };
+    grades.push(grade);
+  }
+
+  return {
+    id: studentId,
+    name,
+    grades,
+  };
+}
+
+function generateRandomStudentName(): string {
   const maxStudents = studentNames.length;
   const randomIndex = Math.floor(Math.random() * maxStudents);
   const name = studentNames[randomIndex];
-  const grades: number[] = [];
-  for (let i = 0; i < gradesCount; i++) {
-    const randomGrade = Math.floor(Math.random() * 5) + 1;
-    grades.push(randomGrade);
-  }
-  return { name, grades };
+  return name;
+}
+
+function generateRandomGradeValue(): number {
+  const randomGradeValue = Math.floor(Math.random() * 5) + 1;
+  return randomGradeValue;
 }
 
 function generateRandomThemes(count: number): ThemeInfo[] {
   const themes: ThemeInfo[] = [];
-  const currentDate = new Date();
   for (let i = 0; i < count; i++) {
-    const info: ThemeInfo = { date: currentDate, index: i + 1 };
+    const info: ThemeInfo = { date: date, index: i + 1 };
     themes.push(info);
   }
   return themes;
 }
 
-export default {
-  components: {
-    Card,
-    CardContent,
-    CardTitle,
-    Label,
-    ODGradesPagePageTitle,
-    ODJournalEditBlock,
-    ODJournalDateBlock,
-    ODStudentsSearch,
-    ODGradedThemesList,
-    GradesTable,
-    Item,
-    ItemContent,
-    Table,
-    ItemHeader,
-    ItemTitle,
-    ItemMedia,
-  },
-  data() {
-    const beforeTableSectionWrapper: number = 0;
-    return {
-      date: new Date(Date.now()),
-      tableHeaderStyles: "text-start p-0 border inline-block",
-      gradeTableHeaderStyles: "text-center p-0 border inline-block",
-      gradeThemeHeaderLabelStyles: "text-center p-0 border inline-block",
-      beforeTableSectionWrapper: beforeTableSectionWrapper,
-    };
-  },
-  mounted() {
-    this.useTableContainerElementWidthObserver();
-    this.initializeBeforeTableSectionWrapper();
-  },
-  methods: {
-    disposeTableResizeObserver(): void {
-      if (this.tableWidthResizeObserver) {
-        this.tableWidthResizeObserver.disconnect();
-        this.tableWidthResizeObserver = undefined;
-      }
-    },
-    generateRandomStudent,
-    generateRandomStudents,
-    generateRandomThemes,
-    initializeBeforeTableSectionWrapper(): void {
-      const elementKey: string = "before-table-wrapper";
-      const element: HTMLElement | null = Components.HTMLElementByRef(
-        this,
-        elementKey,
-      );
-      if (!element) return;
-      const height: number = element.clientHeight;
-      this.beforeTableSectionWrapper = height;
-    },
-    useTableContainerElementWidthObserver(): void {
-      const elementKey: string = "tableContainerElementRef";
-      const element = Components.HTMLElementByRef(this, elementKey);
-      if (!element) return;
-      if (this.tableWidthResizeObserver) return;
-      const width = element.clientWidth;
-      this.tableWidthResizeObserver = new ResizeObserver((entries) => {
-        for (let entry of entries) {
-          if (entry.target === element) {
-            this.tableWrapperWidth = width;
-          }
-        }
-      });
-      this.tableWidthResizeObserver.observe(element);
-    },
-  },
-  unmounted() {
-    Components.DisposeResizeObserver(this.tableWidthResizeObserver);
-  },
-  setup() {
-    const defaultWidth: number = 0;
-    const tableWrapperWidth = ref(defaultWidth);
-    const blockCellWidth: Ref<number, number> = ref(defaultWidth);
-    const studentCellWidth: Ref<number, number> = ref(defaultWidth);
-    const gradeScoreCellWidth: Ref<number, number> = ref(defaultWidth);
-    const gradeValueCellWidth: Ref<number, number> = ref(defaultWidth);
-    const tableWidthResizeObserver = ref<ResizeObserver | undefined>(undefined);
-    return {
-      tableWrapperWidth,
-      blockCellWidth,
-      studentCellWidth,
-      gradeScoreCellWidth,
-      gradeValueCellWidth,
-      tableWidthResizeObserver,
-    };
-  },
-};
+function convertDateToCalendarDate(date: Date): DateValue {
+  const day: number = date.getDay();
+  const month: number = date.getMonth();
+  const year: number = date.getFullYear();
+  const calendarDate = new CalendarDate(year, month, day);
+  return calendarDate;
+}
+
+const students: Ref<StudentInfo[]> = ref([]);
+const themes: Ref<ThemeInfo[]> = ref([]);
+const container = useElementSizeObservabilityV2();
+
+onMounted(() => {
+  themes.value = generateRandomThemes(25);
+  students.value = generateRandomStudents(20, themes.value);
+});
 </script>
 
 <template>
   <section
-    class="flex flex-col gap-2 my-0 p-2 h-screen"
-    :ref="'tableContainerElementRef'"
+    class="flex flex-col gap-2 flex-1 min-h-0 min-w-0 bg-zinc-200 p-2 h-full w-full"
+    :ref="container.element"
   >
-    <CardContent :class="'flex-1 px-2'">
-      <section :class="'grid grid-cols-2 gap-2'" :ref="'before-table-wrapper'">
-        <!-- edit journal items here -->
-        <div :class="'grid grid-cols-2 gap-2'">
-          <ODJournalEditBlock />
-          <!-- редакторы -->
-          <section :class="'col-span-2'">
-            <ODJournalEditorsList />
-          </section>
-        </div>
-        <!-- темы за которые выставлены оценки -->
-        <ODGradedThemesList />
-      </section>
-      <!-- таблица оценок -->
-      <div>
-        <GradesTable
-          :width-props="{
-            blockCellWidth: blockCellWidth,
-            studentCellWidth: studentCellWidth,
-            gradeScoreCellWidth: gradeScoreCellWidth,
-            gradeValueCellWidth: gradeValueCellWidth,
-            tableWrapperWidth: tableWrapperWidth,
-          }"
-          :students="
-            generateRandomStudents(10, 20).map((s) => ({
-              name: s.name,
-              grades: s.grades,
-            }))
-          "
-          :themes="
-            generateRandomThemes(20).map((t) => ({
-              date: t.date,
-              number: t.index,
-            }))
-          "
-        >
-        </GradesTable>
-      </div>
-    </CardContent>
+    <ODJournalEditBlock />
+    <Card :class="'shadow-(--shadow-basic) p-2'">
+      <CardContent :class="'flex gap-2 flex-row'">
+        <InputWithIcon
+          :class="'w-full'"
+          :place-holder="'Поиск студента'"
+          :icon="SearchIcon"
+        />
+        <Button :class="'p-1 w-auto'" :size="'icon'">
+          <Grid2X2PlusIcon />
+          <label :class="'hidden md:inline'">Создать колонку</label>
+        </Button>
+        <Button :class="'p-1 w-auto'" :size="'icon'">
+          <LockIcon />
+          <label :class="'hidden md:inline'">Создать колонку</label>
+        </Button>
+        <Button :class="'p-1 w-auto'" :size="'icon'">
+          <SaveIcon />
+          <label :class="'hidden md:inline'">Сохранить</label>
+        </Button>
+        <Popover :class="'w-auto'">
+          <PopoverTrigger :as-child="true">
+            <Button
+              :class="'shadow-sm border-(--text) text(--text)'"
+              :variant="'outline'"
+            >
+              <label>Выбрать дату</label>
+              <ChevronDownIcon />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <Calendar :default-value="convertDateToCalendarDate(date)" />
+          </PopoverContent>
+        </Popover>
+      </CardContent>
+    </Card>
+    <div :class="'my-2 flex-1 min-w-0 min-h-0 shrink grow-0'">
+      <Gradebook
+        :students="students"
+        :themes="themes"
+        :containerWidth="container.width.value"
+      />
+    </div>
   </section>
 </template>

@@ -2,7 +2,6 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const props = defineProps<{
-  widthLimit: number;
   heightLimit: number;
 }>();
 </script>
@@ -10,12 +9,10 @@ const props = defineProps<{
 <template>
   <ScrollArea
     :style="{
-      width: `${props.widthLimit}px`,
       height: `${props.heightLimit}px`,
     }"
   >
     <slot />
-    <ScrollBar :orientation="'vertical'" />
-    <ScrollBar :orientation="'horizontal'" />
+    <ScrollBar />
   </ScrollArea>
 </template>
