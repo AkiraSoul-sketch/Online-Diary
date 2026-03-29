@@ -24,6 +24,14 @@
 embedding_model/
 generative_model/
 
+# Editor directories and files
+.github
+.github/*
+.github/
+.vscode
+.vscode/*
+.vscode/
+
 *.vs
 .vs
 *.vs/
