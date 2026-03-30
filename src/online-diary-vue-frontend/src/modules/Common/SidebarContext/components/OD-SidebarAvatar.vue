@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
       <Avatar
         :class="'shadow-(--shadow-basic) h-14 w-14 md:h-18 md:w-18 lg:h-20 lg:w-20 xl:h-28 xl:w-28'"
       >
-        <AvatarFallback :class="'text-responsive-primary'">ДС</AvatarFallback>
+        <AvatarFallback :class="'text-responsive-big'">ДС</AvatarFallback>
       </Avatar>
       <Separator :class="'bg-(--text-main-color)'" />
       <div :class="'flex flex-col items-center'">

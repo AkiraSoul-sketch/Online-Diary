@@ -3,7 +3,6 @@ import ODSidebarMenuContent from "./components/OD-SidebarMenuContent.vue";
 import ODSidebarAvatar from "./components/OD-SidebarAvatar.vue";
 import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { ref, watch, type Ref } from "vue";
-import { XIcon } from "lucide-vue-next";
 import {
   Drawer,
   DrawerContent,
@@ -12,7 +11,8 @@ import {
   DrawerClose,
   DrawerDescription,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
+import SidebarExitButton from "./components/SidebarExitButton.vue";
+import DrawerOverlay from "@/components/ui/drawer/DrawerOverlay.vue";
 
 const width: Ref<number> = ref(0);
 const common = useCommonStore();
@@ -33,6 +33,7 @@ watch(
     :open="common.$state.sideBarHidden"
     :no-body-styles="true"
     :direction="'left'"
+    :dismissible="false"
   >
     <DrawerContent :class="'bg-accent'">
       <DrawerHeader :class="'flex flex-row justify-between items-center h-20'">
@@ -41,12 +42,7 @@ watch(
           Меню
         </DrawerTitle>
         <DrawerClose>
-          <Button
-            v-on:click="common.toggleSideBar"
-            :class="'border rounded-2xl w-9 shadow-(--shadow-basic)'"
-          >
-            <XIcon />
-          </Button>
+          <SidebarExitButton />
         </DrawerClose>
       </DrawerHeader>
       <DrawerDescription>
