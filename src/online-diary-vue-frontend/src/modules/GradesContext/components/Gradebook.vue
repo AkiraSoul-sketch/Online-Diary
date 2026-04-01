@@ -12,95 +12,99 @@ const props = defineProps<{
 const themeSize = useElementSizeObservabilityV2();
 const rightColumn = useElementSizeObservabilityV2();
 function studentNameText(student: StudentInfo): string {
+  console.log(props.students.length);
+  console.log(props.themes.length);
   const parts = student.name.split(" ");
   return `${parts[0]} ${parts[1][0]}. ${parts[2][0]}.`;
 }
 </script>
 
 <template>
-  <div
-    :class="'flex gap-2 flex-1 min-w-0 min-h-0 overflow-auto'"
-    :key="themeSize.height.value"
-  >
+  <section :class="'flex flex-constrained'">
     <div
-      :class="'justify-center items-center min-w-0 min-h-0'"
-      :ref="rightColumn.element"
-      v-if="themeSize.height.value > 0"
-      :style="{
-        height: '826px',
-        display: 'grid',
-        gridTemplateRows: `auto repeat(${students.length}, 1fr)`,
-      }"
+      :class="'flex gap-1.5 flex-constrained overflow-auto'"
+      :key="themeSize.height.value"
     >
       <div
+        :class="'justify-center items-center min-w-0 min-h-0'"
+        :ref="rightColumn.element"
+        v-if="themeSize.height.value > 0"
         :style="{
-          height: themeSize.height.value + 16 + 'px',
+          height: '826px',
+          display: 'grid',
+          gridTemplateRows: `auto repeat(${students.length}, 1fr)`,
         }"
-        :class="'min-w-0'"
-      >
-        <ODJournalEditorsList />
-      </div>
-
-      <div :class="'flex flex-col my-3.5 gap-2 justify-center'">
-        <div
-          v-for="student of students"
-          :class="'bg-zinc-100 w-full text-center'"
-        >
-          {{ studentNameText(student) }}
-        </div>
-      </div>
-    </div>
-    <div :class="'flex-1 min-w-0 min-h-0'">
-      <HorizontalScrollableContent
-        :class="'min-w-0 min-h-0'"
-        :width-limit="containerWidth - rightColumn.width.value - 8"
       >
         <div
-          :class="'bg-zinc-100'"
           :style="{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${themes.length}, 1fr)`,
+            height: themeSize.height.value + 16 + 'px',
           }"
+          :class="'min-w-0'"
+        >
+          <ODJournalEditorsList />
+        </div>
+
+        <div :class="'flex flex-col my-3 gap-2 justify-center'">
+          <div
+            v-for="student of students"
+            :class="'bg-zinc-100 w-full text-center p-1'"
+          >
+            {{ studentNameText(student) }}
+          </div>
+        </div>
+      </div>
+      <div :class="'flex-constrained'">
+        <HorizontalScrollableContent
+          :width-limit="containerWidth - rightColumn.width.value - 8"
         >
           <div
-            v-for="(theme, index) in themes"
-            :ref="
-              (element) => {
-                if (index === 0) {
-                  const htmlEl: HTMLElement = element as HTMLElement;
-                  themeSize.element.value = htmlEl;
-                }
-              }
-            "
-            :key="'header-' + theme.index"
-            :class="'grid grid-rows-[auto_1fr] gap-5 p-2 justify-center'"
+            :class="'bg-zinc-100'"
+            :style="{
+              display: 'grid',
+              gridTemplateColumns: `repeat(${themes.length}, 1fr)`,
+            }"
           >
-            <div :class="'text-center [writing-mode:vertical-rl]'">
-              {{ theme.index }}
-            </div>
-            <div :class="'text-center [writing-mode:vertical-rl]'">
-              {{ "Тема " + theme.date.toLocaleDateString() }}
-            </div>
-          </div>
-
-          <div
-            :class="'bg-zinc-200'"
-            :style="{ gridColumn: '1 / -1', height: '8px' }"
-          ></div>
-
-          <template v-for="student of students" :key="student.id">
             <div
-              v-for="grade of student.grades"
-              :key="student.id + '-' + grade.theme"
-              :class="'p-1 justify-center items-center text-center'"
+              v-for="(theme, index) in themes"
+              :ref="
+                (element) => {
+                  if (index === 0) {
+                    const htmlEl: HTMLElement = element as HTMLElement;
+                    themeSize.element.value = htmlEl;
+                  }
+                }
+              "
+              :key="'header-' + theme.index"
+              :class="'relative left-9 grid grid-rows-[auto_1fr] p-1 my-1 mx-1 justify-center '"
             >
-              {{ grade.gradeValue }}
+              <div
+                :class="'z-10 text-center [writing-mode:vertical-rl] rotate-220'"
+              >
+                <span>
+                  {{ "Тема " + theme.date.toLocaleDateString() }}
+                </span>
+              </div>
             </div>
-          </template>
-        </div>
-      </HorizontalScrollableContent>
+
+            <div
+              :class="'bg-zinc-200'"
+              :style="{ gridColumn: '1 / -1', height: '8px' }"
+            ></div>
+
+            <template v-for="student of students" :key="student.id">
+              <div
+                v-for="grade of student.grades"
+                :key="student.id + '-' + grade.theme"
+                :class="'mx-1 my-1 bg-amber-100 p-1 justify-center items-center text-center'"
+              >
+                {{ grade.gradeValue }}
+              </div>
+            </template>
+          </div>
+        </HorizontalScrollableContent>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style lang="css" scoped>

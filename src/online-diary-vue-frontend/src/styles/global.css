@@ -157,3 +157,19 @@
     @apply w-full h-full;
   }
 }
+
+.flex-constrained {
+  min-width: calc(var(--spacing) * 0);
+  min-height: calc(var(--spacing) * 0);
+  flex: 1;
+}
+
+.flex-constrained-row {
+  flex: 1;
+  min-width: calc(var(--spacing) * 0);
+}
+
+.flex-constrained-column {
+  flex: 1;
+  min-height: calc(var(--spacing) * 0);
+}
