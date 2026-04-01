@@ -4,6 +4,7 @@ import HorizontalScrollableContent from "@/modules/Common/Components/HorizontalS
 import ODJournalEditorsList from "./JournalEditorsList/OD-JournalEditorsList.vue";
 import type { StudentInfo, ThemeInfo } from "./gradebook.models";
 import { useGradebookLogic } from "./gradebook.logic";
+import GradebookPeriodBlock from "./GradebookPeriodBlock.vue";
 
 const { resolveGradebookColor } = useGradebookLogic();
 const props = defineProps<{
@@ -41,10 +42,10 @@ function studentNameText(student: StudentInfo): string {
           }"
           :class="'min-w-0'"
         >
-          <ODJournalEditorsList />
+          <GradebookPeriodBlock />
         </div>
 
-        <div :class="'flex flex-col my-3 gap-2 justify-center'">
+        <div :class="'drop-shadow-xl flex flex-col my-3 gap-2 justify-center'">
           <div
             v-for="student of students"
             :class="'bg-zinc-100 w-full text-center p-1'"
@@ -58,10 +59,9 @@ function studentNameText(student: StudentInfo): string {
           :width-limit="containerWidth - rightColumn.width.value - 8"
         >
           <div
-            :class="'bg-zinc-100'"
             :style="{
               display: 'grid',
-              gridTemplateColumns: `repeat(${themes.length}, 1fr)`,
+              gridTemplateColumns: `repeat(${themes.length}, 45px)`,
             }"
           >
             <div
@@ -75,12 +75,12 @@ function studentNameText(student: StudentInfo): string {
                 }
               "
               :key="'header-' + theme.index"
-              :class="'relative left-9 grid grid-rows-[auto_1fr] p-1 my-1 mx-1 justify-center '"
+              :class="' bg-zinc-100 left-9 grid grid-rows-[auto_1fr] p-1 my-1 mx-1 justify-center shadow-2xl'"
             >
               <div
-                :class="'z-10 text-center [writing-mode:vertical-rl] rotate-220'"
+                :class="'z-10  relative text-center [writing-mode:vertical-rl] rotate-220'"
               >
-                <span>
+                <span :class="'relative right-10 z-20'">
                   {{ "Тема " + theme.date.toLocaleDateString() }}
                 </span>
               </div>
@@ -95,10 +95,11 @@ function studentNameText(student: StudentInfo): string {
               <div
                 v-for="grade of student.grades"
                 :key="student.id + '-' + grade.theme"
-                :class="'mx-1 my-1 p-1 justify-center items-center text-center'"
-                :style="{ backgroundColor: resolveGradebookColor(grade) }"
+                :class="'mx-1 my-1 p-1 drop-shadow-xl justify-center items-center text-center bg-zinc-100'"
               >
-                {{ grade.gradeValue }}
+                <div :style="{ backgroundColor: resolveGradebookColor(grade) }">
+                  {{ grade.gradeValue }}
+                </div>
               </div>
             </template>
           </div>
