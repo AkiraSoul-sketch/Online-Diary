@@ -3,9 +3,7 @@ import { CalendarIcon } from "lucide-vue-next";
 </script>
 
 <template>
-  <section
-    :class="'flex flex-col gap-[0.6px] bg-zinc-100 border-b-zinc-200 my-0.5 p-1 drop-shadow-xl'"
-  >
+  <section :class="'flex flex-col gap-[0.6px] my-0.5 p-1'">
     <div :class="'flex flex-row gap-1'">
       <CalendarIcon />
       <label :class="'text-lg'">Период:</label>

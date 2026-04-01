@@ -26,6 +26,7 @@ import type {
   StudentInfo,
 } from "./components/gradebook.models";
 import { useGradebookLogic } from "./components/gradebook.logic";
+import GradebookTools from "./components/Gradebook/GradebookTools.vue";
 
 const date: Date = new Date(Date.now());
 
@@ -138,41 +139,7 @@ onMounted(() => {
     :ref="container.element"
   >
     <ODJournalEditBlock />
-    <Card :class="'shadow-(--shadow-basic) p-2'">
-      <CardContent :class="'flex gap-2 flex-row'">
-        <InputWithIcon
-          :class="'w-full'"
-          :place-holder="'Поиск студента'"
-          :icon="SearchIcon"
-        />
-        <Button :class="'p-1 w-auto'" :size="'icon'">
-          <Grid2X2PlusIcon />
-          <label :class="'hidden md:inline'">Создать колонку</label>
-        </Button>
-        <Button :class="'p-1 w-auto'" :size="'icon'">
-          <LockIcon />
-          <label :class="'hidden md:inline'">Создать колонку</label>
-        </Button>
-        <Button :class="'p-1 w-auto'" :size="'icon'">
-          <SaveIcon />
-          <label :class="'hidden md:inline'">Сохранить</label>
-        </Button>
-        <Popover :class="'w-auto'">
-          <PopoverTrigger :as-child="true">
-            <Button
-              :class="'shadow-sm border-(--text) text(--text)'"
-              :variant="'outline'"
-            >
-              <label>Выбрать дату</label>
-              <ChevronDownIcon />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <Calendar :default-value="convertDateToCalendarDate(date)" />
-          </PopoverContent>
-        </Popover>
-      </CardContent>
-    </Card>
+    <GradebookTools />
     <Gradebook
       :students="students"
       :themes="themes"
