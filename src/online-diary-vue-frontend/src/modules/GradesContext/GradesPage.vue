@@ -20,23 +20,12 @@ import PopoverTrigger from "@/components/ui/popover/PopoverTrigger.vue";
 import PopoverContent from "@/components/ui/popover/PopoverContent.vue";
 import Calendar from "@/components/ui/calendar/Calendar.vue";
 import ODJournalEditBlock from "./components/JournalEditBlock/OD-JournalEditBlock.vue";
-
-export type ThemeInfo = {
-  index: number;
-  date: Date;
-};
-
-export type StudentInfo = {
-  id: number;
-  name: string;
-  grades: Grade[];
-};
-
-export type Grade = {
-  theme: number;
-  student: number;
-  gradeValue: number;
-};
+import type {
+  ThemeInfo,
+  Grade,
+  StudentInfo,
+} from "./components/gradebook.models";
+import { useGradebookLogic } from "./components/gradebook.logic";
 
 const date: Date = new Date(Date.now());
 
@@ -74,6 +63,9 @@ function generateRandomStudents(
   return students;
 }
 
+const logic = useGradebookLogic();
+const gradesList: string[] = ["2", "3", "4", "5", "У", "Н", "НА"];
+
 function generateRandomStudent(
   studentId: number,
   themes: ThemeInfo[],
@@ -100,12 +92,17 @@ function generateRandomStudentName(): string {
   const maxStudents = studentNames.length;
   const randomIndex = Math.floor(Math.random() * maxStudents);
   const name = studentNames[randomIndex];
+
   return name;
 }
 
-function generateRandomGradeValue(): number {
-  const randomGradeValue = Math.floor(Math.random() * 5) + 1;
-  return randomGradeValue;
+function generateRandomGradeValue(): string {
+  const listLength: number = gradesList.length;
+  const randomNumber: number = Math.random();
+  const randomIndex: number = Math.floor(randomNumber * listLength);
+  const randomGrade: string = gradesList[randomIndex];
+
+  return randomGrade;
 }
 
 function generateRandomThemes(count: number): ThemeInfo[] {

@@ -42,7 +42,7 @@ export default {
       <ItemTitle :text="'Редакторы март 2026'">
         <ItemMedia><UserRoundPen /></ItemMedia>
       </ItemTitle>
-      <Table>
+      <Table :noWrapper="false">
         <TableHeader>
           <TableRow
             :supress-hover-effect="true"

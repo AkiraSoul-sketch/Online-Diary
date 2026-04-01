@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useElementSizeObservabilityV2 } from "@/modules/Common/Composables/useElementSizeObservabilityV2";
-import type { StudentInfo, ThemeInfo } from "../GradesPage.vue";
 import HorizontalScrollableContent from "@/modules/Common/Components/HorizontalScrollableContent.vue";
 import ODJournalEditorsList from "./JournalEditorsList/OD-JournalEditorsList.vue";
+import type { StudentInfo, ThemeInfo } from "./gradebook.models";
+import { useGradebookLogic } from "./gradebook.logic";
 
+const { resolveGradebookColor } = useGradebookLogic();
 const props = defineProps<{
   students: StudentInfo[];
   themes: ThemeInfo[];
@@ -12,8 +14,6 @@ const props = defineProps<{
 const themeSize = useElementSizeObservabilityV2();
 const rightColumn = useElementSizeObservabilityV2();
 function studentNameText(student: StudentInfo): string {
-  console.log(props.students.length);
-  console.log(props.themes.length);
   const parts = student.name.split(" ");
   return `${parts[0]} ${parts[1][0]}. ${parts[2][0]}.`;
 }
@@ -95,7 +95,8 @@ function studentNameText(student: StudentInfo): string {
               <div
                 v-for="grade of student.grades"
                 :key="student.id + '-' + grade.theme"
-                :class="'mx-1 my-1 bg-amber-100 p-1 justify-center items-center text-center'"
+                :class="'mx-1 my-1 p-1 justify-center items-center text-center'"
+                :style="{ backgroundColor: resolveGradebookColor(grade) }"
               >
                 {{ grade.gradeValue }}
               </div>
