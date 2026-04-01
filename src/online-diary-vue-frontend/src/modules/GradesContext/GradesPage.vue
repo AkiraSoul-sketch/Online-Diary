@@ -4,18 +4,15 @@ import { useElementSizeObservabilityV2 } from "../Common/Composables/useElementS
 import Gradebook from "./components/Gradebook.vue";
 import Card from "@/components/ui/card/Card.vue";
 import CardContent from "@/components/ui/card/CardContent.vue";
-import FieldGroup from "@/components/ui/field/FieldGroup.vue";
 import InputWithIcon from "../Common/Components/InputWithIcon.vue";
 import {
   ChevronDownIcon,
-  Grid2X2Icon,
   Grid2X2PlusIcon,
   LockIcon,
   SaveIcon,
   SearchIcon,
 } from "lucide-vue-next";
 import Button from "@/components/ui/button/Button.vue";
-import Label from "@/components/ui/label/Label.vue";
 import type { DateValue } from "reka-ui";
 import { CalendarDate } from "@internationalized/date";
 import Popover from "@/components/ui/popover/Popover.vue";
@@ -179,12 +176,10 @@ onMounted(() => {
         </Popover>
       </CardContent>
     </Card>
-    <div :class="'my-2 flex-1 min-w-0 min-h-0 shrink grow-0'">
-      <Gradebook
-        :students="students"
-        :themes="themes"
-        :containerWidth="container.width.value"
-      />
-    </div>
+    <Gradebook
+      :students="students"
+      :themes="themes"
+      :containerWidth="container.width.value"
+    />
   </section>
 </template>
