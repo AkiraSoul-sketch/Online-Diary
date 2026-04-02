@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>123</div>
+  <card> </card>
 </template>
