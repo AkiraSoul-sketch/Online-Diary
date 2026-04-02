@@ -7,6 +7,17 @@ import GradebookStudents from "./Gradebook/GradebookStudents.vue";
 import GradebookTheme from "./Gradebook/GradebookTheme.vue";
 import GradebookThemeSeparator from "./Gradebook/GradebookThemeSeparator.vue";
 import GradebookStudentGrades from "./Gradebook/GradebookStudentGrades.vue";
+import Drawer from "@/components/ui/drawer/Drawer.vue";
+import DrawerTitle from "@/components/ui/drawer/DrawerTitle.vue";
+import DrawerContent from "@/components/ui/drawer/DrawerContent.vue";
+import Card from "@/components/ui/card/Card.vue";
+import CardTitle from "@/components/ui/card/CardTitle.vue";
+import CardHeader from "@/components/ui/card/CardHeader.vue";
+import CardContent from "@/components/ui/card/CardContent.vue";
+import ButtonGroup from "@/components/ui/button-group/ButtonGroup.vue";
+import Button from "@/components/ui/button/Button.vue";
+import CardFooter from "@/components/ui/card/CardFooter.vue";
+import { DrawerDescription } from "vaul-vue";
 
 const props = defineProps<{
   students: StudentInfo[];
@@ -82,4 +93,26 @@ const leftColumn = useElementSizeObservabilityV2();
       </div>
     </div>
   </section>
+  <Drawer :direction="'bottom'" :open="true">
+    <DrawerContent>
+      <Card :class="'border-0 shadow-none'">
+        <CardHeader>Тема 1</CardHeader>
+        <CardTitle :class="'self-center'"> Изменение оценки </CardTitle>
+        <CardContent :class="'flex flex-col gap-5'">
+          <ButtonGroup :class="'self-center'">
+            <Button> 2 </Button>
+            <Button> 3 </Button>
+            <Button> 4 </Button>
+            <Button> 5 </Button>
+          </ButtonGroup>
+          <ButtonGroup :class="'self-center'">
+            <Button> Не было </Button>
+            <Button> Ув. причина </Button>
+          </ButtonGroup>
+        </CardContent>
+        <CardFooter>Последняя дата изменения: </CardFooter>
+      </Card>
+    </DrawerContent>
+    <DrawerDescription> </DrawerDescription>
+  </Drawer>
 </template>
