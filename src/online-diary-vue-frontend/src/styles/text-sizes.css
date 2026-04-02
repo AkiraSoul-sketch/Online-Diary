@@ -1,5 +1,5 @@
 .text-responsive-big {
-  font-size: clamp(15px, 1vw + 10px, 30px);
+  font-size: clamp(15px, 1vw + 9px, 22px);
 }
 
 .text-responsive-primary {

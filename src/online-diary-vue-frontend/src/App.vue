@@ -22,13 +22,6 @@ const widthTracker = useGlobalContainerWidthTracker();
     <div :class="'grid grid-rows-[auto_1fr_auto] h-full'">
       <ODHeader />
       <main :class="'flex-1 min-h-0'" :ref="viewportReadiness.viewport">
-        <!-- <section
-          :class="'grid grid-cols-[auto_1fr] h-full'"
-          v-if="viewPortSizeReady()"
-        >
-          <ODSideBar />
-          <RouterView />
-        </section> -->
         <RouterView v-if="viewportReadiness.ready" />
       </main>
       <ODFooter />
