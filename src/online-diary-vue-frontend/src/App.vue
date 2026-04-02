@@ -19,7 +19,7 @@ const widthTracker = useGlobalContainerWidthTracker();
 <template>
   <section :class="'w-full h-screen'" :ref="widthTracker.container">
     <ODSideBar />
-    <div :class="'grid grid-rows-[auto_1fr_auto] h-full'">
+    <div :class="'bg-light-neutral grid grid-rows-[auto_1fr_auto] h-full'">
       <ODHeader />
       <main :class="'flex-1 min-h-0'" :ref="viewportReadiness.viewport">
         <!-- <section

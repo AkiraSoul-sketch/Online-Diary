@@ -12,7 +12,9 @@ const adminStore = useAdminStore();
 </script>
 
 <template>
-  <section :class="'w-full h-full min-h-0 flex flex-col flex-1'">
+  <section
+    :class="'w-full h-full min-h-0 flex flex-col flex-1 bg-light-neutral'"
+  >
     <div :class="'flex flex-col w-full self-center'">
       <AdminPanelMenu :class="'self-center'" />
       <h3 :class="'text-responsive-primary mx-10 self-start'">

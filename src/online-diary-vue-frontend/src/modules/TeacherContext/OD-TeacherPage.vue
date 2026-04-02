@@ -4,7 +4,7 @@ import ODTeacherPageRecentActionsContainer from "./Components/OD-TeacherPageRece
 </script>
 
 <template>
-  <div :class="'h-full flex flex-col md:flex-row'">
+  <div :class="'h-full flex flex-col md:flex-row bg-block-light-neutral'">
     <ODTeacherPageJournalsContainer />
     <ODTeacherPageRecentActionsContainer />
   </div>

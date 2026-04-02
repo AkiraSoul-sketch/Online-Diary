@@ -14,7 +14,7 @@ const props = defineProps<{
 
 <template>
   <header
-    :class="'flex w-full p-1 justify-around  gap-2 items-center bg-(--header-background-color)'"
+    :class="'flex w-full p-1 justify-around gap-2 items-center bg-(--header-background-color)'"
   >
     <img
       src="/main_logo.svg"

@@ -10,9 +10,9 @@ import { UserIcon } from "lucide-vue-next";
 
 <template>
   <Card
-    :class="'my-0.5 min-w-0 min-h-0 grid grid-cols-[auto_auto_1fr] p-0 w-full border-zinc-200 bg-zinc-100  rounded-sm'"
+    :class="'border-none bg-block-light-accent my-0.5 min-w-0 min-h-0 grid grid-cols-[auto_auto_1fr] p-0 w-full rounded-sm'"
   >
-    <div :class="'flex flex-col gap-0.5 justify-between'">
+    <div :class="'flex flex-col gap-1 justify-between'">
       <CardHeader :class="'p-1 text-start block w-full'">
         <!-- статус действия -->
         <div :class="'flex items-center'">

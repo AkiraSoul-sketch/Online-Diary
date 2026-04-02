@@ -68,30 +68,34 @@ function generateDisciplines(amount: number): Discipline[] {
 
 <template>
   <!-- Корневой контейнер страницы: flex-col с корректным сжатием -->
-  <section class="flex flex-col min-h-0 flex-1 my-6 px-6 gap-6">
+  <section class="flex flex-col min-h-0 w-full flex-1 my-6 px-6 gap-6">
     <!-- Статистические карточки -->
     <section class="flex flex-wrap gap-4">
-      <Card class="flex-1 min-w-[200px] shadow-(--shadow-basic)">
+      <Card
+        class="bg-block-light-accent-blue-grad font-light-on-light font-bold flex-1 min-w-[200px] shadow-(--shadow-basic)"
+      >
         <CardContent class="p-4">
-          <div class="text-responsive-secondary text-slate-500">
-            Всего дисциплин
-          </div>
+          <div class="text-responsive-secondary">Всего дисциплин</div>
           <div class="text-responsive-primary font-semibold">12</div>
         </CardContent>
       </Card>
 
-      <Card class="flex-1 min-w-[200px] shadow-(--shadow-basic)">
+      <Card
+        class="bg-block-light-accent-blue-grad font-light-on-light font-bold flex-1 min-w-[200px] shadow-(--shadow-basic)"
+      >
         <CardContent class="p-4">
-          <div class="text-responsive-secondary text-slate-500">
+          <div class="text-responsive-secondary">
             Преподаются преподавателями
           </div>
           <div class="text-responsive-primary font-semibold">8</div>
         </CardContent>
       </Card>
 
-      <Card class="flex-1 min-w-[200px] shadow-(--shadow-basic)">
+      <Card
+        class="bg-block-light-accent-blue-grad font-light-on-light font-bold flex-1 min-w-[200px] shadow-(--shadow-basic)"
+      >
         <CardContent class="p-4">
-          <div class="text-responsive-secondary text-slate-500">Активные</div>
+          <div class="text-responsive-secondary">Активные</div>
           <div class="text-responsive-primary font-semibold">10</div>
         </CardContent>
       </Card>
@@ -99,16 +103,16 @@ function generateDisciplines(amount: number): Discipline[] {
 
     <!-- Панель: поиск + кнопка Создать -->
     <section>
-      <Card class="shadow-(--shadow-basic)">
-        <CardContent class="flex flex-col sm:flex-row items-center gap-3 p-4">
+      <Card class="shadow-(--shadow-basic) bg-block-light-neutral">
+        <CardContent class="flex flex-col sm:flex-row items-center gap-3">
           <Input
-            class="flex-1 bg-(--bg-light)"
+            class="flex-1 bg-(--bg-light) text-responsive-primary"
             placeholder="Поиск по названию дисциплины"
           />
           <div class="flex items-center gap-2 ml-auto">
-            <Button variant="outline" class="flex items-center gap-2">
+            <Button class="bg-button-green flex items-center gap-2">
               <PlusIcon :size="16" />
-              <span class="text-responsive-tertiary">Создать</span>
+              <span class="text-responsive-secondary">Создать</span>
             </Button>
           </div>
         </CardContent>
@@ -119,7 +123,7 @@ function generateDisciplines(amount: number): Discipline[] {
     <section class="flex flex-col md:flex-row flex-1 min-h-0 gap-6">
       <!-- Список дисциплин (основная колонка) -->
       <div
-        class="flex-1 min-h-0 flex flex-col rounded-md overflow-hidden border border-border bg-(--bg-light) shadow-(--shadow-basic)"
+        class="bg-block-light-neutral flex-1 min-h-0 flex flex-col rounded-md overflow-hidden border border-border bg-(--bg-light) shadow-(--shadow-basic)"
       >
         <div class="p-4 border-b border-border">
           <div class="text-responsive-secondary font-semibold">
@@ -128,7 +132,7 @@ function generateDisciplines(amount: number): Discipline[] {
         </div>
 
         <div class="flex-1 min-h-0 overflow-auto">
-          <Table :class="'w-full'">
+          <Table :no-wrapper="true" :class="'w-full'">
             <TableHeader>
               <TableRow
                 :supress-hover-effect="true"
@@ -239,7 +243,7 @@ function generateDisciplines(amount: number): Discipline[] {
 
       <!-- Доп. колонка: место для формы / деталей (пустой блок верстки) -->
       <div
-        class="w-full md:w-80 flex-shrink-0 min-h-0 rounded-md overflow-hidden border border-border bg-(--bg-light) shadow-(--shadow-basic)"
+        class="bg-block-light-neutral w-full md:w-80 flex-shrink-0 min-h-0 rounded-md overflow-hidden border border-border bg-(--bg-light) shadow-(--shadow-basic)"
       >
         <div class="p-4">
           <div class="text-responsive-secondary font-semibold">

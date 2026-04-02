@@ -10,13 +10,13 @@ const props = defineProps<Activity>();
 <template>
   <Item
     :variant="'muted'"
-    :class="'w-full p-1 border-b gap-1 flex-col flex flex-wrap items-start'"
+    :class="'bg-block-light-accent w-full p-1 border-b gap-1 flex-col flex flex-wrap items-start '"
   >
     <div :class="'flex gap-2 items-center'">
-      <Avatar :class="'border border-amber-950 items-center justify-center'">
+      <Avatar :class="'border items-center justify-center'">
         <AvatarFallback :class="'w-6 h-6'">AA</AvatarFallback>
       </Avatar>
-      <ItemTitle :class="'text-responsive-tertiary text-wrap'">{{
+      <ItemTitle :class="'text-responsive-tertiary text-wrap '">{{
         props.name
       }}</ItemTitle>
     </div>
