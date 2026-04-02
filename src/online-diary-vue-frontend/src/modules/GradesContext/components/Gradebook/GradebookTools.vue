@@ -61,7 +61,10 @@ function convertDateToCalendarDate(date: Date): DateValue {
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <Calendar :default-value="convertDateToCalendarDate(date)" />
+          <Calendar
+            :default-value="convertDateToCalendarDate(date)"
+            :locale="'ru-RU'"
+          />
         </PopoverContent>
       </Popover>
     </CardContent>
