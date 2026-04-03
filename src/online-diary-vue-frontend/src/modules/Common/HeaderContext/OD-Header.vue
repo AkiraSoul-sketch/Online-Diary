@@ -23,9 +23,9 @@ const props = defineProps<{
     />
     <InputWithIcon :place-holder="'Поиск...'" :icon="InfoIcon" />
     <Avatar
-      :class="'shadow-(--shadow-basic) h-8 w-8 sm:h-9 sm:w-9 md:h-11 md:w-11 lg:h-13 lg:w-13 xl:h-15 xl:w-15 2xl:h-17 2xl:w-17'"
+      :class="'shadow-(--shadow-basic) h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-13 xl:w-13 2xl:h-15 2xl:w-15'"
     >
-      <AvatarFallback>AP</AvatarFallback>
+      <AvatarFallback :class="'text-responsive-tertiary'">ДС</AvatarFallback>
     </Avatar>
     <FieldContent :class="'gap-0'">
       <Field :class="'text-responsive-tertiary text-nowrap'"

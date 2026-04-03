@@ -25,6 +25,11 @@ const appRouter = createRouter({
       path: "/teacher",
       component: () => import("/src/modules/TeacherContext/OD-TeacherPage.vue"),
     },
+    {
+      path: "/auth",
+      component: () =>
+        import("@/modules/AuthenticationСontext/Authentication.vue"),
+    },
   ],
   history: createWebHistory(),
 });

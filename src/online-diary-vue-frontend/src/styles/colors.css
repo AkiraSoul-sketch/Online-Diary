@@ -80,3 +80,23 @@
   /* color: hsl(0 0% 90%); */
   color: hsl(210 100% 20%);
 }
+
+.bg-prussian-blue {
+  background-color: #000022;
+}
+
+.bg-jade-green {
+  background-color: #20bf55;
+}
+
+.bg-bright-sky {
+  background-color: #01baef;
+}
+
+.bg-tangerine-dream {
+  background-color: #f79256;
+}
+
+.bg-apricat-cream {
+  background-color: #fbd1a2;
+}

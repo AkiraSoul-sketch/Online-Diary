@@ -5,7 +5,6 @@ import type { Discipline } from "../Models/Discipline";
 import { SearchIcon } from "lucide-vue-next";
 import ODTeacherDisciplineCard from "./OD-TeacherDisciplineCard.vue";
 import InputWithIcon from "@/modules/Common/Components/InputWithIcon.vue";
-import ScrollableContent from "@/modules/Common/Components/ScrollableContent.vue";
 import { useElementSizeObservabilityV2 } from "@/modules/Common/Composables/useElementSizeObservabilityV2";
 import VerticalScrollableContent from "@/modules/Common/Components/VerticalScrollableContent.vue";
 
