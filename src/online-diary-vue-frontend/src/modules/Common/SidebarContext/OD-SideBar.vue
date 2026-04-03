@@ -16,6 +16,9 @@ import DrawerOverlay from "@/components/ui/drawer/DrawerOverlay.vue";
 
 const width: Ref<number> = ref(0);
 const common = useCommonStore();
+function focusedOutside(_: FocusOutsideEvent): void {
+  common.toggleSideBar();
+}
 
 watch(
   () => common.$state.viewPortWidth,
@@ -35,7 +38,7 @@ watch(
     :direction="'left'"
     :dismissible="false"
   >
-    <DrawerContent :class="'bg-accent'">
+    <DrawerContent @interact-outside="focusedOutside" :class="'bg-accent'">
       <DrawerHeader :class="'flex flex-row justify-between items-center h-20'">
         <DrawerTitle :class="'flex items-center gap-5'">
           <img src="/main_logo.svg" :class="'h-12 brightness-0'" />

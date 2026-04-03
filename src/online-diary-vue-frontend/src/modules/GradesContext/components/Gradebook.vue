@@ -1,110 +1,112 @@
 <script setup lang="ts">
 import { useElementSizeObservabilityV2 } from "@/modules/Common/Composables/useElementSizeObservabilityV2";
-import type { StudentInfo, ThemeInfo } from "../GradesPage.vue";
+import type {
+  GradingStudent,
+  StudentInfo,
+  ThemeInfo,
+} from "./gradebook.models";
+import GradebookPeriodBlock from "./Gradebook/GradebookPeriodBlock.vue";
 import HorizontalScrollableContent from "@/modules/Common/Components/HorizontalScrollableContent.vue";
-import ODJournalEditorsList from "./JournalEditorsList/OD-JournalEditorsList.vue";
+import GradebookStudents from "./Gradebook/GradebookStudents.vue";
+import GradebookTheme from "./Gradebook/GradebookTheme.vue";
+import GradebookThemeSeparator from "./Gradebook/GradebookThemeSeparator.vue";
+import GradebookStudentGrades from "./Gradebook/GradebookStudentGrades.vue";
+import { onMounted, ref, type Ref } from "vue";
+import ChangeStudentGradeDrawer from "./GradeStudentForm/ChangeStudentGradeDrawer.vue";
+import { useGradebookStore } from "./gradebook.store";
+import { toast } from "vue-sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const props = defineProps<{
-  students: StudentInfo[];
-  themes: ThemeInfo[];
   containerWidth: number;
 }>();
+
 const themeSize = useElementSizeObservabilityV2();
-const rightColumn = useElementSizeObservabilityV2();
-function studentNameText(student: StudentInfo): string {
-  const parts = student.name.split(" ");
-  return `${parts[0]} ${parts[1][0]}. ${parts[2][0]}.`;
+const leftColumn = useElementSizeObservabilityV2();
+const students: Ref<StudentInfo[]> = ref([]);
+const themes: Ref<ThemeInfo[]> = ref([]);
+const store = useGradebookStore();
+onMounted(() => {
+  students.value = store.students;
+  themes.value = store.themes;
+});
+
+function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
+  const name: string = gradingStudent.student.name;
+  const theme: string =
+    "Тема " + gradingStudent.theme.date.toLocaleDateString();
+  const gradeValue: string = gradingStudent.grade.gradeValue ?? "Нет оценки";
+  const description: string = `Оценка студента ${name} по теме ${theme} обновлена на ${gradeValue}`;
+  toast.success("Студент оценен", {
+    description,
+  });
 }
 </script>
 
 <template>
-  <div
-    :class="'flex gap-2 flex-1 min-w-0 min-h-0 overflow-auto'"
-    :key="themeSize.height.value"
-  >
+  <section :class="'flex flex-constrained'">
     <div
-      :class="'justify-center items-center min-w-0 min-h-0'"
-      :ref="rightColumn.element"
-      v-if="themeSize.height.value > 0"
-      :style="{
-        height: '826px',
-        display: 'grid',
-        gridTemplateRows: `auto repeat(${students.length}, 1fr)`,
-      }"
+      :class="'flex gap-1.5 flex-constrained overflow-auto'"
+      :key="themeSize.height.value"
     >
       <div
+        :class="'justify-center items-center min-w-0 min-h-0'"
+        v-if="themeSize.height.value > 0"
+        :ref="leftColumn.element"
         :style="{
-          height: themeSize.height.value + 16 + 'px',
+          height: '826px',
+          display: 'grid',
+          gridTemplateRows: `auto repeat(${students.length}, 1fr)`,
         }"
-        :class="'min-w-0'"
-      >
-        <ODJournalEditorsList />
-      </div>
-
-      <div :class="'flex flex-col my-3.5 gap-2 justify-center'">
-        <div
-          v-for="student of students"
-          :class="'bg-zinc-100 w-full text-center'"
-        >
-          {{ studentNameText(student) }}
-        </div>
-      </div>
-    </div>
-    <div :class="'flex-1 min-w-0 min-h-0'">
-      <HorizontalScrollableContent
-        :class="'min-w-0 min-h-0'"
-        :width-limit="containerWidth - rightColumn.width.value - 8"
       >
         <div
-          :class="'bg-zinc-100'"
           :style="{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${themes.length}, 1fr)`,
+            height: themeSize.height.value + 16 + 'px',
           }"
+          :class="'min-w-0'"
+        >
+          <GradebookPeriodBlock />
+        </div>
+
+        <div :class="'drop-shadow-xl flex flex-col my-3 gap-2 justify-center'">
+          <GradebookStudents :students="students" />
+        </div>
+      </div>
+      <div :class="'flex-constrained'">
+        <HorizontalScrollableContent
+          :width-limit="containerWidth - leftColumn.width.value - 8"
         >
           <div
-            v-for="(theme, index) in themes"
-            :ref="
-              (element) => {
-                if (index === 0) {
-                  const htmlEl: HTMLElement = element as HTMLElement;
-                  themeSize.element.value = htmlEl;
-                }
-              }
-            "
-            :key="'header-' + theme.index"
-            :class="'grid grid-rows-[auto_1fr] gap-5 p-2 justify-center'"
+            :style="{
+              display: 'grid',
+              gridTemplateColumns: `repeat(${themes.length}, 45px)`,
+            }"
           >
-            <div :class="'text-center [writing-mode:vertical-rl]'">
-              {{ theme.index }}
-            </div>
-            <div :class="'text-center [writing-mode:vertical-rl]'">
-              {{ "Тема " + theme.date.toLocaleDateString() }}
-            </div>
-          </div>
-
-          <div
-            :class="'bg-zinc-200'"
-            :style="{ gridColumn: '1 / -1', height: '8px' }"
-          ></div>
-
-          <template v-for="student of students" :key="student.id">
             <div
-              v-for="grade of student.grades"
-              :key="student.id + '-' + grade.theme"
-              :class="'p-1 justify-center items-center text-center'"
+              v-for="(theme, index) in themes"
+              :ref="
+                (element) => {
+                  if (index === 0) {
+                    const htmlEl: HTMLElement = element as HTMLElement;
+                    themeSize.element.value = htmlEl;
+                  }
+                }
+              "
+              :key="'header-' + theme.index"
+              :class="' left-9 grid grid-rows-[auto_1fr] p-1 my-1 mx-1 justify-center'"
             >
-              {{ grade.gradeValue }}
+              <GradebookTheme :theme="theme" />
             </div>
-          </template>
-        </div>
-      </HorizontalScrollableContent>
-    </div>
-  </div>
-</template>
+            <GradebookThemeSeparator />
 
-<style lang="css" scoped>
-.theme-header {
-  text-orientation: upright;
-}
-</style>
+            <template v-for="student of students" :key="student.id">
+              <GradebookStudentGrades :student="student" />
+            </template>
+          </div>
+        </HorizontalScrollableContent>
+      </div>
+    </div>
+  </section>
+  <ChangeStudentGradeDrawer @student-graded="invokeStudentGradedToast" />
+  <Toaster />
+</template>
