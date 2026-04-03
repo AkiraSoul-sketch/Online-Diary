@@ -17,9 +17,9 @@ const widthTracker = useGlobalContainerWidthTracker();
 // TODO фикс проблемы с выходом за высоту страницы в журнале.
 
 <template>
-  <section :class="'w-full h-screen'" :ref="widthTracker.container">
+  <section :class="'bg-default w-full h-screen'" :ref="widthTracker.container">
     <ODSideBar />
-    <div :class="'bg-light-neutral grid grid-rows-[auto_1fr_auto] h-full'">
+    <div :class="'grid grid-rows-[auto_1fr_auto] h-full'">
       <ODHeader />
       <main :class="'flex-1 min-h-0'" :ref="viewportReadiness.viewport">
         <RouterView v-if="viewportReadiness.ready" />

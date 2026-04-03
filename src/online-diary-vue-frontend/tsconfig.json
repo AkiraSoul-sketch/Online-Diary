@@ -1,60 +1,60 @@
 {
-	"files": [],
-	"references": [
-		{ "path": "./tsconfig.app.json" },
-		{ "path": "./tsconfig.node.json" },
-	],
-	"vueCompilerOptions": {
-		"strictTemplates": true,
-		"typesRoot": "./node_modules/@vue/language-core/lib/types.d.ts",
-	},
-	"compilerOptions": {
-		"baseUrl": ".",
-		"allowImportingTsExtensions": true,
-		"emitDeclarationOnly": true,
-		"composite": true,
-		"paths": {
-			"@/*": ["./src/*"],
-		},
-		"target": "ES2022",
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"lib": ["ES2022", "DOM"],
-		"jsx": "preserve",
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"allowJs": true,
-		"checkJs": false,
-		"skipLibCheck": false,
-		"forceConsistentCasingInFileNames": true,
-		"strict": true,
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"types": ["vite/client", "node"],
-		"typeRoots": ["./node_modules/@types"],
-		"plugins": [
-			{
-				"name": "@vue/typescript-plugin",
-			},
-			{
-				"name": "typescript-styled-plugin",
-			},
-			{
-				"name": "typescript-eslint-language-service",
-			},
-			{
-				"name": "@vue/language-plugin-pug",
-			},
-			{
-				"name": "@vue/language-server",
-			},
-			{
-				"name": "@vue/language-service",
-			},
-		],
-	},
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "vueCompilerOptions": {
+    "strictTemplates": true,
+    "typesRoot": "./node_modules/@vue/language-core/lib/types.d.ts"
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["ES2022", "DOM"],
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": false,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": ["vite/client", "node"],
+    "typeRoots": ["./node_modules/@types"],
+    "plugins": [
+      {
+        "name": "@vue/typescript-plugin"
+      },
+      {
+        "name": "typescript-styled-plugin"
+      },
+      {
+        "name": "typescript-eslint-language-service"
+      },
+      {
+        "name": "@vue/language-plugin-pug"
+      },
+      {
+        "name": "@vue/language-server"
+      },
+      {
+        "name": "@vue/language-service"
+      }
+    ]
+  }
 }

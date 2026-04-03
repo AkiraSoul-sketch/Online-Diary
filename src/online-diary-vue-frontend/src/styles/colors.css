@@ -100,3 +100,29 @@
 .bg-apricat-cream {
   background-color: #fbd1a2;
 }
+
+.bg-default {
+  background-color: #f5f5f5;
+}
+
+.flex-column-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+.borderless {
+  border: none;
+}
+
+.light-font {
+  color: #f5f5f5;
+}
+
+.font-prussian-blue {
+  color: #000022;
+}

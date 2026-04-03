@@ -4,16 +4,30 @@ import { FieldContent, Field } from "@/components/ui/field";
 import { InfoIcon } from "lucide-vue-next";
 import InputWithIcon from "../Components/InputWithIcon.vue";
 import { useCommonStore } from "@/modules/Common/Stores/common.store";
+import { useElementSizeObservabilityV2 } from "../Composables/useElementSizeObservabilityV2";
+import { watch } from "vue";
 
 const common = useCommonStore();
+const header = useElementSizeObservabilityV2();
 
 const props = defineProps<{
   sideBarPanelWidth?: number;
 }>();
+
+watch(
+  () => header.height.value,
+  ($height) => {
+    common.adjustHeaderHeight($height);
+  },
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
   <header
+    :ref="header.element"
     :class="'flex w-full p-1 justify-around gap-2 items-center bg-(--header-background-color)'"
   >
     <img

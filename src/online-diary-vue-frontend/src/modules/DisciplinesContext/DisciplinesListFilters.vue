@@ -1,0 +1,88 @@
+<script setup lang="ts">
+import { SearchIcon } from "lucide-vue-next";
+import InputWithIcon from "../Common/Components/InputWithIcon.vue";
+import Button from "@/components/ui/button/Button.vue";
+import Label from "@/components/ui/label/Label.vue";
+import Field from "@/components/ui/field/Field.vue";
+import Checkbox from "@/components/ui/checkbox/Checkbox.vue";
+import FieldContent from "@/components/ui/field/FieldContent.vue";
+import FieldLabel from "@/components/ui/field/FieldLabel.vue";
+import Select from "@/components/ui/select/Select.vue";
+import SelectTrigger from "@/components/ui/select/SelectTrigger.vue";
+import SelectValue from "@/components/ui/select/SelectValue.vue";
+import SelectContent from "@/components/ui/select/SelectContent.vue";
+import SelectGroup from "@/components/ui/select/SelectGroup.vue";
+import SelectItem from "@/components/ui/select/SelectItem.vue";
+import { useDisciplinesStore } from "./discipline.store";
+import SelectLabel from "@/components/ui/select/SelectLabel.vue";
+import type { DisciplineTeacher } from "./discipline.models";
+import { onMounted } from "vue";
+
+// форма для фильтрации списка дисциплин
+
+const store = useDisciplinesStore();
+const uniqueTeachers: DisciplineTeacher[] = [];
+
+onMounted(() => {
+  store.disciplines
+    .map((d) => d.teacher)
+    .filter((t) => t !== null)
+    .forEach((teacher) => {
+      if (!uniqueTeachers.some((t) => t.name === teacher?.name)) {
+        uniqueTeachers.push(teacher);
+      }
+    });
+});
+</script>
+
+<template>
+  <div class="rounded-md shadow-(--shadow-basic) h-max border shrink-0">
+    <div
+      class="p-4 bg-apricat-cream text-responsive-secondary font-semibold h-25 rounded-t-md"
+    >
+      Фильтрация
+    </div>
+    <div class="p-4">
+      <div class="text-responsive-tertiary mt-2 flex-column-layout gap-2">
+        <InputWithIcon
+          :place-holder="'название'"
+          :icon="SearchIcon"
+        ></InputWithIcon>
+        <InputWithIcon
+          :place-holder="'группа'"
+          :icon="SearchIcon"
+        ></InputWithIcon>
+        <InputWithIcon
+          :place-holder="'семестр'"
+          :icon="SearchIcon"
+        ></InputWithIcon>
+        <Select :class="'w-full'">
+          <SelectTrigger :class="'w-full'">
+            <SelectValue :placeholder="'преподаватель'" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>преподаватели</SelectLabel>
+              <SelectItem
+                v-for="teacher of uniqueTeachers"
+                :key="teacher.id"
+                :value="teacher.name"
+              >
+                {{ teacher.name }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Field :orientation="'horizontal'">
+          <Checkbox :id="'archived-filter'" :default-value="false" />
+          <FieldContent>
+            <FieldLabel for="archived-filter"> Архивные дисциплины </FieldLabel>
+          </FieldContent>
+        </Field>
+        <Button :class="'bg-bright-sky mx-auto'">
+          <Label :class="'font-prussian-blue'">Сбросить</Label>
+        </Button>
+      </div>
+    </div>
+  </div>
+</template>
