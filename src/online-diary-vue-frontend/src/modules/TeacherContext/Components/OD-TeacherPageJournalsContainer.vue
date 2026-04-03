@@ -5,8 +5,8 @@ import type { Discipline } from "../Models/Discipline";
 import { SearchIcon } from "lucide-vue-next";
 import ODTeacherDisciplineCard from "./OD-TeacherDisciplineCard.vue";
 import InputWithIcon from "@/modules/Common/Components/InputWithIcon.vue";
-import ScrollableContent from "@/modules/Common/Components/ScrollableContent.vue";
 import { useElementSizeObservabilityV2 } from "@/modules/Common/Composables/useElementSizeObservabilityV2";
+import VerticalScrollableContent from "@/modules/Common/Components/VerticalScrollableContent.vue";
 
 const cards: Discipline[] = generate(51);
 const scrollAreaLimit = ref(0);
@@ -57,7 +57,7 @@ function generate(count: number): Discipline[] {
         <InputWithIcon :icon="SearchIcon" :placeHolder="'Поиск...'" />
       </div>
       <CardContent>
-        <ScrollableContent :heightLimit="scrollAreaLimit">
+        <VerticalScrollableContent :heightLimit="scrollAreaLimit">
           <div :class="'flex flex-wrap gap-2'">
             <ODTeacherDisciplineCard
               :class="'shrink min-w-35 flex-1 sm:min-w-70 md:min-w-max'"
@@ -66,7 +66,7 @@ function generate(count: number): Discipline[] {
               v-bind="discipline"
             />
           </div>
-        </ScrollableContent>
+        </VerticalScrollableContent>
       </CardContent>
     </Card>
   </div>
