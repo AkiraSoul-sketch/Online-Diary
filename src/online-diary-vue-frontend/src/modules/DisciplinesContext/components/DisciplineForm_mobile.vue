@@ -20,31 +20,32 @@ const props = defineProps<{
   <Drawer v-if="isXS() || isSM() || isMD()" :open="props.isOpen">
     <DrawerContent>
       <section :class="'flex flex-col justify-center items-center gap-2'">
-        <div
-          :class="'p-4 rounded-t-md text-responsive-secondary font-semibold'"
-        >
+
+        <div :class="'p-4 rounded-t-md text-responsive-secondary font-semibold'">
           Информация дисциплины
         </div>
+
         <div :class="'p-2 flex flex-col gap-2'">
-          <Input :model-value="'Дискретная математика'" />
-          <Input :model-value="'Семестр - 1'" />
-          <Input :model-value="'Группа - 1'" />
-          <Input :model-value="'Преподается - Федоров М.М.'" />
-          <BooleanBlockText
-            :value="false"
-            :onTrue="'Архивна'"
-            :onFalse="'Не архивна'"
-          />
+          <Input :class="'text-responsive-tertiary'" :model-value="'Дискретная математика'" />
+          <Input :class="'text-responsive-tertiary'" :model-value="'Семестр - 1'" />
+          <Input :class="'text-responsive-tertiary'" :model-value="'Группа - 1'" />
+          <Input :class="'text-responsive-tertiary'" :model-value="'Преподается - Федоров М.М.'" />
+          <BooleanBlockText :class="'text-responsive-tertiary'" :value="false" :onTrue="'Архивна'"
+            :onFalse="'Не архивна'" />
+
           <Separator :orientation="'horizontal'" />
+
           <div :class="'grid grid-cols-2 gap-2'">
             <Label :class="'text-responsive-tertiary'">Дата создания</Label>
-            <BlockText :value="'12.12.2023'" />
+            <BlockText :class="'text-responsive-tertiary'" :value="'12.12.2023'" />
           </div>
+
           <div :class="'grid grid-cols-2 gap-2'">
             <Label :class="'text-responsive-tertiary'">Дата изменения</Label>
-            <BlockText :value="'12.12.2023'" />
+            <BlockText :class="'text-responsive-tertiary'" :value="'12.12.2023'" />
           </div>
         </div>
+
       </section>
     </DrawerContent>
   </Drawer>

@@ -7,10 +7,8 @@ const store = useGradebookStore();
 </script>
 
 <template>
-  <CardHeader
-    :class="'flex justify-center gap-10 w-full items-center'"
-    v-if="store.gradingStudentValue !== null"
-    >{{ "Тема " + store.gradingStudentValue.theme.date.toLocaleDateString() }}
-    <Button v-on:click="store.disbandGradingStudent()">Отменить</Button>
+  <CardHeader :class="'flex justify-center gap-10 w-full items-center text-responsive-tertiary'"
+    v-if="store.gradingStudentValue !== null">{{ "Тема " + store.gradingStudentValue.theme.date.toLocaleDateString() }}
+    <Button :class="'text-responsive-tertiary'" v-on:click="store.disbandGradingStudent()">Отменить</Button>
   </CardHeader>
 </template>

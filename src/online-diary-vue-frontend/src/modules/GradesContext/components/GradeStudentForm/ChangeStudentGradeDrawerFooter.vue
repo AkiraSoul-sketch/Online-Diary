@@ -6,7 +6,7 @@ const store = useGradebookStore();
 </script>
 
 <template>
-  <CardFooter :class="'flex flex-col'">
+  <CardFooter :class="'flex flex-col text-responsive-tertiary'">
     <div v-if="store.gradingStudentValue !== null">
       <span>Обучающийся: </span>
       <span>{{ store.gradingStudentValue.student.name }}</span>

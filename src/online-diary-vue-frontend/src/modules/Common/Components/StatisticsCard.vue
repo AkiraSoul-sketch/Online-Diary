@@ -9,12 +9,10 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Card
-    class="bg-prussian-blue borderless light-font font-bold flex-1 min-w-[200px] shadow-(--shadow-basic)"
-  >
-    <CardContent class="p-4">
-      <div class="text-responsive-secondary">{{ props.title }}</div>
-      <div class="text-responsive-primary font-semibold">{{ props.value }}</div>
+  <Card :class="'card-fifth flex-1 min-w-[200px] border-none'">
+    <CardContent :class="'p-4'">
+      <div :class="'text-responsive-primary font-semibold  text-white'">{{ props.title }}</div>
+      <div :class="'text-responsive-primary font-semibold text-white'">{{ props.value }}</div>
     </CardContent>
   </Card>
 </template>

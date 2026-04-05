@@ -12,10 +12,10 @@ function gradeValueText(grade: Grade): string {
 </script>
 
 <template>
-  <div :class="'flex flex-row gap-1'">
+  <div :class="'flex flex-row gap-1 text-responsive-tertiary'">
     <span>Текущая оценка:</span>
     <span v-if="store.gradingStudentValue !== null" :class="'underline '">{{
       gradeValueText(store.gradingStudentValue.grade)
-    }}</span>
+      }}</span>
   </div>
 </template>

@@ -16,13 +16,10 @@ function pickStudentForGraduation(grade: Grade): void {
 </script>
 
 <template>
-  <div
-    v-for="grade of student.grades"
-    :key="student.id + '-' + grade.theme"
-    :class="'mx-1 my-1 p-1 drop-shadow-xl justify-center items-center text-center bg-zinc-100'"
-    v-on:click="pickStudentForGraduation(grade)"
-  >
-    <div :style="{ backgroundColor: resolveGradebookColor(grade) }">
+  <div v-for="grade of student.grades" :key="student.id + '-' + grade.theme"
+    :class="'mx-1 my-1 p-1 drop-shadow-xl justify-center items-center text-center btn-primary'"
+    v-on:click="pickStudentForGraduation(grade)">
+    <div :class="'text-responsive-tertiary'" :style="{ backgroundColor: resolveGradebookColor(grade) }">
       {{ grade.gradeValue }}
     </div>
   </div>

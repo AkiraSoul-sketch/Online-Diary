@@ -26,26 +26,21 @@ watch(
 </script>
 
 <template>
-  <section
-    :class="'bg-block-light-neutral flex-column-layout full-size rounded-md border bg-(--bg-light) shadow-(--shadow-basic)'"
-  >
-    <div
-      :ref="header.element"
-      :class="'p-4 bg-tangerine-dream flex-column-layout rounded-t-md'"
-    >
+  <section :class="'flex-column-layout full-size rounded-md border'">
+    <div :ref="header.element" :class="'p-4 item-bg-secondary flex-column-layout rounded-t-md'">
       <div :class="'text-responsive-primary font-semibold font-prussian-blue'">
         Список дисциплин
       </div>
       <div :class="'flex-row-layout gap-2'">
         <div class="flex items-center gap-2 ml-auto">
-          <Button class="flex bg-white font-prussian-blue items-center gap-2">
+          <Button :variant="'primary'" class="flex items-center gap-2">
             <PlusIcon :size="16" />
             <span class="text-responsive-secondary">Создать</span>
           </Button>
         </div>
       </div>
     </div>
-    <VerticalScrollableContent :height-limit="heightLimit">
+    <VerticalScrollableContent :class="'item-bg-primary'" :height-limit="heightLimit">
       <DisciplinesList_xs_sm_md />
       <DisciplinesList_lg />
       <DisciplinesList_xl_xxl />

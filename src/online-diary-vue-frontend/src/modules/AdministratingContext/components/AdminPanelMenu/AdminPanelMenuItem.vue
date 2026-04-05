@@ -12,6 +12,7 @@ import type {
   AdminPanelMenuCategoryItem,
 } from "./models/admin-panel.models";
 import { useAdminStore } from "../../admin.store";
+import { classConstructor } from "@/modules/Common/ComponentsLogic/classConstructor";
 
 const props = defineProps<AdminPanelMenuCategory>();
 const adminStore = useAdminStore();
@@ -41,16 +42,14 @@ function hasMenuItems() {
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger :class="'rounded-none'">
-      <Button :class="resolveButtonClass(props)">{{ props.menuName }}</Button>
+      <Button :variant="'primary'" :class="classConstructor('text-responsive-secondary', resolveButtonClass(props))">{{
+        props.menuName
+      }}</Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent v-if="hasMenuItems()">
       <DropdownMenuGroup>
-        <RouterLink
-          v-on:click="() => setAdminMenuTitle(item)"
-          v-for="item in props.items"
-          :key="item.menuName"
-          :to="item.route"
-        >
+        <RouterLink v-on:click="() => setAdminMenuTitle(item)" v-for="item in props.items" :key="item.menuName"
+          :to="item.route">
           <DropdownMenuLabel>{{ item.menuName }}</DropdownMenuLabel>
         </RouterLink>
       </DropdownMenuGroup>

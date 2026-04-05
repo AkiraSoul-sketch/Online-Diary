@@ -12,10 +12,7 @@ function studentNameText(student: StudentInfo): string {
 </script>
 
 <template>
-  <div
-    v-for="student of props.students"
-    :class="'bg-zinc-100 w-full text-center p-1'"
-  >
+  <div v-for="student of props.students" :class="'text-responsive-tertiary bg-slate-100 w-full text-center p-1'">
     {{ studentNameText(student) }}
   </div>
 </template>

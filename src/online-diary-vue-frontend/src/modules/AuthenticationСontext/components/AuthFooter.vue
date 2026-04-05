@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 <template>
   <Separator />
-  <Button variant="outline" :class="'self-center'">
-    <div>Сбросить пароль</div>
+  <Button :variant="'secondary'" :class="'self-center'">
+    <div :class="'text-responsive-tertiary'">Сбросить пароль</div>
   </Button>
 </template>

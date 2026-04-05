@@ -31,40 +31,30 @@ function convertDateToCalendarDate(date: Date): DateValue {
 </script>
 
 <template>
-  <Card :class="'shadow-(--shadow-basic) p-2'">
+  <Card :class="'card-primary p-2'">
     <CardContent :class="'flex gap-2 flex-row'">
-      <InputWithIcon
-        :class="'w-full'"
-        :place-holder="'Поиск студента'"
-        :icon="SearchIcon"
-      />
-      <Button :class="'p-1 w-auto'" :size="'icon'">
+      <InputWithIcon :class="'w-full'" :place-holder="'Поиск студента'" :icon="SearchIcon" />
+      <Button :class="'p-1 w-auto text-responsive-tertiary'" :variant="'sixth'" :size="'icon'">
         <Grid2X2PlusIcon />
         <label :class="'hidden md:inline'">Создать колонку</label>
       </Button>
-      <Button :class="'p-1 w-auto'" :size="'icon'">
+      <Button :class="'p-1 w-auto text-responsive-tertiary'" :variant="'secondary'" :size="'icon'">
         <LockIcon />
         <label :class="'hidden md:inline'">Блокировать таблицу</label>
       </Button>
-      <Button :class="'p-1 w-auto'" :size="'icon'">
+      <Button :class="'p-1 w-auto text-responsive-tertiary'" :variant="'quaternary'" :size="'icon'">
         <SaveIcon />
         <label :class="'hidden md:inline'">Сохранить</label>
       </Button>
       <Popover :class="'w-auto'">
         <PopoverTrigger :as-child="true">
-          <Button
-            :class="'shadow-sm border-(--text) text(--text)'"
-            :variant="'outline'"
-          >
+          <Button :class="'text-responsive-tertiary'" :variant="'tetriary'">
             <label>Выбрать дату</label>
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
         <PopoverContent>
-          <Calendar
-            :default-value="convertDateToCalendarDate(date)"
-            :locale="'ru-RU'"
-          />
+          <Calendar :default-value="convertDateToCalendarDate(date)" :locale="'ru-RU'" />
         </PopoverContent>
       </Popover>
     </CardContent>

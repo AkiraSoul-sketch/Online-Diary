@@ -12,15 +12,12 @@ const adminStore = useAdminStore();
 </script>
 
 <template>
-  <section
-    :class="'w-full h-full min-h-0 flex flex-col flex-1 bg-light-neutral'"
-  >
+  <section :class="'full-size flex-column-layout flex-constrained-column'">
     <div :class="'flex flex-col w-full self-center'">
       <AdminPanelMenu :class="'self-center'" />
-      <h3 :class="'text-responsive-primary mx-10 self-start'">
+      <h3 :class="'text-responsive-primary font-semibold  mx-10 self-start'">
         {{ adminStore.menuTitle }}
       </h3>
-      <Separator />
     </div>
     <section :class="'flex flex-1 min-h-0'">
       <RouterView />

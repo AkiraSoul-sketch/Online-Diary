@@ -36,52 +36,42 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="rounded-md shadow-(--shadow-basic) h-max border shrink-0">
-    <div
-      class="p-4 bg-apricat-cream text-responsive-secondary font-semibold h-25 rounded-t-md"
-    >
+  <div class="card-primary rounded-md h-max border shrink-0">
+    <div class="p-4 bg-apricat-cream text-responsive-secondary font-semibold h-25 rounded-t-md">
       Фильтрация
     </div>
     <div class="p-4">
       <div class="text-responsive-tertiary mt-2 flex-column-layout gap-2">
-        <InputWithIcon
-          :place-holder="'название'"
-          :icon="SearchIcon"
-        ></InputWithIcon>
-        <InputWithIcon
-          :place-holder="'группа'"
-          :icon="SearchIcon"
-        ></InputWithIcon>
-        <InputWithIcon
-          :place-holder="'семестр'"
-          :icon="SearchIcon"
-        ></InputWithIcon>
+
+        <InputWithIcon :class="'text-responsive-tertiary'" :place-holder="'название'" :icon="SearchIcon" />
+        <InputWithIcon :class="'text-responsive-tertiary'" :place-holder="'группа'" :icon="SearchIcon" />
+        <InputWithIcon :class="'text-responsive-tertiary'" :place-holder="'семестр'" :icon="SearchIcon" />
+
         <Select :class="'w-full'">
-          <SelectTrigger :class="'w-full'">
+          <SelectTrigger :class="'text-responsive-tertiary w-full'">
             <SelectValue :placeholder="'преподаватель'" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>преподаватели</SelectLabel>
-              <SelectItem
-                v-for="teacher of uniqueTeachers"
-                :key="teacher.id"
-                :value="teacher.name"
-              >
+              <SelectItem v-for="teacher of uniqueTeachers" :key="teacher.id" :value="teacher.name">
                 {{ teacher.name }}
               </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
+
         <Field :orientation="'horizontal'">
           <Checkbox :id="'archived-filter'" :default-value="false" />
           <FieldContent>
-            <FieldLabel for="archived-filter"> Архивные дисциплины </FieldLabel>
+            <FieldLabel :class="'text-responsive-tertiary'" for="archived-filter"> Архивные дисциплины </FieldLabel>
           </FieldContent>
         </Field>
-        <Button :class="'bg-bright-sky mx-auto'">
-          <Label :class="'font-prussian-blue'">Сбросить</Label>
+
+        <Button :variant="'secondary'" :class="'mx-auto'">
+          <Label :class="'text-responsive-tertiary font-prussian-blue'">Сбросить</Label>
         </Button>
+
       </div>
     </div>
   </div>

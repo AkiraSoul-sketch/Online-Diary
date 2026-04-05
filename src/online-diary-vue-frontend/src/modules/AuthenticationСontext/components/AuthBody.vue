@@ -8,69 +8,60 @@ import type { AuthInputs } from "@/modules/AuthenticationСontext/Authentication
 import { ref } from "vue";
 
 const props = defineProps<{
-  authInputs: AuthInputs;
+  authenticationData: AuthInputs;
   onAuth: () => void;
 }>();
 
-const ErrorLogin = ref(false);
-const ErrorPassword = ref(false);
+const isLoginFailure = ref(false);
+const isPasswordFailure = ref(false);
 
-function CheckForPassword(): boolean {
-  if (props.authInputs.password === "") {
-    ErrorPassword.value = true;
+function validatePassword(): boolean {
+  if (props.authenticationData.password === "") {
+    isPasswordFailure.value = true;
   } else {
-    ErrorPassword.value = false;
+    isPasswordFailure.value = false;
   }
-  return ErrorPassword.value;
+  return isPasswordFailure.value;
 }
-function CheckForLogin(): boolean {
-  if (props.authInputs.login === "") {
-    ErrorLogin.value = true;
+
+function validateLogin(): boolean {
+  if (props.authenticationData.login === "") {
+    isLoginFailure.value = true;
   } else {
-    ErrorLogin.value = false;
+    isLoginFailure.value = false;
   }
-  return ErrorLogin.value;
+  return isLoginFailure.value;
 }
-function Auth(): void {
-  const IsLoginInvalid = CheckForLogin();
-  const IsPasswordInvalid = CheckForPassword();
-  if (IsLoginInvalid || IsPasswordInvalid == true) {
-    return;
-  }
+
+function authenticate(): void {
+  const isLoginInvalid = validateLogin();
+  const isPasswordInvalid = validatePassword();
+  if (isLoginInvalid || isPasswordInvalid == true) return;
   props.onAuth();
 }
+
 </script>
 
 <template>
-  <CardContent :class="'flex flex-col justify-center items-center gap-2'">
+  <CardContent :class="'flex-column-layout justify-center items-center gap-2'">
+
     <Field>
-      <FieldError
-        v-if="ErrorLogin === true"
-        :errors="[{ message: 'Пустой логин!' }]"
-      />
-      <Input
-        placeholder="Логин"
-        v-model="props.authInputs.login"
-        :aria-invalid="ErrorLogin"
-      >
-      </Input>
-    </Field>
-    <Field>
-      <FieldError
-        v-if="ErrorPassword === true"
-        :errors="[{ message: 'Пустой пароль!' }]"
-      />
-      <Input
-        type="password"
-        placeholder="Пароль"
-        v-model="props.authInputs.password"
-        :aria-invalid="ErrorPassword"
-      >
+      <FieldError v-if="isLoginFailure === true" :errors="[{ message: 'Необходимо ввести логин' }]" />
+      <Input :class="'text-responsive-secondary item-bg-primary-accent-2'" placeholder="Логин"
+        v-model="props.authenticationData.login" :aria-invalid="isLoginFailure">
       </Input>
     </Field>
 
-    <Button variant="outline" @click="Auth">
-      <div>Войти</div>
+    <Field>
+      <FieldError v-if="isPasswordFailure === true" :errors="[{ message: 'Необходимо ввести пароль' }]" />
+      <Input type="password" :class="'text-responsive-secondary item-bg-primary-accent-2'" placeholder="Пароль"
+        v-model="props.authenticationData.password" :aria-invalid="isPasswordFailure">
+      </Input>
+    </Field>
+
+    <Button :variant="'sixth'" @click="authenticate">
+      <span :class="'text-responsive-tertiary'">Войти</span>
     </Button>
+
   </CardContent>
 </template>

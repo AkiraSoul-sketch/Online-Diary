@@ -7,10 +7,7 @@ const container = useElementSizeObservabilityV2();
 </script>
 
 <template>
-  <section
-    class="flex flex-col gap-2 flex-1 min-h-0 min-w-0 bg-zinc-200 p-2 h-full w-full"
-    :ref="container.element"
-  >
+  <section class="flex-column-layout flex-constrained full-size gap-2 p-2" :ref="container.element">
     <ODJournalEditBlock />
     <GradebookTools />
     <Gradebook :containerWidth="container.width.value" />

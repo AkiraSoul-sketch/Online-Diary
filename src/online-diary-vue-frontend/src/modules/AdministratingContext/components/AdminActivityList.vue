@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
-import ScrollableContent from "@/modules/Common/Components/ScrollableContent.vue";
 import { useElementSizeObservabilityV2 } from "@/modules/Common/Composables/useElementSizeObservabilityV2";
 import { ref, watch, type Ref } from "vue";
 import AdminActivityCard from "./AdminActivityCard.vue";
@@ -26,18 +25,14 @@ watch(
   },
 );
 </script>
-
 <template>
-  <div
-    :class="'gap-6 p-2 my-2 bg-block-light-neutral shadow-(--shadow-basic) rounded-sm'"
-    :ref="containerSizeObserver.element"
-  >
-    <Card :class="'flex-1 min-h-0 flex-col gap-6 p-0 border-none shadow-none'">
+  <div :class="'gap-6 p-2 my-2 card-primary rounded-sm'" :ref="containerSizeObserver.element">
+    <Card :class="'flex-constrained-column item-bg-primary gap-6 p-0 borderless shadow-none'">
       <div :ref="titleSizeObserver.element">
-        <CardTitle>Список действий</CardTitle>
+        <CardTitle :class="'font-normal text-responsive-primary item-bg-primary'">Список действий</CardTitle>
       </div>
       <div :class="'px-2'" :ref="inputObserver.element">
-        <InputWithIcon :place-holder="'Фильтр по тексту'" :icon="SearchIcon" />
+        <InputWithIcon :class="'text-responsive-secondary'" :place-holder="'Фильтр по тексту'" :icon="SearchIcon" />
       </div>
       <CardContent :class="'flex-1 min-h-0 rounded-sm p-2'">
         <VerticalScrollableContent :height-limit="scrollAreaLimit">
