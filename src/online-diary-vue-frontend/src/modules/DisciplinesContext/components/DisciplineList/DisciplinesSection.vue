@@ -33,7 +33,7 @@ watch(
       </div>
       <div :class="'flex-row-layout gap-2'">
         <div class="flex items-center gap-2 ml-auto">
-          <Button :variant="'primary'" class="flex items-center gap-2">
+          <Button :variant="'primary'" class=" flex items-center gap-2">
             <PlusIcon :size="16" />
             <span class="text-responsive-secondary">Создать</span>
           </Button>

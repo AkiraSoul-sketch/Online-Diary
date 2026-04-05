@@ -12,7 +12,21 @@ function studentNameText(student: StudentInfo): string {
 </script>
 
 <template>
-  <div v-for="student of props.students" :class="'text-responsive-tertiary bg-slate-100 w-full text-center p-1'">
+  <div v-for="student of props.students" :class="'text-responsive-tertiary student-block  w-full text-center p-1'">
     {{ studentNameText(student) }}
   </div>
 </template>
+
+<style scoped lang="css">
+.student-block {
+  background-color: var(--bg-primary-accent-2);
+  color: var(--fg-primary);
+  border: none;
+  transition: background 0.2s;
+  box-shadow: var(--shadow-primary);
+}
+
+.student-block:hover {
+  background-color: var(--bg-primary-accent);
+}
+</style>

@@ -1,15 +1,116 @@
+:root {
+  --bg-primary: hsl(0, 0%, 96%);
+  --bg-primary-accent: hsl(0, 0%, 93%);
+  --bg-primary-accent-2: hsl(0, 0%, 98%);
+  --bg-secondary: hsl(22, 91%, 65%);
+  --bg-tertiary: hsl(32, 92%, 81%);
+  --bg-quaternary: hsl(194, 64%, 57%);
+  --bg-fifth: hsl(240, 100%, 7%);
+  --bg-sixth: hsl(104, 44%, 55%);
+  --fg-primary: hsl(240, 100%, 7%);
+  --fg-reversed: hsl(0, 0%, 96%);
+  --shadow-primary: 0 2px 8px 0 rgba(0, 0, 0, 0.06);
+
+  --bg-primary-hover: hsl(0, 0%, 88%);
+  --bg-secondary-hover: hsl(25, 74%, 53%);
+  --bg-tertiary-hover: hsl(35, 68%, 69%);
+  --bg-quaternary-hover: hsl(192, 52%, 46%);
+  --bg-fifth-hover: hsl(240, 33%, 20%);
+  --bg-sixth-hover: hsl(104, 44%, 45%);
+
+  --bg-primary-gradient: linear-gradient(
+    to bottom,
+    hsl(0, 0%, 98%),
+    hsl(0, 0%, 94%)
+  );
+  --bg-secondary-gradient: linear-gradient(
+    to bottom,
+    hsl(22, 91%, 68%),
+    hsl(22, 91%, 62%)
+  );
+  --bg-tertiary-gradient: linear-gradient(
+    to bottom,
+    hsl(32, 92%, 84%),
+    hsl(32, 92%, 78%)
+  );
+  --bg-quaternary-gradient: linear-gradient(
+    to bottom,
+    hsl(194, 64%, 60%),
+    hsl(194, 64%, 54%)
+  );
+  --bg-fifth-gradient: linear-gradient(
+    to bottom,
+    hsl(240, 100%, 12%),
+    hsl(240, 100%, 4%)
+  );
+  --bg-sixth-gradient: linear-gradient(
+    to bottom,
+    hsl(104, 44%, 58%),
+    hsl(104, 44%, 52%)
+  );
+}
+
+.dark {
+  --bg-primary: hsl(220, 8%, 16%);
+  --bg-primary-accent: hsl(220, 8%, 20%);
+  --bg-primary-accent-2: hsl(220, 8%, 24%);
+  --bg-secondary: hsl(28, 85%, 55%);
+  --bg-tertiary: hsl(32, 88%, 60%);
+  --bg-quaternary: hsl(194, 64%, 45%);
+  --bg-fifth: hsl(0, 0%, 25%);
+  --bg-sixth: hsl(104, 44%, 45%);
+  --fg-primary: hsl(0, 0%, 96%);
+  --fg-reversed: hsl(240, 100%, 7%);
+  --shadow-primary: 0 2px 10px rgba(0, 0, 0, 0.6);
+  --bg-primary-hover: hsl(0, 0%, 22%);
+
+  --bg-primary-gradient: linear-gradient(
+    to bottom,
+    hsl(220, 8%, 18%),
+    hsl(220, 8%, 14%)
+  );
+  --bg-secondary-gradient: linear-gradient(
+    to bottom,
+    hsl(28, 85%, 63%),
+    hsl(28, 85%, 57%)
+  );
+  --bg-tertiary-gradient: linear-gradient(
+    to bottom,
+    hsl(32, 88%, 68%),
+    hsl(32, 88%, 62%)
+  );
+  --bg-quaternary-gradient: linear-gradient(
+    to bottom,
+    hsl(194, 64%, 53%),
+    hsl(194, 64%, 47%)
+  );
+  --bg-fifth-gradient: linear-gradient(
+    to bottom,
+    hsl(0, 0%, 36%),
+    hsl(0, 0%, 30%)
+  );
+  --bg-sixth-gradient: linear-gradient(
+    to bottom,
+    hsl(104, 44%, 48%),
+    hsl(104, 44%, 42%)
+  );
+
+  --bg-primary-hover: hsl(0, 0%, 22%);
+  --bg-secondary-hover: hsl(25, 74%, 43%);
+  --bg-tertiary-hover: hsl(35, 68%, 59%);
+  --bg-quaternary-hover: hsl(192, 52%, 36%);
+  --bg-fifth-hover: hsl(240, 33%, 20%);
+  --bg-sixth-hover: hsl(104, 44%, 35%);
+}
+
 .borderless {
   border: none;
 }
 
-.light-font {
-  color: hsl(0, 0%, 96%);
-}
-
-.dark-font {
-  color: hsl(240, 100%, 7%);
-}
-
 .bg-main {
-  background-color: hsl(210, 40%, 96%);
+  background-color: var(--bg-primary);
+}
+
+.font-main {
+  color: var(--fg-primary);
 }

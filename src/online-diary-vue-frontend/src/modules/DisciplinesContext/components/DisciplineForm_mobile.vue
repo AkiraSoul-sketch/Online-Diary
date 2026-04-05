@@ -17,8 +17,8 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Drawer v-if="isXS() || isSM() || isMD()" :open="props.isOpen">
-    <DrawerContent>
+  <Drawer :fixed="true" v-if="isXS() || isSM() || isMD()" :open="props.isOpen">
+    <DrawerContent :class="'card-primary'">
       <section :class="'flex flex-col justify-center items-center gap-2'">
 
         <div :class="'p-4 rounded-t-md text-responsive-secondary font-semibold'">

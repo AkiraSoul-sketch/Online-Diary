@@ -29,7 +29,7 @@ onMounted(() => {
         </ItemTitle>
         <Separator :orientation="'horizontal'" />
         <div :class="'p-4 flex gap-4 flex-row flex-wrap'">
-          <Card v-for="discipline of group.disciplines" :class="'p-6 item-bg-primary'">
+          <Card v-for="discipline of group.disciplines" :class="'p-6 item-bg-primary-accent'">
             <ItemTitle :class="'text-responsive-secondary text-wrap h-20  w-45 sm:w-50 md:w-70 lg:w-80'">
               {{ discipline.name }}
             </ItemTitle>

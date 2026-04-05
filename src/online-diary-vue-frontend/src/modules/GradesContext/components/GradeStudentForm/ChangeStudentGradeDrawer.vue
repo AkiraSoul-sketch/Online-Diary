@@ -34,9 +34,9 @@ function gradeStudent(gradeValue: string): void {
 </script>
 
 <template>
-  <Drawer :direction="'bottom'" :open="store.gradingStudentValue !== null">
-    <DrawerContent>
-      <Card :class="'border-0 shadow-none flex items-center-safe'">
+  <Drawer :fixed="true" :direction="'bottom'" :open="store.gradingStudentValue !== null">
+    <DrawerContent :class="'card-primary'">
+      <Card :class="'border-0 shadow-none flex items-center-safe bg-transparent'">
         <ChangeStudentGradeDrawerTitle />
         <CardTitle :class="'text-responsive-primary'"> Изменение оценки </CardTitle>
         <ChangeStudentGradeCurrentStatus />

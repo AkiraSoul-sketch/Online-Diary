@@ -27,7 +27,7 @@ watch(
 
 <template>
   <header :ref="header.element"
-    :class="'flex w-full p-1 card-sixth-accent  justify-around gap-2 items-center bg-(--header-background-color)'">
+    :class="'flex w-full p-1 card-sixth-accent justify-around gap-2 items-center bg-(--header-background-color)'">
     <img src="/main_logo.svg" :class="'h-8 brightness-0 sm:h-9 md:h-11 lg:h-13 xl:h-15 2xl:h-17'"
       v-on:click="common.toggleSideBar" />
     <InputWithIcon :place-holder="'Поиск...'" :icon="InfoIcon" />

@@ -32,8 +32,8 @@ watch(
 );
 </script>
 <template>
-  <Drawer :open="common.$state.sideBarHidden" :no-body-styles="true" :direction="'left'">
-    <DrawerContent @interact-outside="focusedOutside" :class="'bg-accent'">
+  <Drawer :fixed="true" :open="common.$state.sideBarHidden" :no-body-styles="true" :direction="'left'">
+    <DrawerContent @interact-outside="focusedOutside" :class="'card-primary'">
       <DrawerHeader :class="'item-bg-quaternary flex-row-layout justify-between items-center h-20'">
         <DrawerTitle :class="'text-responsive-primary flex items-center gap-5'">
           <img src="/main_logo.svg" :class="'h-12 brightness-0'" />

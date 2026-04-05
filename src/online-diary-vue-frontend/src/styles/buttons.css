@@ -1,65 +1,71 @@
 .btn-primary {
-  background-color: hsl(0, 0%, 96%);
-  color: hsl(240, 100%, 7%);
+  background-color: var(--bg-primary);
+  box-shadow: var(--shadow-primary);
+  color: var(--fg-primary);
   border: none;
   transition: background 0.2s;
 }
 
 .btn-primary:hover {
-  background-color: hsl(0, 0%, 88%);
+  background-color: var(--bg-primary-hover);
 }
 
 .btn-secondary {
-  background-color: hsl(22, 91%, 65%);
-  color: hsl(240, 100%, 7%);
+  background-color: var(--bg-secondary);
+  box-shadow: var(--shadow-primary);
+  color: var(--fg-primary);
   border: none;
   transition: background 0.2s;
 }
 
 .btn-secondary:hover {
-  background-color: hsl(25, 74%, 53%);
+  background-color: var(--bg-secondary-hover);
 }
 
-.btn-tetriary {
-  background-color: hsl(32, 92%, 81%);
-  color: hsl(240, 100%, 7%);
+.btn-tertiary {
+  background-color: var(--bg-tertiary);
+  box-shadow: var(--shadow-primary);
+  color: var(--fg-primary);
   border: none;
   transition: background 0.2s;
 }
 
-.btn-tetriary:hover {
-  background-color: hsl(35, 68%, 69%);
+.btn-tertiary:hover {
+  background-color: var(--bg-tertiary-hover);
 }
 
 .btn-quaternary {
-  background-color: hsl(194, 64%, 57%);
-  color: hsl(240, 100%, 7%);
+  background-color: var(--bg-quaternary);
+  box-shadow: var(--shadow-primary);
+  color: var(--fg-primary);
   border: none;
   transition: background 0.2s;
 }
 
 .btn-quaternary:hover {
-  background-color: hsl(192, 52%, 46%);
+  background-color: var(--bg-quaternary-hover);
 }
 
 .btn-fifth {
-  background-color: hsl(240, 100%, 7%);
-  color: hsl(0, 0%, 96%);
+  background-color: var(--bg-fifth);
+  box-shadow: var(--shadow-primary);
+  color: var(--fg-reversed);
   border: none;
   transition: background 0.2s;
 }
 
 .btn-fifth:hover {
-  background-color: hsl(240, 33%, 20%);
+  background-color: var(--bg-fifth-hover);
 }
 
 .btn-sixth {
-  background-color: hsl(104, 44%, 55%);
-  color: hsl(240, 100%, 7%);
+  background-color: var(--bg-sixth);
+  box-shadow: var(--shadow-primary);
+  color: var(--fg-primary);
   border: none;
   transition: background 0.2s;
 }
 
 .btn-sixth:hover {
-  background-color: hsl(104, 44%, 45%);
+  background-color: var(--bg-sixth-hover);
 }

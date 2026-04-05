@@ -58,7 +58,7 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
           <GradebookPeriodBlock />
         </div>
 
-        <div :class="'drop-shadow-xl flex flex-col my-3 gap-2 justify-center'">
+        <div :class="'flex flex-col my-3 gap-2 justify-center'">
           <GradebookStudents :students="students" />
         </div>
       </div>
