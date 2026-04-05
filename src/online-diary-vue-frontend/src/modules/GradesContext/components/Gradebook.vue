@@ -45,56 +45,37 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
 
 <template>
   <section :class="'flex flex-constrained'">
-    <div
-      :class="'flex gap-1.5 flex-constrained overflow-auto'"
-      :key="themeSize.height.value"
-    >
-      <div
-        :class="'justify-center items-center min-w-0 min-h-0'"
-        v-if="themeSize.height.value > 0"
-        :ref="leftColumn.element"
-        :style="{
+    <div :class="'flex gap-1.5 flex-constrained overflow-auto'" :key="themeSize.height.value">
+      <div :class="'justify-center items-center min-w-0 min-h-0'" v-if="themeSize.height.value > 0"
+        :ref="leftColumn.element" :style="{
           height: '826px',
           display: 'grid',
           gridTemplateRows: `auto repeat(${students.length}, 1fr)`,
-        }"
-      >
-        <div
-          :style="{
-            height: themeSize.height.value + 16 + 'px',
-          }"
-          :class="'min-w-0'"
-        >
+        }">
+        <div :style="{
+          height: themeSize.height.value + 16 + 'px',
+        }" :class="'min-w-0'">
           <GradebookPeriodBlock />
         </div>
 
-        <div :class="'drop-shadow-xl flex flex-col my-3 gap-2 justify-center'">
+        <div :class="'flex flex-col my-3 gap-2 justify-center'">
           <GradebookStudents :students="students" />
         </div>
       </div>
       <div :class="'flex-constrained'">
-        <HorizontalScrollableContent
-          :width-limit="containerWidth - leftColumn.width.value - 8"
-        >
-          <div
-            :style="{
-              display: 'grid',
-              gridTemplateColumns: `repeat(${themes.length}, 45px)`,
-            }"
-          >
-            <div
-              v-for="(theme, index) in themes"
-              :ref="
-                (element) => {
-                  if (index === 0) {
-                    const htmlEl: HTMLElement = element as HTMLElement;
-                    themeSize.element.value = htmlEl;
-                  }
-                }
-              "
-              :key="'header-' + theme.index"
-              :class="' left-9 grid grid-rows-[auto_1fr] p-1 my-1 mx-1 justify-center'"
-            >
+        <HorizontalScrollableContent :width-limit="containerWidth - leftColumn.width.value - 8">
+          <div :style="{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${themes.length}, 45px)`,
+          }">
+            <div v-for="(theme, index) in themes" :ref="(element) => {
+              if (index === 0) {
+                const htmlEl: HTMLElement = element as HTMLElement;
+                themeSize.element.value = htmlEl;
+              }
+            }
+              " :key="'header-' + theme.index"
+              :class="' left-9 grid grid-rows-[auto_1fr] p-1 my-1 mx-1 justify-center'">
               <GradebookTheme :theme="theme" />
             </div>
             <GradebookThemeSeparator />

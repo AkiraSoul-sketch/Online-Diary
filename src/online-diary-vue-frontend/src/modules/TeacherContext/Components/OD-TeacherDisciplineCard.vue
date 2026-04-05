@@ -10,7 +10,7 @@ const props = defineProps<Discipline>();
 </script>
 
 <template>
-  <Item :variant="'muted'" :class="'p-0 gap-0'">
+  <Item :variant="'muted'" :class="'p-0 gap-0 bg-block-light-accent'">
     <div :class="'block p-2'">
       <ItemTitle :class="'text-responsive-primary'">{{ props.name }}</ItemTitle>
       <ItemFooter :class="'text-responsive-secondary'">{{

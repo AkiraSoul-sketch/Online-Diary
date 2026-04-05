@@ -12,7 +12,7 @@ import {
   DrawerDescription,
 } from "@/components/ui/drawer";
 import SidebarExitButton from "./components/SidebarExitButton.vue";
-import DrawerOverlay from "@/components/ui/drawer/DrawerOverlay.vue";
+import type { FocusOutsideEvent } from "reka-ui";
 
 const width: Ref<number> = ref(0);
 const common = useCommonStore();
@@ -32,15 +32,10 @@ watch(
 );
 </script>
 <template>
-  <Drawer
-    :open="common.$state.sideBarHidden"
-    :no-body-styles="true"
-    :direction="'left'"
-    :dismissible="false"
-  >
-    <DrawerContent @interact-outside="focusedOutside" :class="'bg-accent'">
-      <DrawerHeader :class="'flex flex-row justify-between items-center h-20'">
-        <DrawerTitle :class="'flex items-center gap-5'">
+  <Drawer :fixed="true" :open="common.$state.sideBarHidden" :no-body-styles="true" :direction="'left'">
+    <DrawerContent @interact-outside="focusedOutside" :class="'card-primary'">
+      <DrawerHeader :class="'item-bg-quaternary flex-row-layout justify-between items-center h-20'">
+        <DrawerTitle :class="'text-responsive-primary flex items-center gap-5'">
           <img src="/main_logo.svg" :class="'h-12 brightness-0'" />
           Меню
         </DrawerTitle>
@@ -48,8 +43,10 @@ watch(
           <SidebarExitButton />
         </DrawerClose>
       </DrawerHeader>
-      <DrawerDescription>
+      <div :class="'item-bg-quaternary'">
         <ODSidebarAvatar />
+      </div>
+      <DrawerDescription>
         <ODSidebarMenuContent />
       </DrawerDescription>
     </DrawerContent>

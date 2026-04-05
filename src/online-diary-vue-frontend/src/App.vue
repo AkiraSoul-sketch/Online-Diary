@@ -4,20 +4,23 @@ import ODFooter from "./modules/Common/FooterContext/OD-Footer.vue";
 import ODSideBar from "./modules/Common/SidebarContext/OD-SideBar.vue";
 import { useGlobalContainerWidthTracker } from "./modules/Common/Composables/useGlobalContainerWidthTracker";
 import { useViewPortReadiness } from "./modules/Common/Composables/useViewportReadiness";
+import { useColorMode } from "@vueuse/core";
 
 // для отслеживания размеры вьюпорта, используется для того, чтобы не рендерить страницу
 // до тех пор, пока не будут известны размеры вьюпорта,
 // так как от этого зависит отображение некоторых компонентов.
 const viewportReadiness = useViewPortReadiness();
+
 // для отслеживания глобального контейнера страницы.
 // Используется, чтобы обновлять размеры графика в admin activity page.
 const widthTracker = useGlobalContainerWidthTracker();
+
+// адаптивная цветовая схема.
+const mode = useColorMode();
 </script>
 
-// TODO фикс проблемы с выходом за высоту страницы в журнале.
-
 <template>
-  <section :class="'w-full h-screen'" :ref="widthTracker.container">
+  <section :class="'bg-main w-full h-screen'" :ref="widthTracker.container">
     <ODSideBar />
     <div :class="'grid grid-rows-[auto_1fr_auto] h-full'">
       <ODHeader />

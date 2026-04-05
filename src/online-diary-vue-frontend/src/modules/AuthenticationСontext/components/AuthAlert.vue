@@ -10,11 +10,8 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Alert
-    v-if="isError"
-    variant="destructive"
-    :class="'mb-4 w-full max-w-md absolute top-20 sm:top-20 md:top-20 lg:top-20 xl:top-22 2xl:top-25 shadow-(--shadow-basic) '"
-  >
+  <Alert v-if="isError" variant="destructive"
+    :class="'mb-4 w-full max-w-md absolute top-20 sm:top-20 md:top-20 lg:top-20 xl:top-22 2xl:top-25 shadow-(--shadow-basic) '">
     <AlertCircleIcon />
     <AlertTitle>Произошла ошибка!</AlertTitle>
     <AlertDescription>

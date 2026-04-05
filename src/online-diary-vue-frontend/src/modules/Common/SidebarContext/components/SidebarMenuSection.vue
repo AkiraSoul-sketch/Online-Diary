@@ -9,9 +9,9 @@ const props = defineProps<{
 
 <template>
   <SidebarMenuItem :class="'flex flex-col gap-0'">
-    <Label :class="'p-1 m-0 text-responsive mx-2'">{{ sectionName }}</Label>
+    <Label :class="'p-1 m-0 text-responsive-secondary mx-2'">{{ sectionName }}</Label>
     <section :class="'flex flex-col gap-0.5'">
-      <slot></slot>
+      <slot />
     </section>
   </SidebarMenuItem>
 </template>

@@ -1,19 +1,48 @@
-:root {
-  --card-background: hsl(210 80% 50% / 0.75);
-  --card-border-color: hsl(210 60% 55% / 0.75);
-  --card-border-shadow: 0.01cm 0.05cm 5px 1px hsl(210 40% 30% / 0.8);
-  --card-linear-gradient: linear-gradient(
-    135deg,
-    hsl(210 80% 90% / 0.75) 0%,
-    hsl(210 80% 70% / 0.75) 0%,
-    hsl(210 80% 50% / 0.75) 100%
-  );
+.card-primary {
+  background-color: var(--bg-primary);
+  background-image: var(--bg-primary-gradient);
+  color: var(--fg-primary);
+  box-shadow: var(--shadow-primary);
 }
 
-.card {
-  background: var(--card-linear-gradient), var(--card-background);
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px outset var(--card-border-color);
-  box-shadow: var(--card-border-shadow);
+.card-secondary {
+  background-color: var(--bg-secondary);
+  background-image: var(--bg-secondary-gradient);
+  color: var(--fg-primary);
+  box-shadow: var(--shadow-primary);
+}
+
+.card-tertiary {
+  background-color: var(--bg-tertiary);
+  background-image: var(--bg-tertiary-gradient);
+  color: var(--fg-primary);
+  box-shadow: var(--shadow-primary);
+}
+
+.card-quaternary {
+  background-color: var(--bg-quaternary);
+  background-image: var(--bg-quaternary-gradient);
+  color: var(--fg-primary);
+  box-shadow: var(--shadow-primary);
+}
+
+.card-fifth {
+  background-color: var(--bg-fifth);
+  background-image: var(--bg-fifth-gradient);
+  color: var(--fg-reversed);
+  box-shadow: var(--shadow-primary);
+}
+
+.card-sixth {
+  background-color: var(--bg-sixth);
+  background-image: var(--bg-sixth-gradient);
+  color: var(--fg-primary);
+  box-shadow: var(--shadow-primary);
+}
+
+.card-sixth-accent {
+  background-color: hsla(100, 50%, 55%, 0.7);
+  background-image: var(--bg-sixth-gradient);
+  color: var(--fg-primary);
+  box-shadow: var(--shadow-primary);
 }

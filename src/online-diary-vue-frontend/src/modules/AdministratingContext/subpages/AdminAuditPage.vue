@@ -4,10 +4,8 @@ import AdminActivityList from "../components/AdminActivityList.vue";
 </script>
 
 <template>
-  <section
-    :class="'w-full h-full min-h-0 flex flex-col flex-1 md:flex-col lg:flex-row'"
-  >
-    <AdminActivityChart :class="'flex flex-1 min-h-0'" />
-    <AdminActivityList :class="'flex flex-1 min-h-0'" />
+  <section :class="'full-size flex-constrained-column flex flex-col md:flex-col lg:flex-row'">
+    <AdminActivityChart :class="'flex flex-constrained-column'" />
+    <AdminActivityList :class="'flex flex-constrained-column'" />
   </section>
 </template>

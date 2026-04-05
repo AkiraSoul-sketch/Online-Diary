@@ -7,10 +7,8 @@ const common = useCommonStore();
 </script>
 
 <template>
-  <Button
-    v-on:click="common.toggleSideBar"
-    :class="'border rounded-3xl w-9 shadow-(--shadow-basic)'"
-  >
+  <Button v-on:click="common.toggleSideBar" :variant="'primary'"
+    :class="'border rounded-3xl w-9 shadow-(--shadow-basic)'">
     <XIcon />
   </Button>
 </template>

@@ -48,7 +48,7 @@ function generate(count: number): Discipline[] {
 </script>
 
 <template>
-  <div :class="'flex-1 h-full flex flex-col p-1'" :ref="containerSize.element">
+  <div :class="'flex-1 h-full flex flex-col p-1 '" :ref="containerSize.element">
     <Card :class="'flex-1 min-h-0 flex-col gap-1 shadow-(--shadow-basic) p-2'">
       <div :ref="titleSize.element">
         <CardTitle :class="'text-responsive'">Журналы</CardTitle>

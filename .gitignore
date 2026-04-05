@@ -26,8 +26,10 @@ generative_model/
 
 # Editor directories and files
 .github
+*.github
 .github/*
 .github/
+*.vscode
 .vscode
 .vscode/*
 .vscode/

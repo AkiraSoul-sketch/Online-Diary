@@ -11,6 +11,9 @@
 @import "./colors.css";
 @import "./shadows.css";
 @import "./text-sizes.css";
+@import "./buttons.css";
+@import "./layouts.css";
+@import "./blocks.css";
 
 @font-face {
   font-family: "Inter";
@@ -98,7 +101,7 @@
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.208 0.042 265.755);
   --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
+  --popover: var(--bg-primary);
   --popover-foreground: oklch(0.984 0.003 247.858);
   --primary: oklch(0.929 0.013 255.508);
   --primary-foreground: oklch(0.208 0.042 265.755);
@@ -106,7 +109,7 @@
   --secondary-foreground: oklch(0.984 0.003 247.858);
   --muted: oklch(0.279 0.041 260.031);
   --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
+  --accent: var(--bg-primary-accent);
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -140,38 +143,6 @@
   .full-size {
     @apply w-full h-full;
   }
-
-  .text-responsive {
-    @apply text-sm md:text-base lg:text-lg xl:text-xl;
-  }
-
-  .flex-inner {
-    @apply flex-1 min-h-0;
-  }
-
-  .flex-inner-row {
-    @apply flex-1 min-w-0;
-  }
-
-  .flex-full {
-    @apply w-full h-full;
-  }
-}
-
-.flex-constrained {
-  min-width: calc(var(--spacing) * 0);
-  min-height: calc(var(--spacing) * 0);
-  flex: 1;
-}
-
-.flex-constrained-row {
-  flex: 1;
-  min-width: calc(var(--spacing) * 0);
-}
-
-.flex-constrained-column {
-  flex: 1;
-  min-height: calc(var(--spacing) * 0);
 }
 
 @layer components {

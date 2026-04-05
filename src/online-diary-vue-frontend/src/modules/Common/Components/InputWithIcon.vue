@@ -15,11 +15,8 @@ defineProps<{
 
 <template>
   <Field :class="'w-full flex '">
-    <InputGroup :class="'border border-zinc-500 bg-accent'">
-      <InputGroupInput
-        :class="'text-responsive-secondary'"
-        :placeholder="placeHolder"
-      />
+    <InputGroup :class="'border item-bg-primary-accent-2'">
+      <InputGroupInput :class="'text-responsive-secondary'" :placeholder="placeHolder" />
       <InputGroupAddon :align="'inline-end'">
         <component :is="icon" />
       </InputGroupAddon>

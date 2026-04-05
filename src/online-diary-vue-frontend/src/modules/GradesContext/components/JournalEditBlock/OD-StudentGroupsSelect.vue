@@ -20,21 +20,14 @@ export default {
 
 <template>
   <Select>
-    <SelectTrigger :class="'w-full'">
-      <SelectValue :class="'text-responsive-tertiary'" :placeholder="'Группы'">
-      </SelectValue>
+    <SelectTrigger :class="'item-bg-primary-accent-2 w-full'">
+      <SelectValue :class="'text-responsive-tertiary'" :placeholder="'Группы'" />
     </SelectTrigger>
     <SelectContent>
       <SelectGroup>
-        <SelectItem :class="'text-responsive-tertiary'" value="ПСК-3-25"
-          >ПСК-3-25</SelectItem
-        >
-        <SelectItem :class="'text-responsive-tertiary'" value="ПСК-3-26"
-          >ПСК-3-26</SelectItem
-        >
-        <SelectItem :class="'text-responsive-tertiary'" value="ПСК-3-27"
-          >ПСК-3-27</SelectItem
-        >
+        <SelectItem :class="'text-responsive-tertiary'" value="ПСК-3-25">ПСК-3-25</SelectItem>
+        <SelectItem :class="'text-responsive-tertiary'" value="ПСК-3-26">ПСК-3-26</SelectItem>
+        <SelectItem :class="'text-responsive-tertiary'" value="ПСК-3-27">ПСК-3-27</SelectItem>
       </SelectGroup>
     </SelectContent>
   </Select>

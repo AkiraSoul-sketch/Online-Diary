@@ -10,39 +10,31 @@ import { UserIcon } from "lucide-vue-next";
 
 <template>
   <Card
-    :class="'my-0.5 min-w-0 min-h-0 grid grid-cols-[auto_auto_1fr] p-0 w-full border-zinc-200 bg-zinc-100  rounded-sm'"
-  >
-    <div :class="'flex flex-col gap-0.5 justify-between'">
+    :class="'border-none item-bg-primary-accent my-1 min-w-0 min-h-0 grid grid-cols-[auto_auto_1fr] w-full rounded-sm'">
+    <div :class="'flex flex-col gap-1 justify-between'">
       <CardHeader :class="'p-1 text-start block w-full'">
+
         <!-- статус действия -->
         <div :class="'flex items-center'">
-          <span :class="'text-responsive-secondary'">Статус:</span>
-          <Badge
-            :class="'text-responsive-secondary text-white mx-1 bg-lime-600'"
-            >успешно</Badge
-          >
+          <span :class="'text-responsive-tertiary'">Статус:</span>
+          <Badge :class="'text-responsive-tertiary mx-1 bg-lime-600'">успешно</Badge>
         </div>
       </CardHeader>
 
       <!-- актор действия -->
       <CardTitle :class="'flex flex-row p-1 font-normal text-start w-full'">
-        <UserIcon> </UserIcon>
-        <span :class="'text-responsive-tertiary underline mx-1'"
-          >Проничкин Д.С.</span
-        >
+        <UserIcon />
+        <span :class="'text-responsive-tertiary underline mx-1'">Проничкин Д.С.</span>
       </CardTitle>
-      <Label :class="'p-1 text-responsive-tertiary self-end'"
-        >2 часа назад</Label
-      >
+      <Label :class="'p-1 text-responsive-tertiary self-end'">2 часа назад</Label>
     </div>
-    <Separator :orientation="'vertical'" :class="'bg-zinc-200'" />
+    <Separator :orientation="'vertical'" :class="'item-bg-primary'" />
 
     <!-- текст действия -->
     <CardContent :class="'flex items-center'">
-      <Label :class="'text-responsive-tertiary text-start gap-0'"
-        >действие действие действие действие действие действие действие действие
-        действие</Label
-      >
+      <Label :class="'text-responsive-tertiary text-start gap-0'">действие действие действие действие действие действие
+        действие действие
+        действие</Label>
     </CardContent>
   </Card>
 </template>

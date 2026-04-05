@@ -11,15 +11,15 @@ export type AuthInputs = {
   password: string;
 };
 
-const authInputs = ref<AuthInputs>({
+const authenticationData = ref<AuthInputs>({
   login: "",
   password: "",
 });
 
 const isError = ref(false);
 
-function ErrorInputs(): void {
-  if (authInputs.value.login === "" || authInputs.value.password === "") {
+function validateAuthentication(): void {
+  if (authenticationData.value.login === "" || authenticationData.value.password === "") {
     isError.value = true;
   } else {
     isError.value = false;
@@ -28,14 +28,12 @@ function ErrorInputs(): void {
 </script>
 
 <template>
-  <div
-    :class="'flex flex-1 flex-col min-h-0 min-w-0 justify-center items-center h-full w-full'"
-  >
-    <AuthAlert :is-error="isError"></AuthAlert>
-    <Card :class="'gap-4 shadow-(--shadow-basic)'">
-      <AuthHeader></AuthHeader>
-      <AuthBody :authInputs="authInputs" :onAuth="ErrorInputs"></AuthBody>
-      <AuthFooter></AuthFooter>
+  <div :class="'flex-column-layout flex-constrained full-size justify-center items-center'">
+    <AuthAlert :is-error="isError" />
+    <Card :class="'gap-4 card-primary'">
+      <AuthHeader />
+      <AuthBody :authenticationData="authenticationData" :onAuth="validateAuthentication" />
+      <AuthFooter />
     </Card>
   </div>
 </template>

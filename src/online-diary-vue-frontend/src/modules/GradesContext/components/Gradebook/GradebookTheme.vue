@@ -7,9 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div
-    :class="'z-10  relative text-center [writing-mode:vertical-rl] rotate-220'"
-  >
+  <div :class="'z-10 text-responsive-tertiary relative text-center [writing-mode:vertical-rl] rotate-220'">
     <span :class="'relative right-10 z-20'">
       {{ "Тема " + theme.date.toLocaleDateString() }}
     </span>
