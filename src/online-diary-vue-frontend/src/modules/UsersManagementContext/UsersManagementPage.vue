@@ -3,17 +3,13 @@ import { ref } from "vue";
 import Card from "@/components/ui/card/Card.vue";
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
-import { PlusIcon, PenIcon } from "lucide-vue-next";
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  PlusIcon,
+  PenIcon,
+  CheckCheck,
+  CheckCheckIcon,
+  FilterIcon,
+} from "lucide-vue-next";
 
 import {
   Drawer,
@@ -24,6 +20,15 @@ import {
   DrawerDescription,
 } from "@/components/ui/drawer";
 import type { FocusOutsideEvent, PointerDownOutsideEvent } from "reka-ui";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type User = {
   id: number;
@@ -83,7 +88,7 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
     <!-- Статистические карточки -->
     <!-- Комментарий: блок статистики с четырьмя карточками -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-      <Card :class="'p-4 shadow-(--shadow-basic) rounded-sm'">
+      <Card :class="'card-sixth p-4 rounded-sm'">
         <div>
           <div class="text-responsive-primary font-semibold">
             Всего пользователей
@@ -116,10 +121,25 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
         <div
           class="flex items-center justify-between gap-2 p-2 shadow-(--shadow-basic) rounded-sm"
         >
-          <div class="flex-1 mr-2">
+          <div class="flex-1 mr-2 btn-primary-accent">
             <Input class="w-full" placeholder="Поиск пользователя..." />
           </div>
-          <Button class="flex items-center gap-2 px-3 py-1">
+          <Select multiple>
+            <SelectTrigger class="btn-primary-accent">
+              <SelectValue>
+                <FilterIcon />
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel> Роль </SelectLabel>
+                <SelectItem value="преподаватель">Преподаватель</SelectItem>
+                <SelectItem value="студент">Студент</SelectItem>
+                <SelectItem value="администратор">Администратор</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Button class="flex items-center gap-2 px-3 py-1 btn-primary-accent">
             <PlusIcon :size="16" />
             <span class="text-responsive-tertiary">Создать</span>
           </Button>
@@ -149,7 +169,10 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
                 <div class="text-responsive-tertiary text-muted-foreground">
                   {{ user.role }}
                 </div>
-                <Button class="px-2 py-1" @click="selectUser(user)">
+                <Button
+                  class="px-2 py-1 btn-primary-accent"
+                  @click="selectUser(user)"
+                >
                   <PenIcon :size="15" />
                 </Button>
               </div>
@@ -160,87 +183,13 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
 
       <!-- Правый блок: информация о выбранном пользователе -->
       <!-- Комментарий: карточка с детальной информацией о пользователе -->
-      <Sheet>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Редактирование</SheetTitle>
-            <SheetDescription> Информация о пользователе </SheetDescription>
-          </SheetHeader>
-          <div class="flex flex-col min-h-0 lg:w-1/3 gap-2">
-            <div class="mt-3 flex flex-col gap-3">
-              <div>
-                <div class="text-responsive-tertiary text-muted-foreground">
-                  ФИО
-                </div>
-                <div class="text-responsive-secondary">
-                  {{ selectedUser ? selectedUser.name : "-" }}
-                </div>
-              </div>
-
-              <div>
-                <div class="text-responsive-tertiary text-muted-foreground">
-                  Логин
-                </div>
-                <div class="text-responsive-secondary">
-                  {{ selectedUser ? selectedUser.login : "-" }}
-                </div>
-              </div>
-
-              <div>
-                <div class="text-responsive-tertiary text-muted-foreground">
-                  Почта
-                </div>
-                <div class="text-responsive-secondary">
-                  {{ selectedUser ? selectedUser.email : "-" }}
-                </div>
-              </div>
-
-              <div>
-                <div class="text-responsive-tertiary text-muted-foreground">
-                  Подтверждение почты
-                </div>
-                <div class="text-responsive-secondary">
-                  {{
-                    selectedUser
-                      ? selectedUser.emailConfirmed
-                        ? "Да"
-                        : "Нет"
-                      : "-"
-                  }}
-                </div>
-              </div>
-
-              <div>
-                <div class="text-responsive-tertiary text-muted-foreground">
-                  Последний вход
-                </div>
-                <div class="text-responsive-secondary">
-                  {{ selectedUser ? selectedUser.lastSeen : "-" }}
-                </div>
-              </div>
-
-              <div>
-                <div class="text-responsive-tertiary text-muted-foreground">
-                  Роль
-                </div>
-                <div class="text-responsive-secondary">
-                  {{ selectedUser ? selectedUser.role : "-" }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <SheetFooter>
-            <Button type="submit"> Save changes </Button>
-            <SheetClose as-child>
-              <Button variant="outline"> Close </Button>
-            </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
     </div>
   </div>
   <Drawer :open="isSelected" :no-body-styles="true" :direction="'bottom'">
-    <DrawerContent @interact-outside="Handleoutsideclic">
+    <DrawerContent
+      @interact-outside="Handleoutsideclic"
+      :class="'item-bg-primary'"
+    >
       <div class="flex flex-col gap-4 p-4">
         <Input type="FIO" placeholder="ФИО" />
         <Input type="login" placeholder="Логин" />
