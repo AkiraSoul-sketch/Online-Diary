@@ -26,11 +26,11 @@ watch(
 );
 </script>
 <template>
-  <div :class="'gap-6 p-2 my-2 card-primary rounded-sm'" :ref="containerSizeObserver.element">
+  <div :class="'flex flex-col gap-6 p-2 my-2 card-primary rounded-sm'" :ref="containerSizeObserver.element">
+    <div :ref="titleSizeObserver.element">
+      <CardTitle :class="'font-normal text-responsive-primary'">Список действий</CardTitle>
+    </div>
     <Card :class="'flex-constrained-column item-bg-primary gap-6 p-0 borderless shadow-none'">
-      <div :ref="titleSizeObserver.element">
-        <CardTitle :class="'font-normal text-responsive-primary item-bg-primary'">Список действий</CardTitle>
-      </div>
       <div :class="'px-2'" :ref="inputObserver.element">
         <InputWithIcon :class="'text-responsive-secondary'" :place-holder="'Фильтр по тексту'" :icon="SearchIcon" />
       </div>
