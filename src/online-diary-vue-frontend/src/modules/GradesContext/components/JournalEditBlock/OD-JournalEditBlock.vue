@@ -25,9 +25,9 @@ export default {
 </script>
 
 <template>
-  <Card :class="'gap-0 p-1 col-span-full shadow-(--shadow-basic)'">
+  <Card :class="'card-primary gap-0 p-1 col-span-full'">
     <CardTitle :class="'p-1'">
-      <div :class="'inline-flex gap-2 items-center text-responsive'">
+      <div :class="'inline-flex gap-2 items-center text-responsive-primary'">
         <BookOpenTextIcon />
         Выбрать журнал
       </div>

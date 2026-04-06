@@ -35,6 +35,26 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "types": ["vite/client", "node"],
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "plugins": [
+      {
+        "name": "@vue/typescript-plugin"
+      },
+      {
+        "name": "typescript-styled-plugin"
+      },
+      {
+        "name": "typescript-eslint-language-service"
+      },
+      {
+        "name": "@vue/language-plugin-pug"
+      },
+      {
+        "name": "@vue/language-server"
+      },
+      {
+        "name": "@vue/language-service"
+      }
+    ]
   }
 }

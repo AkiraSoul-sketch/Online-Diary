@@ -8,6 +8,7 @@ export const useSidebarStore = defineStore("sidebar", () => {
   appendNavigation("Администрирование", "/admin/audit", navigations);
   appendNavigation("Дисциплины", "/disciplines", navigations);
   appendNavigation("Преподаватель", "/teacher", navigations);
+  appendNavigation("Аутентификация", "/auth", navigations);
   return { navigations };
 });
 

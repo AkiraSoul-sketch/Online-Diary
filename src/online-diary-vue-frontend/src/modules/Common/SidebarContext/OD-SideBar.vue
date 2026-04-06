@@ -3,7 +3,6 @@ import ODSidebarMenuContent from "./components/OD-SidebarMenuContent.vue";
 import ODSidebarAvatar from "./components/OD-SidebarAvatar.vue";
 import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { ref, watch, type Ref } from "vue";
-import { XIcon } from "lucide-vue-next";
 import {
   Drawer,
   DrawerContent,
@@ -12,10 +11,14 @@ import {
   DrawerClose,
   DrawerDescription,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
+import SidebarExitButton from "./components/SidebarExitButton.vue";
+import type { FocusOutsideEvent } from "reka-ui";
 
 const width: Ref<number> = ref(0);
 const common = useCommonStore();
+function focusedOutside(_: FocusOutsideEvent): void {
+  common.toggleSideBar();
+}
 
 watch(
   () => common.$state.viewPortWidth,
@@ -29,28 +32,21 @@ watch(
 );
 </script>
 <template>
-  <Drawer
-    :open="common.$state.sideBarHidden"
-    :no-body-styles="true"
-    :direction="'left'"
-  >
-    <DrawerContent :class="'bg-accent'">
-      <DrawerHeader :class="'flex flex-row justify-between items-center h-20'">
-        <DrawerTitle :class="'flex items-center gap-5'">
+  <Drawer :fixed="true" :open="common.$state.sideBarHidden" :no-body-styles="true" :direction="'left'">
+    <DrawerContent @interact-outside="focusedOutside" :class="'card-primary'">
+      <DrawerHeader :class="'item-bg-quaternary flex-row-layout justify-between items-center h-20'">
+        <DrawerTitle :class="'text-responsive-primary flex items-center gap-5'">
           <img src="/main_logo.svg" :class="'h-12 brightness-0'" />
           Меню
         </DrawerTitle>
         <DrawerClose>
-          <Button
-            v-on:click="common.toggleSideBar"
-            :class="'border rounded-2xl w-9 shadow-(--shadow-basic)'"
-          >
-            <XIcon />
-          </Button>
+          <SidebarExitButton />
         </DrawerClose>
       </DrawerHeader>
-      <DrawerDescription>
+      <div :class="'item-bg-quaternary'">
         <ODSidebarAvatar />
+      </div>
+      <DrawerDescription>
         <ODSidebarMenuContent />
       </DrawerDescription>
     </DrawerContent>

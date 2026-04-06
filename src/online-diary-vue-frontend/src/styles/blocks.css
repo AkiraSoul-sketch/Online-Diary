@@ -1,0 +1,39 @@
+.item-bg-primary {
+  background-color: var(--bg-primary);
+  color: var(--fg-primary);
+}
+
+.item-bg-primary-accent {
+  background-color: var(--bg-primary-accent);
+  color: var(--fg-primary);
+}
+
+.item-bg-primary-accent-2 {
+  background-color: var(--bg-primary-accent-2);
+  color: var(--fg-primary);
+}
+
+.item-bg-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--fg-primary);
+}
+
+.item-bg-tertiary {
+  background-color: var(--bg-tertiary);
+  color: var(--fg-primary);
+}
+
+.item-bg-quaternary {
+  background-color: var(--bg-quaternary);
+  color: var(--fg-primary);
+}
+
+.item-bg-fifth {
+  background-color: var(--bg-fifth);
+  color: var(--fg-reversed);
+}
+
+.item-bg-sixth {
+  background-color: var(--bg-sixth);
+  color: var(--fg-primary);
+}

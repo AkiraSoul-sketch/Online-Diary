@@ -6,11 +6,7 @@ import { useAdminStore } from "../../admin.store";
 const adminStore = useAdminStore();
 </script>
 <template>
-  <ButtonGroup :class="'p-1'">
-    <AdminPanelMenuItem
-      v-for="item in adminStore.$state.categories"
-      :key="item.menuName"
-      v-bind="item"
-    />
+  <ButtonGroup :class="'p-1 w-full item-bg-tertiary justify-center'">
+    <AdminPanelMenuItem v-for="item in adminStore.$state.categories" :key="item.menuName" v-bind="item" />
   </ButtonGroup>
 </template>
