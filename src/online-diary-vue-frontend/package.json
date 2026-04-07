@@ -33,6 +33,7 @@
     "vue-input-otp": "^0.3.2",
     "vue-router": "^5.0.4",
     "vue-sonner": "^2.0.9",
+    "vue-toastflow": "^1.1.8",
     "zod": "^3.25.76"
   },
   "devDependencies": {

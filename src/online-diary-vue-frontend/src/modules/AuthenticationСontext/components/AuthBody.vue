@@ -9,7 +9,10 @@ import { ref } from "vue";
 
 const props = defineProps<{
   authenticationData: AuthInputs;
-  onAuth: () => void;
+}>();
+
+const emits = defineEmits<{
+  (e: 'onAuthenticationConfirm', data: AuthInputs): void;
 }>();
 
 const isLoginFailure = ref(false);
@@ -37,7 +40,7 @@ function authenticate(): void {
   const isLoginInvalid = validateLogin();
   const isPasswordInvalid = validatePassword();
   if (isLoginInvalid || isPasswordInvalid == true) return;
-  props.onAuth();
+  emits('onAuthenticationConfirm', props.authenticationData);
 }
 
 </script>
