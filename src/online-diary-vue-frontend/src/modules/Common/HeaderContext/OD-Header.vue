@@ -8,6 +8,7 @@ import { useElementSizeObservabilityV2 } from "../Composables/useElementSizeObse
 import { watch } from "vue";
 import { useAuthenticationStatusStore } from "../Authentication/authentication.status.store";
 import { Button } from "@/components/ui/button";
+import { classConstructor } from "../ComponentsLogic/classConstructor";
 
 // Хедер страницы — содержит логотип, поиск и профиль пользователя (если залогинен).
 // Компонент использует локальные композиции и глобальные сторы для управления видом.
@@ -27,6 +28,9 @@ const props = defineProps<{
   sideBarPanelWidth?: number;
 }>();
 
+// Константа для переопределения стилей кнопки "Войти" в хедере, чтобы она соответствовала дизайну header.
+const headerButtonBgOverride: string = '!bg-[#79c653b3] [background-image:linear-gradient(180deg,transparent,rgba(0,0,0,0.1))] hover:!bg-[#59923db3]';
+
 // Синхронизируем высоту хедера со стором `common` — для корректного layout-а приложения.
 // Опция `immediate: true` вызывает обработчик при инициализации, чтобы сразу установить высоту.
 watch(
@@ -42,8 +46,8 @@ watch(
 
 <template>
   <header :ref="header.element"
-    :class="'flex w-full p-1 card-sixth-accent justify-around gap-2 items-center bg-(--header-background-color)'">
-    <img src="/main_logo.svg" :class="'h-8 brightness-0 sm:h-9 md:h-11 lg:h-13 xl:h-15 2xl:h-17'"
+    :class="'flex w-full card-sixth-accent justify-around gap-2 items-center bg-(--header-background-color)'">
+    <img src="/main_logo.svg" :class="'p-1 h-8 brightness-0 sm:h-9 md:h-11 lg:h-13 xl:h-15 2xl:h-17'"
       v-on:click="common.toggleSideBar" />
     <InputWithIcon :place-holder="'Поиск...'" :icon="SearchIcon" />
 
@@ -63,8 +67,8 @@ watch(
     </template>
 
     <template v-else>
-      <RouterLink :to="'/auth'">
-        <Button :variant="'header'">
+      <RouterLink :to="'/auth'" :class="'p-0 h-full'">
+        <Button :variant="'sixth'" :class="classConstructor('p-0 h-full w-full rounded-none', headerButtonBgOverride)">
           <LogInIcon />
           <span :class="'text-responsive-tertiary'">Войти</span>
         </Button>
