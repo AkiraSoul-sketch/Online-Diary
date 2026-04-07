@@ -10,14 +10,24 @@ import {
   DrawerTitle,
   DrawerClose,
   DrawerDescription,
+  DrawerFooter,
 } from "@/components/ui/drawer";
 import SidebarExitButton from "./components/SidebarExitButton.vue";
 import type { FocusOutsideEvent } from "reka-ui";
+import { Button } from "@/components/ui/button";
+import { LogOutIcon } from "lucide-vue-next";
+import { useAuthenticationStatusStore } from "../Authentication/authentication.status.store";
 
 const width: Ref<number> = ref(0);
 const common = useCommonStore();
+const authenticationStatus = useAuthenticationStatusStore();
+
 function focusedOutside(_: FocusOutsideEvent): void {
   common.toggleSideBar();
+}
+
+function logout(): void {
+  authenticationStatus.logout();
 }
 
 watch(
@@ -30,6 +40,7 @@ watch(
     immediate: true,
   },
 );
+
 </script>
 <template>
   <Drawer :fixed="true" :open="common.$state.sideBarHidden" :no-body-styles="true" :direction="'left'">
@@ -49,6 +60,13 @@ watch(
       <DrawerDescription>
         <ODSidebarMenuContent />
       </DrawerDescription>
+      <DrawerFooter>
+        <Button v-on:click="logout" v-if="authenticationStatus.isLoggedIn" :size="'icon'" :variant="'secondary'"
+          :class="'w-1/2 text-responsive-tertiary'">
+          <LogOutIcon />
+          <span>выход</span>
+        </Button>
+      </DrawerFooter>
     </DrawerContent>
   </Drawer>
 </template>

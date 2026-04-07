@@ -6,6 +6,7 @@ export const useCommonStore = defineStore("common", () => {
   const viewPortHeight: Ref<number> = ref(window.innerHeight);
   const sideBarHidden: Ref<boolean> = ref(false);
   const headerHeight: Ref<number> = ref(0);
+  const isAfterLogin: Ref<boolean> = ref(false);
 
   function adjustWidth(number: number): void {
     viewPortWidth.value = number;
@@ -23,11 +24,17 @@ export const useCommonStore = defineStore("common", () => {
     sideBarHidden.value = !sideBarHidden.value;
   }
 
+  function setIsAfterLoginV2(value: boolean): void {
+    isAfterLogin.value = value;
+  }
+
   return {
     viewPortHeight,
     viewPortWidth,
     sideBarHidden,
     headerHeight,
+    isAfterLogin,
+    setIsAfterLoginV2,
     adjustHeight,
     adjustWidth,
     toggleSideBar,

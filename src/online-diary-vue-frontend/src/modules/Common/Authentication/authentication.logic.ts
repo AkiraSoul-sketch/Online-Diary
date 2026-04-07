@@ -2,6 +2,8 @@ import type { Ref } from "vue";
 import type { AuthenticationInformation } from "./authentication.models";
 import { cookieLogic } from "../Cookies/cookies.logic";
 
+const key: string = "user_login";
+
 /**
  * Аутентифицирует пользователя, обновляя переданное реактивное состояние аутентификации.
  *
@@ -29,10 +31,9 @@ function authenticate(
  * @returns Ничего не возвращает.
  */
 function addAuthenticationCookie(info: AuthenticationInformation): void {
-  const json: string = JSON.stringify(info);
   const maxAge: number = 24 * 60 * 60;
   const cookies = cookieLogic();
-  cookies.addOrUpdateCookie("user_info", json, maxAge);
+  cookies.addOrUpdateCookie(key, info.login, maxAge);
 }
 
 /**
@@ -46,10 +47,22 @@ function addAuthenticationCookie(info: AuthenticationInformation): void {
  * об аутентификации пользователя, если cookie существует и содержит валидные данные,
  * иначе возвращает `null`.
  */
-function getAuthenticationCookie(): AuthenticationInformation | null {
-  const key: string = "user_info";
+function getAuthenticationCookie(): string | null {
   const cookies = cookieLogic();
-  return cookies.getJsonCookie<AuthenticationInformation>(key);
+  return cookies.getCookieValue(key);
+}
+
+/**
+ * Удаляет cookie аутентификации из хранилища браузера.
+ *
+ * Получает экземпляр логики работы с cookies и удаляет
+ * cookie с ключом аутентификации.
+ *
+ * @returns {void}
+ */
+function deleteAuthenticationCookie(): void {
+  const cookies = cookieLogic();
+  cookies.deleteCookie(key);
 }
 
 /**
@@ -63,6 +76,7 @@ function getAuthenticationCookie(): AuthenticationInformation | null {
  */
 function logout(state: Ref<AuthenticationInformation | null>): void {
   state.value = null;
+  deleteAuthenticationCookie();
 }
 
 /**

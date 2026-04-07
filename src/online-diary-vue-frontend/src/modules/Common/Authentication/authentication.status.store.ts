@@ -38,22 +38,33 @@ const useAuthenticationStatusStore = defineStore("authenticationStatus", () => {
   const state: Ref<AuthenticationInformation | null> = ref(null);
 
   /**
+   * Упрощённое поле `login`.
+   *
+   * Хранит только строковый логин текущего пользователя или `null`.
+   * Используется для быстрого вычисления `isLoggedIn` (наличие логина),
+   * отдельно от полного объекта `state`. Обновляется при `authenticate`
+   * и очищается при `logout`. Инициализируется из cookie в `onMounted()`
+   * через `logic.getAuthenticationCookie()`.
+   */
+  const login: Ref<string | null> = ref(null);
+
+  /**
    * Признак того, что пользователь в настоящий момент залогинен.
    * Возвращает true, если state содержит объект пользователя, иначе false.
    */
   const isLoggedIn = computed(() => {
-    return state.value !== null;
+    return login.value !== null;
   });
 
   /**
    * При монтировании инициализируем `state` из cookie.
    *
    * Получаем сохранённую информацию об аутентификации (если есть)
-   * через `logic.getAuthenticationCookie()` и присваиваем её `state.value`.
+   * через `logic.getAuthenticationCookie()` и присваиваем её `login.value`.
    * Это обеспечивает корректное значение `isLoggedIn` при загрузке.
    */
   onMounted(() => {
-    state.value = logic.getAuthenticationCookie();
+    login.value = logic.getAuthenticationCookie();
   });
 
   /**
@@ -66,6 +77,7 @@ const useAuthenticationStatusStore = defineStore("authenticationStatus", () => {
    */
   function authenticate(input: AuthenticationInformation): void {
     logic.authenticate(state, input);
+    login.value = input.login;
   }
 
   /**
@@ -75,6 +87,7 @@ const useAuthenticationStatusStore = defineStore("authenticationStatus", () => {
    */
   function logout(): void {
     logic.logout(state);
+    login.value = null;
   }
 
   return { isLoggedIn, authenticate, logout };

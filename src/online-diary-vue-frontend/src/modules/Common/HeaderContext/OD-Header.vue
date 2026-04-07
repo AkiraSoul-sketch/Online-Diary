@@ -1,19 +1,34 @@
 <script setup lang="ts">
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FieldContent, Field } from "@/components/ui/field";
-import { InfoIcon } from "lucide-vue-next";
+import { InfoIcon, LogInIcon } from "lucide-vue-next";
 import InputWithIcon from "../Components/InputWithIcon.vue";
 import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { useElementSizeObservabilityV2 } from "../Composables/useElementSizeObservabilityV2";
 import { watch } from "vue";
+import { useAuthenticationStatusStore } from "../Authentication/authentication.status.store";
+import { Button } from "@/components/ui/button";
 
+// Хедер страницы — содержит логотип, поиск и профиль пользователя (если залогинен).
+// Компонент использует локальные композиции и глобальные сторы для управления видом.
+
+// Используем общий стор: управление сайдбаром, корректировка высоты хедера и пр.
 const common = useCommonStore();
+
+// Композиция для наблюдения за размерами DOM-элемента хедера (например, высота).
+// Экспортирует `element` и реактивное `height`.
 const header = useElementSizeObservabilityV2();
 
+// Статус аутентификации — используется для условного рендера профиля.
+const auth = useAuthenticationStatusStore();
+
+// Входные пропсы компонента.
 const props = defineProps<{
   sideBarPanelWidth?: number;
 }>();
 
+// Синхронизируем высоту хедера со стором `common` — для корректного layout-а приложения.
+// Опция `immediate: true` вызывает обработчик при инициализации, чтобы сразу установить высоту.
 watch(
   () => header.height.value,
   ($height) => {
@@ -31,13 +46,30 @@ watch(
     <img src="/main_logo.svg" :class="'h-8 brightness-0 sm:h-9 md:h-11 lg:h-13 xl:h-15 2xl:h-17'"
       v-on:click="common.toggleSideBar" />
     <InputWithIcon :place-holder="'Поиск...'" :icon="InfoIcon" />
-    <Avatar
-      :class="'shadow-(--shadow-basic) h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-13 xl:w-13 2xl:h-15 2xl:w-15'">
-      <AvatarFallback :class="'text-responsive-tertiary'">ДС</AvatarFallback>
-    </Avatar>
-    <FieldContent :class="'gap-0'">
-      <Field :class="'text-responsive-tertiary text-nowrap'">Проничкин Д.С.</Field>
-      <Field :class="'text-responsive-tertiary'">преподаватель</Field>
-    </FieldContent>
+
+    <!-- Показываем сведения о пользователе (аватар, имя, роль) только если он залогинен -->
+    <!-- иначе - показываем кнопку "Войти" -->
+    <!-- template - заглушка, которая не рендерится в DOM, но позволяет использовать логику -->
+
+    <template v-if="auth.isLoggedIn">
+      <Avatar
+        :class="'shadow-(--shadow-basic) h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-13 xl:w-13 2xl:h-15 2xl:w-15'">
+        <AvatarFallback :class="'text-responsive-tertiary'">ДС</AvatarFallback>
+      </Avatar>
+      <FieldContent :class="'gap-0'">
+        <Field :class="'text-responsive-tertiary text-nowrap'">Проничкин Д.С.</Field>
+        <Field :class="'text-responsive-tertiary'">преподаватель</Field>
+      </FieldContent>
+    </template>
+
+    <template v-else>
+      <RouterLink :to="'/auth'">
+        <Button :variant="'header'">
+          <LogInIcon />
+          <span :class="'text-responsive-tertiary'">Войти</span>
+        </Button>
+      </RouterLink>
+    </template>
+
   </header>
 </template>
