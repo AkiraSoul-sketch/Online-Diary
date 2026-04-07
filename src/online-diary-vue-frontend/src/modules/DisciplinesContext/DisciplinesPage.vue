@@ -24,19 +24,19 @@ const { isXS, isSM, isMD, isLG, isXL, isXXL, } = useMediaScreenTypeTracker();
 watch(
 	() => [container.height.value, statistics.height.value, filter.height.value],
 	([$container, $statistics, $filter]) => {
-		let height: number = $container - $statistics - common.headerHeight;
+		let height: number = $container - $statistics;
 		if (isXS()) {
-			height -= $filter + 58;
+			height -= $filter + 58 + common.headerHeight;
 			dataContainerHeight.value = height;
 			return;
 		}
 		if (isSM()) {
-			height -= $filter + 58;
+			height -= $filter + 58 + common.headerHeight;
 			dataContainerHeight.value = height;
 			return;
 		}
 		if (isMD()) {
-			height -= $filter + 50;
+			height -= $filter + 50 + common.headerHeight;
 			dataContainerHeight.value = height;
 			return;
 		}
@@ -45,7 +45,6 @@ watch(
 			dataContainerHeight.value = height;
 			return;
 		}
-		height -= 24;
 		dataContainerHeight.value = height;
 	},
 	{

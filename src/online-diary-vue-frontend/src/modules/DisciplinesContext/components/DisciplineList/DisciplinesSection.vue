@@ -36,7 +36,7 @@ watch(
 </script>
 
 <template>
-  <section :class="'flex-column-layout full-size  rounded-md border'">
+  <section :class="'flex-column-layout full-size card-primary rounded-md border'">
     <div :ref="header.element" :class="'p-4 item-bg-secondary flex-column-layout rounded-t-md'">
       <div :class="'text-responsive-primary font-semibold font-prussian-blue'">
         Список дисциплин
