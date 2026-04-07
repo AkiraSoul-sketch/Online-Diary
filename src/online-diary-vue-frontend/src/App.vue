@@ -16,18 +16,18 @@ const viewportReadiness = useViewPortReadiness();
 const widthTracker = useGlobalContainerWidthTracker();
 
 // адаптивная цветовая схема.
-const mode = useColorMode();
+// useColorMode();
 </script>
 
 <template>
-  <section :class="'bg-main w-full h-screen'" :ref="widthTracker.container">
-    <ODSideBar />
-    <div :class="'grid grid-rows-[auto_1fr_auto] h-full'">
-      <ODHeader />
-      <main :class="'flex-1 min-h-0'" :ref="viewportReadiness.viewport">
-        <RouterView v-if="viewportReadiness.ready" />
-      </main>
-      <ODFooter />
-    </div>
-  </section>
+	<section :class="'bg-main w-full h-screen'" :ref="widthTracker.container">
+		<ODSideBar />
+		<div :class="'grid grid-rows-[auto_1fr_auto] h-full'">
+			<ODHeader />
+			<main :class="'flex-1 min-h-0'" :ref="viewportReadiness.viewport">
+				<RouterView v-if="viewportReadiness.ready" />
+			</main>
+			<ODFooter />
+		</div>
+	</section>
 </template>
