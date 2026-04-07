@@ -1,4 +1,8 @@
 <script setup lang="ts">
+
+// Компонент для отображения текста в одной строке с поддержкой placeholder.
+// Отображает текст в span, если значение есть, иначе отображает placeholder.
+
 const props = defineProps<{
   value?: string | number | Date;
   placeholder: string;

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FieldContent, Field } from "@/components/ui/field";
-import { InfoIcon, LogInIcon } from "lucide-vue-next";
+import { LogInIcon, SearchIcon } from "lucide-vue-next";
 import InputWithIcon from "../Components/InputWithIcon.vue";
 import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { useElementSizeObservabilityV2 } from "../Composables/useElementSizeObservabilityV2";
@@ -45,20 +45,20 @@ watch(
     :class="'flex w-full p-1 card-sixth-accent justify-around gap-2 items-center bg-(--header-background-color)'">
     <img src="/main_logo.svg" :class="'h-8 brightness-0 sm:h-9 md:h-11 lg:h-13 xl:h-15 2xl:h-17'"
       v-on:click="common.toggleSideBar" />
-    <InputWithIcon :place-holder="'Поиск...'" :icon="InfoIcon" />
+    <InputWithIcon :place-holder="'Поиск...'" :icon="SearchIcon" />
 
     <!-- Показываем сведения о пользователе (аватар, имя, роль) только если он залогинен -->
     <!-- иначе - показываем кнопку "Войти" -->
     <!-- template - заглушка, которая не рендерится в DOM, но позволяет использовать логику -->
 
-    <template v-if="auth.isLoggedIn">
+    <template v-if="auth.isLoggedIn && auth.login">
       <Avatar
         :class="'shadow-(--shadow-basic) h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-13 xl:w-13 2xl:h-15 2xl:w-15'">
-        <AvatarFallback :class="'text-responsive-tertiary'">ДС</AvatarFallback>
+        <AvatarFallback :class="'text-responsive-tertiary'">{{ auth.login[0].toUpperCase() }}</AvatarFallback>
       </Avatar>
       <FieldContent :class="'gap-0'">
-        <Field :class="'text-responsive-tertiary text-nowrap'">Проничкин Д.С.</Field>
-        <Field :class="'text-responsive-tertiary'">преподаватель</Field>
+        <Field :class="'text-responsive-tertiary text-nowrap'">{{ auth.login }}</Field>
+        <Field :class="'text-responsive-tertiary text-nowrap'">{{ 'роль: ' + auth.login }}</Field>
       </FieldContent>
     </template>
 

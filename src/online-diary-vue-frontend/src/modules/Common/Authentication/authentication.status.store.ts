@@ -90,7 +90,7 @@ const useAuthenticationStatusStore = defineStore("authenticationStatus", () => {
     login.value = null;
   }
 
-  return { isLoggedIn, authenticate, logout };
+  return { login, isLoggedIn, authenticate, logout };
 });
 
 export { useAuthenticationStatusStore };
