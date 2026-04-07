@@ -5,6 +5,7 @@ import ODSideBar from "./modules/Common/SidebarContext/OD-SideBar.vue";
 import { useGlobalContainerWidthTracker } from "./modules/Common/Composables/useGlobalContainerWidthTracker";
 import { useViewPortReadiness } from "./modules/Common/Composables/useViewportReadiness";
 import { useColorMode } from "@vueuse/core";
+import { UserAuthStatus } from "@/modules/AuthenticationСontext/components/authstatus.store";
 
 // для отслеживания размеры вьюпорта, используется для того, чтобы не рендерить страницу
 // до тех пор, пока не будут известны размеры вьюпорта,
@@ -17,6 +18,8 @@ const widthTracker = useGlobalContainerWidthTracker();
 
 // адаптивная цветовая схема.
 const mode = useColorMode();
+
+const authstatus = UserAuthStatus();
 </script>
 
 <template>

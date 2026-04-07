@@ -16,16 +16,28 @@ const { isLG, isXL, isXXL } = useMediaScreenTypeTracker();
 
 <template>
   <Card v-if="isLG() || isXL() || isXXL()" :class="'p-0 gap-4 card-primary'">
-    <CardHeader :class="'p-4 bg-jade-green rounded-t-md text-responsive-secondary font-semibold'">
+    <CardHeader
+      :class="'p-4 bg-jade-green rounded-t-md text-responsive-secondary font-semibold'"
+    >
       Информация дисциплины
     </CardHeader>
     <CardContent :class="'p-2 flex flex-col gap-2'">
-      <Input :class="'text-responsive-tertiary'" :model-value="'Дискретная математика'" />
+      <Input
+        :class="'text-responsive-tertiary'"
+        :model-value="'Дискретная математика'"
+      />
       <Input :class="'text-responsive-tertiary'" :model-value="'Семестр - 1'" />
       <Input :class="'text-responsive-tertiary'" :model-value="'Группа - 1'" />
-      <Input :class="'text-responsive-tertiary'" :model-value="'Преподается - Федоров М.М.'" />
-      <BooleanBlockText :class="'text-responsive-tertiary'" :value="false" :onTrue="'Архивна'"
-        :onFalse="'Не архивна'" />
+      <Input
+        :class="'text-responsive-tertiary'"
+        :model-value="'Преподается - Федоров М.М.'"
+      />
+      <BooleanBlockText
+        :class="'text-responsive-tertiary'"
+        :value="false"
+        :onTrue="'Архивна'"
+        :onFalse="'Не архивна'"
+      />
       <Separator :orientation="'horizontal'" />
       <div :class="'grid grid-cols-2 gap-2'">
         <Label :class="'text-responsive-tertiary'">Дата создания</Label>

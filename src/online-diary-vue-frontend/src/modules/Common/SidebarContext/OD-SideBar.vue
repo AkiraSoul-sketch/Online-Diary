@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/drawer";
 import SidebarExitButton from "./components/SidebarExitButton.vue";
 import type { FocusOutsideEvent } from "reka-ui";
+import { DrawerHandle } from "vaul-vue";
 
 const width: Ref<number> = ref(0);
 const common = useCommonStore();
@@ -32,9 +33,20 @@ watch(
 );
 </script>
 <template>
-  <Drawer :fixed="true" :open="common.$state.sideBarHidden" :no-body-styles="true" :direction="'left'">
-    <DrawerContent @interact-outside="focusedOutside" :class="'card-primary'">
-      <DrawerHeader :class="'item-bg-quaternary flex-row-layout justify-between items-center h-20'">
+  <Drawer
+    :fixed="true"
+    :open="common.$state.sideBarHidden"
+    :no-body-styles="true"
+    :direction="'left'"
+  >
+    <DrawerContent
+      @interact-outside="focusedOutside"
+      data-vaul-no-drag
+      :class="'card-primary'"
+    >
+      <DrawerHeader
+        :class="'item-bg-quaternary flex-row-layout justify-between items-center h-20'"
+      >
         <DrawerTitle :class="'text-responsive-primary flex items-center gap-5'">
           <img src="/main_logo.svg" :class="'h-12 brightness-0'" />
           Меню

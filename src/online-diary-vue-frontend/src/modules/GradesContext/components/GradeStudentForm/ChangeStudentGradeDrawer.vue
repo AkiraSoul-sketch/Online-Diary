@@ -6,10 +6,7 @@ import CardContent from "@/components/ui/card/CardContent.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
 import Drawer from "@/components/ui/drawer/Drawer.vue";
 import DrawerContent from "@/components/ui/drawer/DrawerContent.vue";
-import {
-  GradeValues,
-  type GradingStudent,
-} from "../gradebook.models";
+import { GradeValues, type GradingStudent } from "../gradebook.models";
 import { useGradebookStore } from "../gradebook.store";
 import ChangeStudentGradeDrawerTitle from "./ChangeStudentGradeDrawerTitle.vue";
 import ChangeStudentGradeDrawerFooter from "./ChangeStudentGradeDrawerFooter.vue";
@@ -34,33 +31,58 @@ function gradeStudent(gradeValue: string): void {
 </script>
 
 <template>
-  <Drawer :fixed="true" :direction="'bottom'" :open="store.gradingStudentValue !== null">
-    <DrawerContent :class="'card-primary'">
-      <Card :class="'border-0 shadow-none flex items-center-safe bg-transparent'">
+  <Drawer
+    :fixed="true"
+    :direction="'bottom'"
+    :open="store.gradingStudentValue !== null"
+  >
+    <DrawerContent data-vaul-no-drag :class="'card-primary'">
+      <Card
+        :class="'border-0 shadow-none flex items-center-safe bg-transparent'"
+      >
         <ChangeStudentGradeDrawerTitle />
-        <CardTitle :class="'text-responsive-primary'"> Изменение оценки </CardTitle>
+        <CardTitle :class="'text-responsive-primary'">
+          Изменение оценки
+        </CardTitle>
         <ChangeStudentGradeCurrentStatus />
         <CardContent :class="'flex flex-col gap-5 justify-center items-center'">
           <ButtonGroup>
-            <Button :class="'text-responsive-secondary'"
-              v-on:click="gradeStudent(GradeValues.GradeNeudovletvoritelno())">
+            <Button
+              :class="'text-responsive-secondary'"
+              v-on:click="gradeStudent(GradeValues.GradeNeudovletvoritelno())"
+            >
               2
             </Button>
-            <Button :class="'text-responsive-secondary'" v-on:click="gradeStudent(GradeValues.GradeUdovletvoritelno())">
+            <Button
+              :class="'text-responsive-secondary'"
+              v-on:click="gradeStudent(GradeValues.GradeUdovletvoritelno())"
+            >
               3
             </Button>
-            <Button :class="'text-responsive-secondary'" v-on:click="gradeStudent(GradeValues.GradeKhorosho())">
+            <Button
+              :class="'text-responsive-secondary'"
+              v-on:click="gradeStudent(GradeValues.GradeKhorosho())"
+            >
               4
             </Button>
-            <Button :class="'text-responsive-secondary'" v-on:click="gradeStudent(GradeValues.GradeOtlichno())">
+            <Button
+              :class="'text-responsive-secondary'"
+              v-on:click="gradeStudent(GradeValues.GradeOtlichno())"
+            >
               5
             </Button>
           </ButtonGroup>
           <ButtonGroup>
-            <Button :class="'text-responsive-secondary'" v-on:click="gradeStudent(GradeValues.GradeNeYavilos())">
+            <Button
+              :class="'text-responsive-secondary'"
+              v-on:click="gradeStudent(GradeValues.GradeNeYavilos())"
+            >
               Не было
             </Button>
-            <Button :class="'text-responsive-secondary'" v-on:click="gradeStudent(GradeValues.GradeUvajitelno())">
+            <Button
+              :class="'text-responsive-secondary'"
+              v-on:click="gradeStudent(GradeValues.GradeUvajitelno())"
+            >
               Ув. причина
             </Button>
           </ButtonGroup>

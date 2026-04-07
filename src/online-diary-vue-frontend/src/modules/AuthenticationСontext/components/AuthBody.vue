@@ -6,6 +6,8 @@ import FieldError from "@/components/ui/field/FieldError.vue";
 import { Input } from "@/components/ui/input";
 import type { AuthInputs } from "@/modules/AuthenticationСontext/Authentication.vue";
 import { ref } from "vue";
+import { UserAuthStatus } from "./authstatus.store";
+import type { AuthStatus } from "./authstatus.moduls";
 
 const props = defineProps<{
   authenticationData: AuthInputs;
@@ -14,6 +16,8 @@ const props = defineProps<{
 
 const isLoginFailure = ref(false);
 const isPasswordFailure = ref(false);
+
+const authstatus = UserAuthStatus();
 
 function validatePassword(): boolean {
   if (props.authenticationData.password === "") {
@@ -38,30 +42,47 @@ function authenticate(): void {
   const isPasswordInvalid = validatePassword();
   if (isLoginInvalid || isPasswordInvalid == true) return;
   props.onAuth();
+  const authdata: AuthStatus = {
+    login: props.authenticationData.login,
+    password: props.authenticationData.password,
+  };
+  authstatus.AuthLogin(authdata);
 }
-
 </script>
 
 <template>
   <CardContent :class="'flex-column-layout justify-center items-center gap-2'">
-
     <Field>
-      <FieldError v-if="isLoginFailure === true" :errors="[{ message: 'Необходимо ввести логин' }]" />
-      <Input :class="'text-responsive-secondary item-bg-primary-accent-2'" placeholder="Логин"
-        v-model="props.authenticationData.login" :aria-invalid="isLoginFailure">
+      <FieldError
+        v-if="isLoginFailure === true"
+        :errors="[{ message: 'Необходимо ввести логин' }]"
+      />
+      <Input
+        :class="'text-responsive-secondary item-bg-primary-accent-2'"
+        placeholder="Логин"
+        v-model="props.authenticationData.login"
+        :aria-invalid="isLoginFailure"
+      >
       </Input>
     </Field>
 
     <Field>
-      <FieldError v-if="isPasswordFailure === true" :errors="[{ message: 'Необходимо ввести пароль' }]" />
-      <Input type="password" :class="'text-responsive-secondary item-bg-primary-accent-2'" placeholder="Пароль"
-        v-model="props.authenticationData.password" :aria-invalid="isPasswordFailure">
+      <FieldError
+        v-if="isPasswordFailure === true"
+        :errors="[{ message: 'Необходимо ввести пароль' }]"
+      />
+      <Input
+        type="password"
+        :class="'text-responsive-secondary item-bg-primary-accent-2'"
+        placeholder="Пароль"
+        v-model="props.authenticationData.password"
+        :aria-invalid="isPasswordFailure"
+      >
       </Input>
     </Field>
 
     <Button :variant="'sixth'" @click="authenticate">
       <span :class="'text-responsive-tertiary'">Войти</span>
     </Button>
-
   </CardContent>
 </template>
