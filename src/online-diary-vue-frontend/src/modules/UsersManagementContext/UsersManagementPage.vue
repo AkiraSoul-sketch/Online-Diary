@@ -3,22 +3,8 @@ import { ref } from "vue";
 import Card from "@/components/ui/card/Card.vue";
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
-import {
-  PlusIcon,
-  PenIcon,
-  CheckCheck,
-  CheckCheckIcon,
-  FilterIcon,
-} from "lucide-vue-next";
-
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerClose,
-  DrawerDescription,
-} from "@/components/ui/drawer";
+import { PlusIcon, PenIcon, FilterIcon } from "lucide-vue-next";
+import UsersManagmentDrawer from "./components/UsersManagmentDrawer.vue";
 import type { FocusOutsideEvent, PointerDownOutsideEvent } from "reka-ui";
 import {
   Select,
@@ -29,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import UsersManagmentDrawer_mobile from "./components/UsersManagmentDrawer_mobile.vue";
 
 type User = {
   id: number;
@@ -73,9 +60,13 @@ const users = ref<User[]>([
 const selectedUser = ref<User | null>(users.value[0] ?? null);
 const isSelected = ref<boolean>(false);
 
+function ToggleSidebar() {
+  isSelected.value = !isSelected.value;
+}
 function selectUser(u: User) {
   selectedUser.value = u;
   isSelected.value = true;
+  console.log(selectedUser.value);
 }
 function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
   isSelected.value = false;
@@ -180,27 +171,14 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
           </ul>
         </div>
       </div>
-
-      <!-- Правый блок: информация о выбранном пользователе -->
       <!-- Комментарий: карточка с детальной информацией о пользователе -->
     </div>
   </div>
-  <Drawer :open="isSelected" :no-body-styles="true" :direction="'bottom'">
-    <DrawerContent
-      @interact-outside="Handleoutsideclic"
-      :class="'item-bg-primary'"
-    >
-      <div class="flex flex-col gap-4 p-4">
-        <Input type="FIO" placeholder="ФИО" />
-        <Input type="login" placeholder="Логин" />
-        <Input type="email" placeholder="Почта" />
-        <Input type="Role" placeholder="Роль" />
-      </div>
-      <DrawerClose>
-        <div class="flex p-4 justify-center">
-          <Button v-on:click="isSelected = false"> Закрыть </Button>
-        </div>
-      </DrawerClose>
-    </DrawerContent>
-  </Drawer>
+  <div>
+    <UsersManagmentDrawer :is-open="isSelected" @closed="ToggleSidebar" />
+    <UsersManagmentDrawer_mobile
+      :is-open="isSelected"
+      @closed="ToggleSidebar"
+    />
+  </div>
 </template>
