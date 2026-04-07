@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FieldContent, Field } from "@/components/ui/field";
-import { LogInIcon, SearchIcon } from "lucide-vue-next";
-import InputWithIcon from "../Components/InputWithIcon.vue";
+import { LogInIcon } from "lucide-vue-next";
 import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { useElementSizeObservabilityV2 } from "../Composables/useElementSizeObservabilityV2";
 import { watch } from "vue";
 import { useAuthenticationStatusStore } from "../Authentication/authentication.status.store";
 import { Button } from "@/components/ui/button";
 import { classConstructor } from "../ComponentsLogic/classConstructor";
+import ODHeaderSearch from "./components/OD-HeaderSearch.vue";
 
 // Хедер страницы — содержит логотип, поиск и профиль пользователя (если залогинен).
 // Компонент использует локальные композиции и глобальные сторы для управления видом.
@@ -47,16 +47,17 @@ watch(
 <template>
   <header :ref="header.element"
     :class="'flex w-full card-sixth-accent justify-between gap-2 items-center bg-(--header-background-color)'">
+
+    <!-- лого -->
     <img src="/main_logo.svg" :class="'p-1 h-8 brightness-0 sm:h-9 md:h-11 lg:h-13 xl:h-15 2xl:h-17'"
       v-on:click="common.toggleSideBar" />
-    <div :class="'p-1 w-1/2'">
-      <InputWithIcon :place-holder="'Поиск...'" :icon="SearchIcon" />
-    </div>
+
+    <!-- поиск -->
+    <ODHeaderSearch />
 
     <!-- Показываем сведения о пользователе (аватар, имя, роль) только если он залогинен -->
     <!-- иначе - показываем кнопку "Войти" -->
     <!-- template - заглушка, которая не рендерится в DOM, но позволяет использовать логику -->
-
     <template v-if="auth.isLoggedIn && auth.login">
       <Avatar
         :class="'shadow-(--shadow-basic) h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-13 xl:w-13 2xl:h-15 2xl:w-15'">
