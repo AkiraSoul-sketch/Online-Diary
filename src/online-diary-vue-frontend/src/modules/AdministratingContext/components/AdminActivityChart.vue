@@ -43,9 +43,8 @@ const chartConfig = {
 <template>
   <div :class="'my-2 card-primary rounded-md flex flex-col p-2 min-h-0 min-w-0 shrink'" ref="container">
     <CardTitle :class="'font-normal p-2 text-responsive-primary'">Активность</CardTitle>
-    <Card
-      :class="' p-0 flex-column-layout flex-constrained-column shrink border-none shadow-(--shadow-basic) rounded-sm'">
-      <CardContent :class="'card-primary flex-constrained shrink '">
+    <Card :class="' p-0 flex-column-layout flex-constrained-column shrink border-none shadow-none rounded-sm'">
+      <CardContent :class="'card-primary flex-constrained shrink'">
         <ChartContainer :config="chartConfig">
           <VisXYContainer :key="globalContainerStore.width" :data="chartData">
             <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity"
