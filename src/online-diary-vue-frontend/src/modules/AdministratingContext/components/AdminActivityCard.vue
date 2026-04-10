@@ -12,12 +12,14 @@ import { UserIcon } from "lucide-vue-next";
   <Card
     :class="'border-none item-bg-primary-accent my-1 min-w-0 min-h-0 grid grid-cols-[auto_auto_1fr] w-full rounded-sm'">
     <div :class="'flex flex-col gap-1 justify-between'">
-      <CardHeader :class="'p-1 text-start block w-full'">
+      <CardHeader :class="'p-1 text-center inline-flex items-center  w-full'">
 
         <!-- статус действия -->
-        <div :class="'flex items-center'">
+        <div :class="'flex flex-row justify-between mx-auto items-center gap-2'">
           <span :class="'text-responsive-tertiary'">Статус:</span>
-          <Badge :class="'text-responsive-tertiary mx-1 bg-lime-600'">успешно</Badge>
+          <Badge :class="'bg-lime-600 text-center p-1'">
+            <span :class="'text-responsive-fourth self-center text-center'">успешно</span>
+          </Badge>
         </div>
       </CardHeader>
 

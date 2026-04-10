@@ -13,3 +13,7 @@
 .text-responsive-tertiary {
   font-size: clamp(12px, 1vw + 4px, 18px);
 }
+
+.text-responsive-fourth {
+  font-size: clamp(8px, 1vw + 1px, 12px);
+}

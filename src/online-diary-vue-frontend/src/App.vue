@@ -18,7 +18,7 @@ const viewportReadiness = useViewPortReadiness();
 const widthTracker = useGlobalContainerWidthTracker();
 
 // адаптивная цветовая схема.
-useColorMode();
+// useColorMode();
 
 // статус авторизации пользователя. 
 useAuthenticationStatusStore();
