@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import UsersManagmentDrawer_mobile from "./components/UsersManagmentDrawer_mobile.vue";
+import UsersManagmentStatisticCard from "./components/UsersManagmentStatisticCard.vue";
 
 type User = {
   id: number;
@@ -68,9 +69,6 @@ function selectUser(u: User) {
   isSelected.value = true;
   console.log(selectedUser.value);
 }
-function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
-  isSelected.value = false;
-}
 </script>
 
 <template>
@@ -78,28 +76,7 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
   <div class="flex flex-col min-h-0 flex-1 gap-4 p-4">
     <!-- Статистические карточки -->
     <!-- Комментарий: блок статистики с четырьмя карточками -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-      <Card :class="'card-sixth p-4 rounded-sm'">
-        <div>
-          <div class="text-responsive-primary font-semibold">
-            Всего пользователей
-          </div>
-          <div class="text-responsive-secondary">1 234</div>
-          <div class="text-responsive-primary font-semibold">
-            Пользователей онлайн
-          </div>
-          <div class="text-responsive-secondary">123</div>
-        </div>
-        <div>
-          <div class="text-responsive-primary font-semibold">
-            Преподавателей
-          </div>
-          <div class="text-responsive-secondary">45</div>
-          <div class="text-responsive-primary font-semibold">Студентов</div>
-          <div class="text-responsive-secondary">1 089</div>
-        </div>
-      </Card>
-    </div>
+    <UsersManagmentStatisticCard></UsersManagmentStatisticCard>
 
     <!-- CRUD и информация о пользователе -->
     <!-- Комментарий: основной flex-контейнер для списка и карточки пользователя -->
@@ -109,9 +86,7 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
       <div class="flex flex-col min-h-0 flex-1 lg:w-2/3 gap-2">
         <!-- Панель поиска и создания -->
         <!-- Комментарий: input поиска и кнопка Создать -->
-        <div
-          class="flex items-center justify-between gap-2 p-2 shadow-(--shadow-basic) rounded-sm"
-        >
+        <div class="flex items-center justify-between gap-2 p-2 shadow-(--shadow-basic) rounded-sm">
           <div class="flex-1 mr-2 btn-primary-accent">
             <Input class="w-full" placeholder="Поиск пользователя..." />
           </div>
@@ -138,15 +113,9 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
 
         <!-- Список пользователей -->
         <!-- Комментарий: вертикальный список с кнопкой редактирования для каждой записи -->
-        <div
-          class="flex-1 min-h-0 overflow-auto p-2 shadow-(--shadow-basic) rounded-sm"
-        >
+        <div class="flex-1 min-h-0 overflow-auto p-2 shadow-(--shadow-basic) rounded-sm">
           <ul class="divide-y">
-            <li
-              v-for="user in users"
-              :key="user.id"
-              class="flex items-center justify-between p-3"
-            >
+            <li v-for="user in users" :key="user.id" class="flex items-center justify-between p-3">
               <div>
                 <div class="text-responsive-primary font-medium">
                   {{ user.name }}
@@ -160,10 +129,7 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
                 <div class="text-responsive-tertiary text-muted-foreground">
                   {{ user.role }}
                 </div>
-                <Button
-                  class="px-2 py-1 btn-primary-accent"
-                  @click="selectUser(user)"
-                >
+                <Button class="px-2 py-1 btn-primary-accent" @click="selectUser(user)">
                   <PenIcon :size="15" />
                 </Button>
               </div>
@@ -176,9 +142,6 @@ function Handleoutsideclic(event: PointerDownOutsideEvent | FocusOutsideEvent) {
   </div>
   <div>
     <UsersManagmentDrawer :is-open="isSelected" @closed="ToggleSidebar" />
-    <UsersManagmentDrawer_mobile
-      :is-open="isSelected"
-      @closed="ToggleSidebar"
-    />
+    <UsersManagmentDrawer_mobile :is-open="isSelected" @closed="ToggleSidebar" />
   </div>
 </template>
