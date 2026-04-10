@@ -5,6 +5,13 @@
   border: none;
   transition: background 0.2s;
 }
+.btn-primary-accent {
+  background-color: var(--bg-primary-accent);
+  box-shadow: var(--shadow-primary);
+  color: var(--fg-primary);
+  border: none;
+  transition: background 0.2s;
+}
 
 .btn-primary:hover {
   background-color: var(--bg-primary-hover);

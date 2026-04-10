@@ -15,7 +15,7 @@ const adminStore = useAdminStore();
   <section :class="'full-size flex-column-layout flex-constrained-column'">
     <div :class="'flex flex-col w-full self-center'">
       <AdminPanelMenu :class="'self-center'" />
-      <h3 :class="'text-responsive-primary font-semibold  mx-10 self-start'">
+      <h3 :class="'text-responsive-primary font-semibold  mx-10 self-start py-3'">
         {{ adminStore.menuTitle }}
       </h3>
     </div>
