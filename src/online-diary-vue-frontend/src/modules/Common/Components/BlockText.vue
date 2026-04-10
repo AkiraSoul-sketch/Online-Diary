@@ -1,4 +1,8 @@
 <script setup lang="ts">
+
+// компонент для отображения текста с поддержкой placeholder.
+// отображает текст в блоке.
+
 const props = defineProps<{
   value?: string | number | Date | null;
   placeholder?: string;

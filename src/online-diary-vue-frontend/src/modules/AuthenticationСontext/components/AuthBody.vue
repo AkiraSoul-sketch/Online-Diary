@@ -11,7 +11,10 @@ import type { AuthStatus } from "./authstatus.moduls";
 
 const props = defineProps<{
   authenticationData: AuthInputs;
-  onAuth: () => void;
+}>();
+
+const emits = defineEmits<{
+  (e: 'onAuthenticationConfirm', data: AuthInputs): void;
 }>();
 
 const isLoginFailure = ref(false);
@@ -41,43 +44,23 @@ function authenticate(): void {
   const isLoginInvalid = validateLogin();
   const isPasswordInvalid = validatePassword();
   if (isLoginInvalid || isPasswordInvalid == true) return;
-  props.onAuth();
-  const authdata: AuthStatus = {
-    login: props.authenticationData.login,
-    password: props.authenticationData.password,
-  };
-  authstatus.AuthLogin(authdata);
+  emits('onAuthenticationConfirm', props.authenticationData);
 }
 </script>
 
 <template>
   <CardContent :class="'flex-column-layout justify-center items-center gap-2'">
     <Field>
-      <FieldError
-        v-if="isLoginFailure === true"
-        :errors="[{ message: 'Необходимо ввести логин' }]"
-      />
-      <Input
-        :class="'text-responsive-secondary item-bg-primary-accent-2'"
-        placeholder="Логин"
-        v-model="props.authenticationData.login"
-        :aria-invalid="isLoginFailure"
-      >
+      <FieldError v-if="isLoginFailure === true" :errors="[{ message: 'Необходимо ввести логин' }]" />
+      <Input :class="'text-responsive-secondary item-bg-primary-accent-2'" placeholder="Логин"
+        v-model="props.authenticationData.login" :aria-invalid="isLoginFailure">
       </Input>
     </Field>
 
     <Field>
-      <FieldError
-        v-if="isPasswordFailure === true"
-        :errors="[{ message: 'Необходимо ввести пароль' }]"
-      />
-      <Input
-        type="password"
-        :class="'text-responsive-secondary item-bg-primary-accent-2'"
-        placeholder="Пароль"
-        v-model="props.authenticationData.password"
-        :aria-invalid="isPasswordFailure"
-      >
+      <FieldError v-if="isPasswordFailure === true" :errors="[{ message: 'Необходимо ввести пароль' }]" />
+      <Input type="password" :class="'text-responsive-secondary item-bg-primary-accent-2'" placeholder="Пароль"
+        v-model="props.authenticationData.password" :aria-invalid="isPasswordFailure">
       </Input>
     </Field>
 

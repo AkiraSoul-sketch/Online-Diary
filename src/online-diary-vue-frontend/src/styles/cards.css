@@ -41,7 +41,7 @@
 }
 
 .card-sixth-accent {
-  background-color: hsla(100, 50%, 55%, 0.7);
+  background-color: hsla(100, 50%, 55%, 0.702);
   background-image: var(--bg-sixth-gradient);
   color: var(--fg-primary);
   box-shadow: var(--shadow-primary);

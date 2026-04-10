@@ -1,26 +1,35 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
 } from "./components/ui/empty";
 import { CodeIcon } from "lucide-vue-next";
+import { useCommonStore } from "./modules/Common/Stores/common.store";
+import { onMounted } from "vue";
+import { toast, ToastContainer } from "vue-toastflow";
 
-export default defineComponent({
-  components: {
-    Empty,
-    EmptyContent,
-    EmptyDescription,
-    EmptyHeader,
-    EmptyMedia,
-    EmptyTitle,
-    CodeIcon,
-  },
-});
+const commonStore = useCommonStore();
+
+onMounted(() => {
+  greetUserAfterAuthentication();
+})
+
+function greetUserAfterAuthentication(): void {
+  const isAfterAuth: boolean = commonStore.isAfterLogin;
+  if (isAfterAuth) {
+    toast.success({
+      title: 'Успешная аутентификация',
+      description: 'Вы успешно вошли в систему. Добро пожаловать!',
+    })
+    setTimeout(() => {
+      commonStore.$state.isAfterLogin = false;
+    }, 5000)
+  }
+}
+
 </script>
 
 <template>
@@ -35,4 +44,5 @@ export default defineComponent({
       </EmptyDescription>
     </EmptyHeader>
   </Empty>
+  <ToastContainer />
 </template>

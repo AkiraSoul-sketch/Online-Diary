@@ -14,8 +14,7 @@ import GradebookStudentGrades from "./Gradebook/GradebookStudentGrades.vue";
 import { onMounted, ref, type Ref } from "vue";
 import ChangeStudentGradeDrawer from "./GradeStudentForm/ChangeStudentGradeDrawer.vue";
 import { useGradebookStore } from "./gradebook.store";
-import { toast } from "vue-sonner";
-import { Toaster } from "@/components/ui/sonner";
+import { toast, ToastContainer } from "vue-toastflow";
 
 const props = defineProps<{
   containerWidth: number;
@@ -37,8 +36,9 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
     "Тема " + gradingStudent.theme.date.toLocaleDateString();
   const gradeValue: string = gradingStudent.grade.gradeValue ?? "Нет оценки";
   const description: string = `Оценка студента ${name} по теме ${theme} обновлена на ${gradeValue}`;
-  toast.success("Студент оценен", {
-    description,
+  toast.success({
+    title: "Оценка обновлена",
+    description: description,
   });
 }
 </script>
@@ -89,5 +89,5 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
     </div>
   </section>
   <ChangeStudentGradeDrawer @student-graded="invokeStudentGradedToast" />
-  <Toaster />
+  <ToastContainer />
 </template>

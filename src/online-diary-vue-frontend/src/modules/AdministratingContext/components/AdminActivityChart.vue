@@ -41,10 +41,10 @@ const chartConfig = {
 </script>
 
 <template>
-  <div :class="'p-2  min-h-0 min-w-0 shrink'" ref="container">
+  <div :class="'my-2 card-primary rounded-md flex flex-col p-2 min-h-0 min-w-0 shrink'" ref="container">
+    <CardTitle :class="'font-normal p-2 text-responsive-primary'">Активность</CardTitle>
     <Card
-      :class="'card-primary p-0 flex-column-layout flex-constrained-column shrink border-none shadow-(--shadow-basic) rounded-sm'">
-      <CardTitle :class="'item-bg-primary font-normal p-2 text-responsive-primary'">Активность</CardTitle>
+      :class="' p-0 flex-column-layout flex-constrained-column shrink border-none shadow-(--shadow-basic) rounded-sm'">
       <CardContent :class="'card-primary flex-constrained shrink '">
         <ChartContainer :config="chartConfig">
           <VisXYContainer :key="globalContainerStore.width" :data="chartData">

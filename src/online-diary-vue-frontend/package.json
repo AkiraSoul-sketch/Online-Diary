@@ -28,10 +28,12 @@
     "tailwindcss": "^4.2.1",
     "vaul-vue": "^0.4.1",
     "vee-validate": "^4.15.1",
+    "vscode-css-languageservice": "^6.3.10",
     "vue": "^3.5.17",
     "vue-input-otp": "^0.3.2",
     "vue-router": "^5.0.4",
     "vue-sonner": "^2.0.9",
+    "vue-toastflow": "^1.1.8",
     "zod": "^3.25.76"
   },
   "devDependencies": {

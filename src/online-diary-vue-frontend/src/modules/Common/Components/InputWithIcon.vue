@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Field } from "@/components/ui/field";
+import { Field, FieldLabel } from "@/components/ui/field";
 import {
   InputGroup,
   InputGroupInput,
@@ -7,18 +7,33 @@ import {
 } from "@/components/ui/input-group";
 import type { Component } from "vue";
 
-defineProps<{
+// Компонент для отображения инпута с иконкой внутри.
+// Особенности:
+// 1. Принимает пропсы:
+//   - placeHolder: строка, отображаемая внутри инпута при отсутствии текста (необязательный).
+//   - label: строка или число, отображаемые в
+//   - icon: компонент иконки, который будет отображаться внутри инпута (обязательный).
+// Рекомендуется использовать этот компонент для инпутов, которые требуют отображения иконки внутри.
+
+const props = defineProps<{
   placeHolder?: string;
+  label?: string | number;
   icon: Component;
 }>();
+
+function labelProvided(): boolean {
+  const label: string | number | undefined = props.label;
+  return label !== undefined && label !== null && label !== "";
+}
 </script>
 
 <template>
   <Field :class="'w-full flex '">
+    <FieldLabel v-if="labelProvided()">{{ props.label }}</FieldLabel>
     <InputGroup :class="'border item-bg-primary-accent-2'">
-      <InputGroupInput :class="'text-responsive-secondary'" :placeholder="placeHolder" />
+      <InputGroupInput :class="'text-responsive-secondary'" :placeholder="props.placeHolder" />
       <InputGroupAddon :align="'inline-end'">
-        <component :is="icon" />
+        <component :is="props.icon" />
       </InputGroupAddon>
     </InputGroup>
   </Field>
