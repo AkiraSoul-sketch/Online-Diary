@@ -54,40 +54,23 @@ watch(
 </script>
 
 <template>
-  <<<<<<< HEAD <section :ref="container.element" :class="'flex-column-layout overflow-auto full-size my-6 px-6 gap-4'">
+  <section :ref="container.element" :class="'flex-column-layout full-size my-6 px-6 gap-4 overflow-auto'">
     <section :ref="statistics.element" class="flex flex-wrap gap-4">
       <StatisticsCard :title="'Всего'" :value="12" />
       <StatisticsCard :title="'Преподаются'" :value="8" />
       <StatisticsCard :title="'Не преподаются'" :value="8" />
     </section>
-    <section :class="'flex flex-col h-full gap-2 lg:flex-row'">
-      <div :ref="filter.element" :class="'flex flex-col gap-2'">
-        <DisciplinesListFilters />
+    <section :class="'flex flex-col gap-2 lg:flex-row'">
+      <div :ref="filter.element" :class="'shrink-0 gap-2 flex flex-col'">
+        <DisciplinesListFilters v-if="isLG() || isXL() || isXXL()" />
         <DisciplineForm />
       </div>
-      <DisciplinesSection v-if="dataContainerHeight > 0" :data-height-limit="dataContainerHeight" />
+      <DisciplinesSection @open-mobile-filters="toggleMobileFilters" v-if="dataContainerHeight > 0"
+        :data-height-limit="dataContainerHeight" />
     </section>
-    </section>
-    <DisciplineForm_mobile :is-open="false" />
-    =======
-    <section :ref="container.element" :class="'flex-column-layout full-size my-6 px-6 gap-4 overflow-auto'">
-      <section :ref="statistics.element" class="flex flex-wrap gap-4">
-        <StatisticsCard :title="'Всего'" :value="12" />
-        <StatisticsCard :title="'Преподаются'" :value="8" />
-        <StatisticsCard :title="'Не преподаются'" :value="8" />
-      </section>
-      <section :class="'flex flex-col gap-2 lg:flex-row'">
-        <div :ref="filter.element" :class="'shrink-0 gap-2 flex flex-col'">
-          <DisciplinesListFilters v-if="isLG() || isXL() || isXXL()" />
-          <DisciplineForm />
-        </div>
-        <DisciplinesSection @open-mobile-filters="toggleMobileFilters" v-if="dataContainerHeight > 0"
-          :data-height-limit="dataContainerHeight" />
-      </section>
-    </section>
+  </section>
 
-    <DisciplinesListFilters_mobile :is-open="isOpen" @mobile-close="closeMobileFilters"
-      v-if="isXS() || isSM() || isMD()" />
-    <DisciplineForm_mobile :is-open="false" />
-    >>>>>>> 3a684737f997d840bf6d604e933b86cc9d741195
+  <DisciplinesListFilters_mobile :is-open="isOpen" @mobile-close="closeMobileFilters"
+    v-if="isXS() || isSM() || isMD()" />
+  <DisciplineForm_mobile :is-open="false" />
 </template>
