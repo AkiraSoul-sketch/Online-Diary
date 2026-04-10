@@ -15,7 +15,7 @@ export const useCommonStore = defineStore("common", () => {
    * @param input - Новое значение ширины viewport в пикселях.
    * @returns Ничего не возвращает.
    */
-  function adjustWidth(input: number): void {
+  function adjustViewPortWidth(input: number): void {
     if (input < 0) return;
     viewPortWidth.value = input;
   }
@@ -26,7 +26,7 @@ export const useCommonStore = defineStore("common", () => {
    * @param input - Новая высота viewport в пикселях.
    * @returns Ничего не возвращает.
    */
-  function adjustHeight(input: number): void {
+  function adjustViewPortHeight(input: number): void {
     if (input < 0) return;
     viewPortHeight.value = input;
   }
@@ -77,15 +77,15 @@ export const useCommonStore = defineStore("common", () => {
   return {
     viewPortHeight,
     viewPortWidth,
-    sideBarHidden,
     headerHeight,
     footerHeight,
+    sideBarHidden,
     isAfterLogin,
     setIsAfterLoginV2,
-    adjustHeight,
-    adjustWidth,
     toggleSideBar,
-    adjustFooterHeight,
     adjustHeaderHeight,
+    adjustFooterHeight,
+    adjustViewPortHeight,
+    adjustViewPortWidth,
   };
 });

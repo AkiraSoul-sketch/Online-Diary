@@ -67,7 +67,6 @@ function ToggleSidebar() {
 function selectUser(u: User) {
   selectedUser.value = u;
   isSelected.value = true;
-  console.log(selectedUser.value);
 }
 </script>
 

@@ -2,7 +2,7 @@
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import { type ChartConfig } from "@/components/ui/chart";
 import ChartContainer from "@/components/ui/chart/ChartContainer.vue";
-import { useGlobalContainerStore } from "@/modules/Common/Stores/globalContainer.store";
+import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import {
   VisTooltip,
   VisXYContainer,
@@ -30,7 +30,7 @@ function resolveWeekDayText(i: number): string {
 }
 
 // используется, чтобы обновлять график при ресайзе страницы.
-const globalContainerStore = useGlobalContainerStore();
+const commonStore = useCommonStore();
 
 const chartConfig = {
   activity: {
@@ -38,15 +38,16 @@ const chartConfig = {
     color: "#CCCCCC 50%",
   },
 } satisfies ChartConfig;
+
 </script>
 
 <template>
-  <div :class="'my-2 card-primary rounded-md flex flex-col p-2 min-h-0 min-w-0 shrink'" ref="container">
+  <div :class="'card-primary my-2 rounded-md flex flex-col h-full'">
     <CardTitle :class="'font-normal p-2 text-responsive-primary'">Активность</CardTitle>
-    <Card :class="' p-0 flex-column-layout flex-constrained-column shrink border-none shadow-none rounded-sm'">
-      <CardContent :class="'card-primary flex-constrained shrink'">
+    <Card :class="'item-bg-primary borderless shadow-none rounded-sm h-full'">
+      <CardContent :class="'flex-1 min-h-0'">
         <ChartContainer :config="chartConfig">
-          <VisXYContainer :key="globalContainerStore.width" :data="chartData">
+          <VisXYContainer :key="commonStore.viewPortWidth" :data="chartData">
             <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity"
               :color="chartConfig.activity.color" />
 

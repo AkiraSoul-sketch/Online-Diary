@@ -6,8 +6,6 @@ import FieldError from "@/components/ui/field/FieldError.vue";
 import { Input } from "@/components/ui/input";
 import type { AuthInputs } from "@/modules/AuthenticationСontext/Authentication.vue";
 import { ref } from "vue";
-import { UserAuthStatus } from "./authstatus.store";
-import type { AuthStatus } from "./authstatus.moduls";
 
 const props = defineProps<{
   authenticationData: AuthInputs;
@@ -19,8 +17,6 @@ const emits = defineEmits<{
 
 const isLoginFailure = ref(false);
 const isPasswordFailure = ref(false);
-
-const authstatus = UserAuthStatus();
 
 function validatePassword(): boolean {
   if (props.authenticationData.password === "") {

@@ -2,21 +2,21 @@
 import ODHeader from "./modules/Common/HeaderContext/OD-Header.vue";
 import ODFooter from "./modules/Common/FooterContext/OD-Footer.vue";
 import ODSideBar from "./modules/Common/SidebarContext/OD-SideBar.vue";
-import { useGlobalContainerWidthTracker } from "./modules/Common/Composables/useGlobalContainerWidthTracker";
-import { useViewPortSize } from "./modules/Common/Composables/useViewPortSize";
+import { useViewPortSizeAdjuster } from "./modules/Common/Composables/useViewPortSizeAdjuster";
 import { useAuthenticationStatusStore } from "./modules/Common/Authentication/authentication.status.store";
 import VerticalScrollableContent from "./modules/Common/Components/VerticalScrollableContent.vue";
+import { useCommonStore } from "./modules/Common/Stores/common.store";
+import { useColorMode } from "@vueuse/core";
 
 // для отслеживания размеры вьюпорта, используется для того, чтобы
-// контент внутри RouterView рендерился с вертикальным скроллбаром, а не все окно скроллился.
-const viewPortSize = useViewPortSize();
+// писать в common store размеры хедера и футера для вычисления размера вьюпорта.
+const viewPortSize = useViewPortSizeAdjuster();
 
-// для отслеживания глобального контейнера страницы.
-// Используется, чтобы обновлять размеры графика в admin activity page.
-const widthTracker = useGlobalContainerWidthTracker();
+// хранилище размеров. используется чтобы задать размеры вьюпорта.
+const commonStore = useCommonStore();
 
 // адаптивная цветовая схема.
-// useColorMode();
+useColorMode();
 
 // статус авторизации пользователя. 
 useAuthenticationStatusStore();
@@ -24,12 +24,12 @@ useAuthenticationStatusStore();
 </script>
 
 <template>
-  <section :class="'bg-main w-full h-screen'" :ref="widthTracker.container">
+  <section :class="'bg-main w-full h-screen'" :ref="viewPortSize.globalContainer">
     <ODSideBar />
     <div :class="'grid grid-rows-[auto_1fr_auto]'">
       <ODHeader />
-      <main :class="'h-full'" :ref="viewPortSize.viewport">
-        <VerticalScrollableContent :height-limit="viewPortSize.height.value">
+      <main :class="'h-full'">
+        <VerticalScrollableContent v-if="commonStore.viewPortHeight > 0" :height-limit="commonStore.viewPortHeight">
           <RouterView />
         </VerticalScrollableContent>
       </main>

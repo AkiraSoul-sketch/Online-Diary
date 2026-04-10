@@ -21,5 +21,4 @@ function AuthLogout(authStatus: Ref<AuthStatus | null>): void {
 
 function PutInCookie(authStatus: AuthStatus): void {
   document.cookie = `username=${authStatus.login}; path=/`;
-  console.log("PutInCookie", authStatus);
 }
