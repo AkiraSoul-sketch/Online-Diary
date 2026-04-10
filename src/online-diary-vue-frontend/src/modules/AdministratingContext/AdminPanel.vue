@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Separator from "@/components/ui/separator/Separator.vue";
 import AdminPanelMenu from "./components/AdminPanelMenu/AdminPanelMenu.vue";
 import { useAdminStore } from "./admin.store";
 

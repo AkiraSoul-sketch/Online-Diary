@@ -54,7 +54,7 @@ watch(
 </script>
 
 <template>
-  <section :ref="container.element" :class="'flex-column-layout full-size my-6 px-6 gap-4 overflow-auto'">
+  <section :ref="container.element" :class="'flex-column-layout full-size my-6 px-6 gap-4'">
     <section :ref="statistics.element" class="flex flex-wrap gap-4">
       <StatisticsCard :title="'Всего'" :value="12" />
       <StatisticsCard :title="'Преподаются'" :value="8" />
