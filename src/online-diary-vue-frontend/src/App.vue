@@ -26,14 +26,10 @@ useAuthenticationStatusStore();
 <template>
   <section :class="'bg-main w-full h-screen'" :ref="viewPortSize.globalContainer">
     <ODSideBar />
-    <div :class="'grid grid-rows-[auto_1fr_auto]'">
+    <section :class="'grid grid-rows-[auto_1fr_auto] w-full h-full'">
       <ODHeader />
-      <main :class="'h-full'">
-        <VerticalScrollableContent v-if="commonStore.viewPortHeight > 0" :height-limit="commonStore.viewPortHeight">
-          <RouterView />
-        </VerticalScrollableContent>
-      </main>
+      <RouterView :class="'overflow-auto w-full h-full'" />
       <ODFooter />
-    </div>
+    </section>
   </section>
 </template>

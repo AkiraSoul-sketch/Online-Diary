@@ -10,6 +10,7 @@ import {
   VisAxis,
   VisCrosshair,
 } from "@unovis/vue";
+import CardHeader from "@/components/ui/card/CardHeader.vue";
 
 const chartData = [
   { weekDay: 1, activity: 10 },
@@ -42,31 +43,30 @@ const chartConfig = {
 </script>
 
 <template>
-  <div :class="'card-primary rounded-md flex flex-col h-full'">
-    <CardTitle :class="'font-normal p-2 text-responsive-primary'">Активность</CardTitle>
-    <Card :class="'item-bg-primary borderless shadow-none rounded-sm h-full'">
-      <CardContent :class="'flex-1 min-h-0'">
-        <ChartContainer :config="chartConfig">
-          <VisXYContainer :key="commonStore.viewPortWidth" :data="chartData">
-            <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity"
-              :color="chartConfig.activity.color" />
+  <Card :class="'card-primary borderless shadow-none rounded-sm h-full w-full min-h-0 min-w-0'">
+    <CardHeader>
+      <CardTitle :class="'font-normal text-responsive-primary'">Активность</CardTitle>
+    </CardHeader>
+    <CardContent :class="'h-full min-h-0 w-full min-w-0'">
+      <ChartContainer :config="chartConfig" :width="100">
+        <VisXYContainer :key="commonStore.viewPortWidth" :data="chartData">
+          <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="chartConfig.activity.color" />
 
-            <VisAxis type="x" label="День недели" :tick-format="(i: number) => {
-              if (i < 1 || i > 7) return;
-              return resolveWeekDayText(i);
-            }
-              " :grid-line="true" :tickValues="chartData.map((d) => d.weekDay)" />
-            <VisAxis type="y" label="Активность" />
-            <VisTooltip />
-            <VisCrosshair :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="'#a1fb95'"
-              :strokeColor="'#000000'" :strokeWidth="'5px'" :template="(d: Data) =>
-                [d.activity, resolveWeekDayText(d.weekDay)].join(', ')
-                " />
-          </VisXYContainer>
-        </ChartContainer>
-      </CardContent>
-    </Card>
-  </div>
+          <VisAxis type="x" label="День недели" :tick-format="(i: number) => {
+            if (i < 1 || i > 7) return;
+            return resolveWeekDayText(i);
+          }
+            " :grid-line="true" :tickValues="chartData.map((d) => d.weekDay)" />
+          <VisAxis type="y" label="Активность" />
+          <VisTooltip />
+          <VisCrosshair :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="'#a1fb95'"
+            :strokeColor="'#000000'" :strokeWidth="'5px'" :template="(d: Data) =>
+              [d.activity, resolveWeekDayText(d.weekDay)].join(', ')
+              " />
+        </VisXYContainer>
+      </ChartContainer>
+    </CardContent>
+  </Card>
 </template>
 
 <style scoped lang="css">

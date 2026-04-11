@@ -21,7 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section :class="'flex-column-layout h-full overflow-auto'">
+  <section :class="'flex-column-layout h-full'">
     <div :class="'p-4 flex-column-layout'">
       <template v-for="group of store.groups" :key="group.id">
         <ItemTitle :class="'p-4 text-responsive-primary'">

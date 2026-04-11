@@ -1,12 +1,5 @@
 <script setup lang="ts">
 import AdminPanelMenu from "./components/AdminPanelMenu/AdminPanelMenu.vue";
-import { useAdminStore } from "./admin.store";
-import { useAdminSizeHeaderHeightTracker } from "./composables/adminSizeheaderHeightTracker";
-import { useAdminSizeStore } from "./adminSize.store";
-
-const adminStore = useAdminStore();
-const adminSizeStore = useAdminSizeStore();
-const headerTracker = useAdminSizeHeaderHeightTracker();
 
 // TODO: 2. Переработать страницу Пользователи
 // TODO: 3. Переработать страницу учебные планы.
@@ -15,17 +8,10 @@ const headerTracker = useAdminSizeHeaderHeightTracker();
 </script>
 
 <template>
-  <section :class="'flex-column-layout'">
-    <div :class="'flex-column-layout w-full self-center'" :ref="headerTracker.adminHeader">
+  <section :class="'grid grid-rows-[auto_1fr]'">
+    <div>
       <AdminPanelMenu :class="'self-center'" />
-      <h3 :class="'text-responsive-primary font-semibold mx-10 self-start py-3'">
-        {{ adminStore.menuTitle }}
-      </h3>
     </div>
-    <div :style="{
-      height: `${adminSizeStore.heightLimit}px`
-    }">
-      <RouterView />
-    </div>
+    <RouterView />
   </section>
 </template>

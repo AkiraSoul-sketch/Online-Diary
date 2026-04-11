@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { useAdminSizeStore } from "../adminSize.store";
+
 import AdminActivityChart from "../components/AdminActivityChart.vue";
 import AdminActivityList from "../components/AdminActivityList.vue";
 
-const adminSizeStore = useAdminSizeStore();
-
-
-// TODO: fix
 </script>
 
 <template>
-  <section :class="'p-2'">
-    <div :class="'w-full gap-2 flex flex-col xl:grid xl:grid-cols-2'" :style="{
-      height: `${adminSizeStore.heightLimit}px`
-    }">
-      <AdminActivityChart />
+  <section :class="'grid grid-rows-3 p-2 gap-2 h-full min-h-0 lg:grid-cols-2'">
+    <AdminActivityChart />
+    <div :class="'row-span-2 bg-amber-300/50'">
       <AdminActivityList />
     </div>
   </section>
