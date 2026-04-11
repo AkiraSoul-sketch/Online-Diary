@@ -42,7 +42,7 @@ const chartConfig = {
 </script>
 
 <template>
-  <div :class="'card-primary my-2 rounded-md flex flex-col h-full'">
+  <div :class="'card-primary rounded-md flex flex-col h-full'">
     <CardTitle :class="'font-normal p-2 text-responsive-primary'">Активность</CardTitle>
     <Card :class="'item-bg-primary borderless shadow-none rounded-sm h-full'">
       <CardContent :class="'flex-1 min-h-0'">

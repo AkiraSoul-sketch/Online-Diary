@@ -24,7 +24,7 @@ watch(
 </script>
 
 <template>
-  <div :class="'flex flex-col gap-6 p-2 my-2 card-primary rounded-sm w-full'">
+  <div :class="'flex flex-col p-4 gap-6 card-primary rounded-sm w-full'">
     <div>
       <CardTitle :class="'font-normal text-responsive-primary'">Список действий</CardTitle>
     </div>
@@ -32,7 +32,7 @@ watch(
       <div :class="'px-2'">
         <InputWithIcon :class="'text-responsive-secondary'" :place-holder="'Фильтр по тексту'" :icon="SearchIcon" />
       </div>
-      <CardContent :class="'rounded-sm p-2'">
+      <CardContent :class="'rounded-sm'">
         <VerticalScrollableContent :height-limit="scrollAreaLimit">
           <AdminActivityCard v-for="value in Array(51)" />
         </VerticalScrollableContent>
