@@ -2,7 +2,6 @@
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import { type ChartConfig } from "@/components/ui/chart";
 import ChartContainer from "@/components/ui/chart/ChartContainer.vue";
-import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import {
   VisTooltip,
   VisXYContainer,
@@ -30,9 +29,6 @@ function resolveWeekDayText(i: number): string {
   return days[i - 1];
 }
 
-// используется, чтобы обновлять график при ресайзе страницы.
-const commonStore = useCommonStore();
-
 const chartConfig = {
   activity: {
     label: "Активность",
@@ -43,14 +39,15 @@ const chartConfig = {
 </script>
 
 <template>
-  <Card :class="'card-primary borderless shadow-none rounded-sm h-full w-full min-h-0 min-w-0'">
+  <Card :class="'card-primary borderless shadow-none chart-card'">
     <CardHeader>
-      <CardTitle :class="'font-normal text-responsive-primary'">Активность</CardTitle>
+      <CardTitle :class="'text-responsive-primary'">Активность</CardTitle>
     </CardHeader>
-    <CardContent :class="'h-full min-h-0 w-full min-w-0'">
-      <ChartContainer :config="chartConfig" :width="100">
-        <VisXYContainer :key="commonStore.viewPortWidth" :data="chartData">
-          <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="chartConfig.activity.color" />
+    <CardContent :class="'chart-card-content'">
+      <ChartContainer :config="chartConfig" :class="'chart-container'">
+        <VisXYContainer :data="chartData" :class="'vis-chart'">
+          <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="chartConfig.activity.color"
+            :class="'stacked-bar'" />
 
           <VisAxis type="x" label="День недели" :tick-format="(i: number) => {
             if (i < 1 || i > 7) return;
@@ -70,6 +67,41 @@ const chartConfig = {
 </template>
 
 <style scoped lang="css">
+.chart-card {
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.chart-card-content {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.vis-chart {
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+  display: flex;
+}
+
+.stacked-bar {
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+}
+
 ::v-deep svg path.css-ix1mbc-bar {
   stroke: #000 !important;
   stroke-width: 1px !important;

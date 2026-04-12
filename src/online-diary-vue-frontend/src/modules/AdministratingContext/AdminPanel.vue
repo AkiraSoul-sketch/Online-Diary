@@ -8,10 +8,26 @@ import AdminPanelMenu from "./components/AdminPanelMenu/AdminPanelMenu.vue";
 </script>
 
 <template>
-  <section :class="'grid grid-rows-[auto_1fr]'">
-    <div>
-      <AdminPanelMenu :class="'self-center'" />
-    </div>
-    <RouterView />
+  <section class="admin-panel-container">
+    <AdminPanelMenu />
+    <RouterView :class="'admin-panel-content-slot'" />
   </section>
 </template>
+
+<style scoped lang="css">
+.admin-panel-container {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.admin-panel-content-slot {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+</style>

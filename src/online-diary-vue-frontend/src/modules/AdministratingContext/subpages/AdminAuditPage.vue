@@ -1,15 +1,28 @@
 <script setup lang="ts">
-
 import AdminActivityChart from "../components/AdminActivityChart.vue";
 import AdminActivityList from "../components/AdminActivityList.vue";
-
 </script>
 
 <template>
-  <section :class="'grid grid-rows-3 p-2 gap-2 h-full min-h-0 lg:grid-cols-2'">
-    <AdminActivityChart />
-    <div :class="'row-span-2 bg-amber-300/50'">
-      <AdminActivityList />
-    </div>
-  </section>
+	<section :class="'admin-audit-content-container'">
+		<AdminActivityChart />
+		<AdminActivityList />
+	</section>
 </template>
+
+<style scoped lang="css">
+.admin-audit-content-container {
+	min-height: 0;
+	min-width: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1em;
+	padding: 1em;
+}
+
+@media (width > 1100px) {
+	.admin-audit-content-container {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+</style>
