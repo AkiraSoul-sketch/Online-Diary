@@ -2,6 +2,8 @@
 export type ThemeInfo = {
   // идентификатор студента
   index: number;
+  // краткое название темы
+  title: string;
   // дата проставления
   date: Date;
 };

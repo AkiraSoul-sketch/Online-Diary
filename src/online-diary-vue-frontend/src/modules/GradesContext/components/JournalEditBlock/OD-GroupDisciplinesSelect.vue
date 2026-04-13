@@ -21,14 +21,14 @@ export default {
 <template>
   <Select>
     <SelectTrigger :class="'item-bg-primary-accent-2 w-full'">
-      <SelectValue :class="'text-responsive-tertiary'" :placeholder="'Дисциплины'">
+      <SelectValue :placeholder="'Дисциплины'">
       </SelectValue>
     </SelectTrigger>
     <SelectContent>
       <SelectGroup>
-        <SelectItem :class="'text-responsive-tertiary'" value="Дисциплина 1">Дисциплина 1</SelectItem>
-        <SelectItem :class="'text-responsive-tertiary'" value="Дисциплина 2">Дисциплина 2</SelectItem>
-        <SelectItem :class="'text-responsive-tertiary'" value="Дисциплина 3">Дисциплина 3</SelectItem>
+        <SelectItem value="Дисциплина 1">Дисциплина 1</SelectItem>
+        <SelectItem value="Дисциплина 2">Дисциплина 2</SelectItem>
+        <SelectItem value="Дисциплина 3">Дисциплина 3</SelectItem>
       </SelectGroup>
     </SelectContent>
   </Select>

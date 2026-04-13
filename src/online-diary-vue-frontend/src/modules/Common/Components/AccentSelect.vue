@@ -37,7 +37,7 @@ const props = defineProps<{
     <Select :class="'w-full'">
 
       <!-- кнопка внутри селекта, которая его раскрывает при нажатии -->
-      <SelectTrigger :class="'text-responsive-tertiary w-full !bg-[var(--bg-primary-accent-2)]'">
+      <SelectTrigger :class="'w-full !bg-[var(--bg-primary-accent-2)]'">
         <SelectValue :placeholder="props.placeholder" />
       </SelectTrigger>
 

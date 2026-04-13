@@ -1,8 +1,13 @@
 import type { Grade } from "./gradebook.models";
 
+const themeDateFormatter = new Intl.DateTimeFormat("ru-RU", {
+  day: "2-digit",
+  month: "2-digit",
+});
+
 function useGradebookLogic() {
-  function resolveGradebookColor(grade: Grade): string {
-    switch (grade.gradeValue) {
+  function resolveGradebookColorValue(gradeValue: string | null): string {
+    switch (gradeValue) {
       case "2":
         return "hsl(20 100% 50% / 15%)";
       case "3":
@@ -22,7 +27,15 @@ function useGradebookLogic() {
     }
   }
 
-  return { resolveGradebookColor };
+  function resolveGradebookColor(grade: Grade): string {
+    return resolveGradebookColorValue(grade.gradeValue);
+  }
+
+  function formatThemeDate(date: Date): string {
+    return themeDateFormatter.format(date);
+  }
+
+  return { resolveGradebookColor, resolveGradebookColorValue, formatThemeDate };
 }
 
 export { useGradebookLogic };

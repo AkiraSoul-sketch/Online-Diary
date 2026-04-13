@@ -5,7 +5,7 @@ import type {
   StudentInfo,
   ThemeInfo,
 } from "./gradebook.models";
-import { computed, onMounted, ref, type Ref } from "vue";
+import { computed, onMounted, ref, watch, type Ref } from "vue";
 
 export { useGradebookStore };
 
@@ -13,12 +13,31 @@ const useGradebookStore = defineStore("gradebook", () => {
   const students: Ref<Array<StudentInfo>> = ref([]);
   const themes: Ref<Array<ThemeInfo>> = ref([]);
   const gradingStudent: Ref<GradingStudent | null> = ref(null);
+  const activeThemeIndex: Ref<number | null> = ref(null);
   const gradingStudentValue = computed(() => gradingStudent.value);
 
   onMounted(() => {
     themes.value = generateRandomThemes(20);
     students.value = generateRandomStudents(20, themes.value);
+    activeThemeIndex.value = themes.value[0]?.index ?? null;
   });
+
+  watch(
+    themes,
+    (loadedThemes) => {
+      if (loadedThemes.length === 0) {
+        activeThemeIndex.value = null;
+        return;
+      }
+
+      const current = activeThemeIndex.value;
+      const exists = loadedThemes.some((theme) => theme.index === current);
+      if (!exists) {
+        activeThemeIndex.value = loadedThemes[0].index;
+      }
+    },
+    { immediate: true },
+  );
 
   function pickGradingStudent(grade: Grade): void {
     gradingStudent.value = getStudentForGrade(grade);
@@ -40,6 +59,10 @@ const useGradebookStore = defineStore("gradebook", () => {
 
   function disbandGradingStudent(): void {
     gradingStudent.value = null;
+  }
+
+  function selectTheme(themeIndex: number): void {
+    activeThemeIndex.value = themeIndex;
   }
 
   function updateStudentGrade(studentGrade: Grade, gradeValue: string): void {
@@ -69,10 +92,12 @@ const useGradebookStore = defineStore("gradebook", () => {
   return {
     students,
     themes,
+    activeThemeIndex,
     gradingStudentValue,
     pickGradingStudent,
     gradeStudent,
     disbandGradingStudent,
+    selectTheme,
   };
 });
 
@@ -158,7 +183,11 @@ function generateRandomGradeValue(): string | null {
 function generateRandomThemes(count: number): ThemeInfo[] {
   const themes: ThemeInfo[] = [];
   for (let i = 0; i < count; i++) {
-    const info: ThemeInfo = { date: date, index: i + 1 };
+    const info: ThemeInfo = {
+      date: date,
+      index: i + 1,
+      title: `Тема ${i + 1}`,
+    };
     themes.push(info);
   }
 
