@@ -103,6 +103,7 @@ provide("disciplinesViewManager", props);
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
+  align-items: stretch;
 }
 
 .filters-container {
@@ -128,7 +129,7 @@ provide("disciplinesViewManager", props);
   min-width: 0;
 }
 
-.statistics-container>StatisticsCard {
-  flex: 1;
+.statistics-container>.statistics-card {
+  flex: 1 1 220px;
 }
 </style>

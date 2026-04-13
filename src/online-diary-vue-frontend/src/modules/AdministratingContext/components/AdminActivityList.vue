@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card :class="'card-primary activity-list-container rounded-md'">
+  <Card :class="'card-primary activity-list-container rounded-xl'">
     <CardHeader :class="'activity-list-head'">
       <CardTitle :class="'text-responsive-primary'">
         Недавние действия

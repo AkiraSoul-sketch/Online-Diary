@@ -104,7 +104,7 @@ function gradeBadgeText(grade: Grade | null): string {
 
 function gradeBadgeStyle(grade: Grade | null): { backgroundColor: string } {
   return {
-    backgroundColor: grade ? resolveGradebookColor(grade) : "hsl(0 10% 50% / 15%)",
+    backgroundColor: grade ? resolveGradebookColor(grade) : "var(--panel-bg)",
   };
 }
 
@@ -137,22 +137,12 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
     </header>
 
     <section class="gradebook-mobile__theme-nav card-primary shadow-none!">
-      <Button
-        :variant="'outline'"
-        :size="'icon'"
-        class="gradebook-mobile__theme-arrow"
-        :disabled="!canSelectPreviousTheme"
-        @click="selectPreviousTheme"
-      >
+      <Button :variant="'outline'" :size="'icon'" class="gradebook-mobile__theme-arrow"
+        :disabled="!canSelectPreviousTheme" @click="selectPreviousTheme">
         <ChevronLeftIcon />
       </Button>
 
-      <button
-        class="gradebook-mobile__theme-card"
-        type="button"
-        :disabled="!activeTheme"
-        @click="openThemesDrawer"
-      >
+      <button class="gradebook-mobile__theme-card" type="button" :disabled="!activeTheme" @click="openThemesDrawer">
         <span class="gradebook-mobile__eyebrow">Текущая тема</span>
         <strong class="gradebook-mobile__theme-title">
           {{ activeTheme ? `Тема ${activeTheme.index}` : "Темы не загружены" }}
@@ -162,13 +152,8 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
         </span>
       </button>
 
-      <Button
-        :variant="'outline'"
-        :size="'icon'"
-        class="gradebook-mobile__theme-arrow"
-        :disabled="!canSelectNextTheme"
-        @click="selectNextTheme"
-      >
+      <Button :variant="'outline'" :size="'icon'" class="gradebook-mobile__theme-arrow" :disabled="!canSelectNextTheme"
+        @click="selectNextTheme">
         <ChevronRightIcon />
       </Button>
     </section>
@@ -187,13 +172,8 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
       </div>
 
       <div class="gradebook-mobile__students-list">
-        <button
-          v-for="item in studentsForTheme"
-          :key="item.student.id"
-          class="gradebook-mobile__student-row"
-          type="button"
-          @click="pickStudentGrade(item.grade)"
-        >
+        <button v-for="item in studentsForTheme" :key="item.student.id" class="gradebook-mobile__student-row"
+          type="button" @click="pickStudentGrade(item.grade)">
           <div class="gradebook-mobile__student-copy" :title="item.student.name">
             <strong class="gradebook-mobile__student-name">{{ mobileStudentName(item.student) }}</strong>
             <span class="gradebook-mobile__student-caption">Нажмите, чтобы изменить оценку</span>
@@ -206,17 +186,10 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
       </div>
     </section>
 
-    <Drawer
-      :open="controlsDrawerOpen"
-      :direction="'bottom'"
-      :dismissible="false"
-      @update:open="controlsDrawerOpen = $event"
-    >
-      <DrawerContent
-        data-vaul-no-drag
-        class="gradebook-mobile__drawer card-primary"
-        @interact-outside="closeControlsDrawer"
-      >
+    <Drawer :open="controlsDrawerOpen" :direction="'bottom'" :dismissible="false"
+      @update:open="controlsDrawerOpen = $event">
+      <DrawerContent data-vaul-no-drag class="gradebook-mobile__drawer card-primary"
+        @interact-outside="closeControlsDrawer">
         <DrawerHeader class="gradebook-mobile__drawer-header">
           <DrawerTitle class="gradebook-mobile__drawer-title">Параметры журнала</DrawerTitle>
           <div class="gradebook-mobile__drawer-close">
@@ -230,17 +203,10 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
       </DrawerContent>
     </Drawer>
 
-    <Drawer
-      :open="themesDrawerOpen"
-      :direction="'bottom'"
-      :dismissible="false"
-      @update:open="themesDrawerOpen = $event"
-    >
-      <DrawerContent
-        data-vaul-no-drag
-        class="gradebook-mobile__drawer gradebook-mobile__drawer--themes card-primary"
-        @interact-outside="closeThemesDrawer"
-      >
+    <Drawer :open="themesDrawerOpen" :direction="'bottom'" :dismissible="false"
+      @update:open="themesDrawerOpen = $event">
+      <DrawerContent data-vaul-no-drag class="gradebook-mobile__drawer gradebook-mobile__drawer--themes card-primary"
+        @interact-outside="closeThemesDrawer">
         <DrawerHeader class="gradebook-mobile__drawer-header">
           <DrawerTitle class="gradebook-mobile__drawer-title">Темы журнала</DrawerTitle>
           <div class="gradebook-mobile__drawer-close">
@@ -249,11 +215,7 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
         </DrawerHeader>
 
         <div class="gradebook-mobile__drawer-body">
-          <GradebookThemesList
-            :embedded="true"
-            :drawer-mode="true"
-            @theme-picked="closeThemesDrawer"
-          />
+          <GradebookThemesList :embedded="true" :drawer-mode="true" @theme-picked="closeThemesDrawer" />
         </div>
       </DrawerContent>
     </Drawer>
@@ -277,7 +239,7 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
 .gradebook-mobile__summary,
 .gradebook-mobile__theme-nav,
 .gradebook-mobile__students {
-  border: 1px solid hsl(0 0% 100% / 0.05);
+  border: 1px solid var(--panel-border-color);
   border-radius: 1.15rem;
 }
 
@@ -299,7 +261,8 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
   font-size: 0.72rem;
   line-height: 1;
   font-weight: 700;
-  color: hsl(0 0% 100% / 0.62);
+  color: var(--panel-text-color);
+  opacity: 0.62;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -314,12 +277,13 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
   display: inline-flex;
   align-items: center;
   min-height: 1.9rem;
-  border: 1px solid hsl(0 0% 100% / 0.06);
+  border: 1px solid var(--panel-border-color);
   border-radius: 999px;
-  background: hsl(220 12% 22% / 0.7);
+  background: var(--panel-bg);
   padding-inline: 0.65rem;
   font-size: 0.82rem;
-  color: hsl(0 0% 100% / 0.82);
+  color: var(--panel-text-color);
+  opacity: 0.82;
 }
 
 .gradebook-mobile__summary-button {
@@ -344,9 +308,9 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
   display: grid;
   gap: 0.22rem;
   min-width: 0;
-  border: 1px solid hsl(0 0% 100% / 0.05);
+  border: 1px solid var(--panel-border-color);
   border-radius: 0.95rem;
-  background: hsl(220 12% 22% / 0.55);
+  background: var(--panel-bg);
   padding: 0.7rem 0.85rem;
   text-align: left;
 }
@@ -362,7 +326,8 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
   white-space: nowrap;
   font-size: 0.8rem;
   line-height: 1.2;
-  color: hsl(0 0% 100% / 0.7);
+  color: var(--panel-text-color);
+  opacity: 0.7;
 }
 
 .gradebook-mobile__students {
@@ -394,7 +359,8 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
 .gradebook-mobile__students-caption {
   font-size: 0.78rem;
   line-height: 1.25;
-  color: hsl(0 0% 100% / 0.68);
+  color: var(--panel-text-color);
+  opacity: 0.68;
 }
 
 .gradebook-mobile__students-button {
@@ -418,11 +384,9 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
   justify-content: space-between;
   gap: 0.75rem;
   min-height: 4.1rem;
-  border: 1px solid hsl(0 0% 100% / 0.06);
+  border: 1px solid var(--panel-border-color);
   border-radius: 1rem;
-  background:
-    linear-gradient(180deg, hsl(220 12% 25% / 0.94), hsl(220 12% 19% / 0.98)),
-    var(--bg-primary-accent-2);
+  background: var(--panel-bg-gradient), var(--panel-bg);
   padding: 0.8rem 0.9rem;
   text-align: left;
 }
@@ -444,7 +408,8 @@ function invokeStudentGradedToast(gradingStudent: GradingStudent): void {
 .gradebook-mobile__student-caption {
   font-size: 0.76rem;
   line-height: 1.2;
-  color: hsl(0 0% 100% / 0.7);
+  color: var(--panel-text-color);
+  opacity: 0.7;
 }
 
 .gradebook-mobile__student-grade {

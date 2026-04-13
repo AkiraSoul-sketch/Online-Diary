@@ -36,10 +36,8 @@ function convertDateToCalendarDate(date: Date): DateValue {
 </script>
 
 <template>
-  <section
-    class="gradebook-toolbar card-primary shadow-none!"
-    :class="{ 'gradebook-toolbar--embedded': props.embedded }"
-  >
+  <section class="gradebook-toolbar card-primary shadow-none!"
+    :class="{ 'gradebook-toolbar--embedded': props.embedded }">
     <div class="gradebook-toolbar__period-row">
       <span class="gradebook-toolbar__period-label">Период журнала</span>
       <GradebookPeriodBlock :compact="true" />
@@ -82,7 +80,7 @@ function convertDateToCalendarDate(date: Date): DateValue {
 .gradebook-toolbar {
   display: grid;
   gap: 0.7rem;
-  border: 1px solid hsl(0 0% 100% / 0.05);
+  border: 1px solid var(--panel-border-color);
   border-radius: 1.25rem;
   padding: clamp(0.75rem, 1.2vw, 0.95rem);
 }
@@ -105,7 +103,8 @@ function convertDateToCalendarDate(date: Date): DateValue {
   font-size: 0.72rem;
   line-height: 1;
   font-weight: 700;
-  color: hsl(0 0% 100% / 0.66);
+  color: var(--panel-text-color);
+  opacity: 0.66;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }

@@ -1,38 +1,25 @@
 <script setup lang="ts">
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { FieldContent, Field } from "@/components/ui/field";
-import { LogInIcon } from "lucide-vue-next";
+import { Button } from "@/components/ui/button";
+import { LogInIcon, MenuIcon } from "lucide-vue-next";
+import { computed, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { useElementSizeObservabilityV2 } from "../Composables/useElementSizeObservabilityV2";
-import { watch } from "vue";
 import { useAuthenticationStatusStore } from "../Authentication/authentication.status.store";
-import { Button } from "@/components/ui/button";
-import { classConstructor } from "../ComponentsLogic/classConstructor";
 import ODHeaderSearch from "./components/OD-HeaderSearch.vue";
 
-// Хедер страницы — содержит логотип, поиск и профиль пользователя (если залогинен).
-// Компонент использует локальные композиции и глобальные сторы для управления видом.
-
-// Используем общий стор: управление сайдбаром, корректировка высоты хедера и пр.
 const common = useCommonStore();
-
-// Композиция для наблюдения за размерами DOM-элемента хедера (например, высота).
-// Экспортирует `element` и реактивное `height`.
 const header = useElementSizeObservabilityV2();
-
-// Статус аутентификации — используется для условного рендера профиля.
 const auth = useAuthenticationStatusStore();
+const route = useRoute();
 
-// Входные пропсы компонента.
-const props = defineProps<{
-  sideBarPanelWidth?: number;
-}>();
+const userInitial = computed(() => auth.login?.charAt(0).toUpperCase() ?? "?");
+const sidebarToggleLabel = computed(() =>
+  common.sideBarHidden ? "Закрыть меню" : "Открыть меню",
+);
+const currentSection = computed(() => resolveSectionTitle(route.path));
 
-// Константа для переопределения стилей кнопки "Войти" в хедере, чтобы она соответствовала дизайну header.
-const headerButtonBgOverride: string = '!bg-[#79c653b3] [background-image:linear-gradient(180deg,transparent,rgba(0,0,0,0.1))] hover:!bg-[#59923db3] !shadow-none !text-[var(--fg-reversed)]';
-
-// Синхронизируем высоту хедера со стором `common` — для корректного layout-а приложения.
-// Опция `immediate: true` вызывает обработчик при инициализации, чтобы сразу установить высоту.
 watch(
   () => header.height.value,
   ($height) => {
@@ -43,41 +30,402 @@ watch(
   },
 );
 
+function resolveSectionTitle(path: string): string {
+  if (path === "/") return "Главная";
+  if (matchesNestedRoute(path, "/admin")) return "Панель администратора";
+  if (matchesNestedRoute(path, "/grades")) return "Журнал оценок";
+  if (matchesNestedRoute(path, "/disciplines")) return "Дисциплины";
+  if (matchesNestedRoute(path, "/teacher")) return "Кабинет преподавателя";
+  if (matchesNestedRoute(path, "/auth")) return "Авторизация";
+  return "Рабочее пространство";
+}
+
+function matchesNestedRoute(path: string, routePrefix: string): boolean {
+  return path === routePrefix || path.startsWith(`${routePrefix}/`);
+}
 </script>
 
 <template>
-  <header :ref="header.element"
-    :class="'flex w-full card-sixth-accent justify-between gap-2 items-center bg-(--header-background-color)'">
+  <header :ref="header.element" :class="'od-header'">
+    <div class="od-header__brand">
+      <Button type="button" variant="outline" size="icon" class="od-header__menu-button"
+        :aria-label="sidebarToggleLabel" @click="common.toggleSideBar">
+        <MenuIcon />
+      </Button>
 
-    <!-- лого -->
-    <img src="/main_logo.svg" :class="'p-1 h-8 brightness-0 sm:h-9 md:h-11 lg:h-13 xl:h-15 2xl:h-17'"
-      v-on:click="common.toggleSideBar" />
+      <RouterLink to="/" class="od-header__brand-link" aria-label="Перейти на главную страницу">
+        <span class="od-header__logo-shell">
+          <img src="/main_logo.svg" alt="Логотип Online Diary" class="od-header__logo" />
+        </span>
 
-    <!-- поиск -->
-    <ODHeaderSearch />
-
-    <!-- Показываем сведения о пользователе (аватар, имя, роль) только если он залогинен -->
-    <!-- иначе - показываем кнопку "Войти" -->
-    <!-- template - заглушка, которая не рендерится в DOM, но позволяет использовать логику -->
-    <template v-if="auth.isLoggedIn && auth.login">
-      <Avatar
-        :class="'shadow-(--shadow-basic) h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-11 lg:w-11 xl:h-13 xl:w-13 2xl:h-15 2xl:w-15'">
-        <AvatarFallback :class="'text-responsive-tertiary'">{{ auth.login[0].toUpperCase() }}</AvatarFallback>
-      </Avatar>
-      <FieldContent :class="'gap-0'">
-        <Field :class="'text-responsive-tertiary text-nowrap'">{{ auth.login }}</Field>
-        <Field :class="'text-responsive-tertiary text-nowrap'">{{ 'роль: ' + auth.login }}</Field>
-      </FieldContent>
-    </template>
-
-    <template v-else>
-      <RouterLink :to="'/auth'" :class="'p-0 h-full'">
-        <Button :variant="'sixth'" :class="classConstructor('p-0 h-full w-full rounded-none', headerButtonBgOverride)">
-          <LogInIcon />
-          <span :class="'text-responsive-tertiary'">Войти</span>
-        </Button>
+        <span class="od-header__brand-copy ">
+          <span :class="'od-header__brand-kicker'">{{ currentSection }}</span>
+        </span>
       </RouterLink>
-    </template>
+    </div>
 
+    <div class="od-header__search">
+      <ODHeaderSearch />
+    </div>
+
+    <div class="od-header__actions">
+      <template v-if="auth.isLoggedIn && auth.login">
+        <div class="od-header__user-card">
+          <div class="od-header__user-copy">
+            <span class="od-header__user-status">В системе</span>
+            <span class="od-header__user-name">{{ auth.login }}</span>
+          </div>
+
+          <Avatar class="od-header__avatar">
+            <AvatarFallback class="od-header__avatar-fallback text-responsive-secondary">
+              {{ userInitial }}
+            </AvatarFallback>
+          </Avatar>
+        </div>
+      </template>
+
+      <template v-else>
+        <RouterLink to="/auth" class="od-header__auth-link">
+          <Button variant="sixth" class="od-header__login-button">
+            <LogInIcon />
+            <span>Войти</span>
+          </Button>
+        </RouterLink>
+      </template>
+    </div>
   </header>
 </template>
+
+<style scoped lang="css">
+.od-header {
+  position: relative;
+  display: grid;
+  grid-template-areas: "brand search actions";
+  grid-template-columns: auto minmax(14rem, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.75rem, 1.8vw, 1.4rem);
+  padding: clamp(0.75rem, 1.4vw, 1rem) clamp(0.85rem, 1.8vw, 1.35rem);
+  border-bottom: 1px solid hsl(104 44% 55% / 0.24);
+  background: var(--bg-sixth);
+  color: var(--fg-primary);
+  box-shadow: 0 10px 30px hsl(240 25% 8% / 0.08);
+  backdrop-filter: blur(18px);
+  isolation: isolate;
+}
+
+.od-header__brand {
+  grid-area: brand;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.od-header__menu-button {
+  flex-shrink: 0;
+  height: 2.85rem;
+  width: 2.85rem;
+  border-radius: 1rem;
+  border-color: transparent;
+  background: var(--bg-sixth) !important;
+  color: var(--fg-primary);
+  box-shadow: none;
+}
+
+.od-header__menu-button:hover {
+  background: var(--bg-sixth-hover) !important;
+}
+
+.od-header__brand-link {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.85rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.od-header__logo-shell {
+  display: flex;
+  height: clamp(2.85rem, 4vw, 3.4rem);
+  width: clamp(2.85rem, 4vw, 3.4rem);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid hsl(104 44% 55% / 0.2);
+  border-radius: 1rem;
+  background: var(--bg-sixth-gradient);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.22);
+}
+
+.od-header__logo {
+  height: 70%;
+  width: 70%;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%);
+}
+
+.od-header__brand-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.od-header__brand-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-primary) !important;
+}
+
+.od-header__brand-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(1rem, 1vw + 0.7rem, 1.35rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.od-header__brand-note {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: var(--fg-reversed);
+}
+
+.od-header__search {
+  grid-area: search;
+  min-width: 0;
+}
+
+.od-header__actions {
+  grid-area: actions;
+  display: flex;
+  min-width: 0;
+  justify-self: end;
+}
+
+.od-header__user-card {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid hsl(0 0% 100% / 0.12);
+  border-radius: 1.1rem;
+  background: transparent;
+  padding: 0.35rem 0.4rem 0.35rem 0.85rem;
+  box-shadow: none;
+}
+
+.od-header__user-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.od-header__user-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-reversed);
+}
+
+.od-header__user-status::before {
+  content: "";
+  display: inline-block;
+  height: 0.45rem;
+  width: 0.45rem;
+  border-radius: 999px;
+  background: var(--bg-sixth);
+  box-shadow: 0 0 0 0.25rem hsl(104 44% 55% / 0.14);
+}
+
+.od-header__user-name {
+  max-width: 16ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.96rem;
+  font-weight: 700;
+}
+
+.od-header__avatar {
+  height: 2.65rem;
+  width: 2.65rem;
+  border: 2px solid hsl(0 0% 100% / 0.84);
+  background: var(--bg-sixth-hover);
+}
+
+.od-header__avatar-fallback {
+  background: transparent;
+  color: var(--fg-reversed);
+  font-weight: 800;
+}
+
+.od-header__auth-link {
+  display: flex;
+}
+
+.od-header__login-button {
+  height: 2.85rem;
+  border-radius: 1rem;
+  padding-inline: 1rem;
+  background: var(--bg-sixth) !important;
+  box-shadow: 0 10px 20px hsl(104 44% 35% / 0.18);
+}
+
+.od-header__login-button:hover {
+  background: var(--bg-sixth-hover) !important;
+}
+
+.dark .od-header {
+  border-bottom-color: hsl(104 44% 45% / 0.32);
+  background: var(--bg-sixth);
+  color: var(--fg-reversed);
+  box-shadow: 0 12px 28px hsl(220 30% 4% / 0.35);
+}
+
+.dark .od-header__menu-button {
+  border-color: transparent;
+  background: var(--bg-sixth-hover);
+  color: var(--fg-reversed);
+  box-shadow: none;
+}
+
+.dark .od-header__menu-button:hover {
+  background: var(--bg-sixth);
+}
+
+.dark .od-header__logo-shell {
+  border-color: hsl(0 0% 100% / 0.08);
+  background: var(--bg-sixth-gradient);
+  box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.06);
+}
+
+.dark .od-header__logo {
+  filter: brightness(0) invert(1);
+}
+
+.dark .od-header__brand-kicker,
+.dark .od-header__brand-note {
+  color: var(--fg-reversed);
+}
+
+.dark .od-header__user-card {
+  border-color: hsl(0 0% 100% / 0.08);
+  background: transparent;
+  box-shadow: none;
+}
+
+.dark .od-header__user-status {
+  color: var(--fg-reversed);
+}
+
+.dark .od-header__avatar {
+  border-color: hsl(0 0% 100% / 0.84);
+}
+
+@media (max-width: 960px) {
+  .od-header {
+    grid-template-areas:
+      "brand actions"
+      "search search";
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .od-header__actions {
+    align-self: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .od-header {
+    gap: 0.75rem;
+    padding-inline: 0.75rem;
+  }
+
+  .od-header__brand {
+    gap: 0.65rem;
+  }
+
+  .od-header__brand-note,
+  .od-header__user-status {
+    display: none;
+  }
+
+  .od-header__menu-button,
+  .od-header__logo-shell {
+    border-radius: 0.9rem;
+  }
+
+  .od-header__user-card {
+    gap: 0.55rem;
+    padding-left: 0.65rem;
+  }
+
+  .od-header__user-name {
+    max-width: 11ch;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .od-header__brand-link {
+    gap: 0.65rem;
+  }
+
+  .od-header__brand-title {
+    font-size: 0.98rem;
+  }
+
+  .od-header__brand-kicker {
+    max-width: 16ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .od-header__user-copy {
+    display: none;
+  }
+
+  .od-header__user-card {
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .od-header__login-button {
+    min-width: 2.85rem;
+    padding-inline: 0.8rem;
+  }
+}
+
+@media (max-width: 380px) {
+
+  .od-header__brand-note,
+  .od-header__brand-kicker {
+    display: none;
+  }
+
+  .od-header__login-button span {
+    display: none;
+  }
+
+  .od-header__login-button {
+    width: 2.85rem;
+    padding-inline: 0;
+  }
+}
+</style>

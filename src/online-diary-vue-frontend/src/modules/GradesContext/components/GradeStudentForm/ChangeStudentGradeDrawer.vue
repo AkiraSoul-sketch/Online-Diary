@@ -51,15 +51,9 @@ function gradeOptionStyle(gradeValue: string): { backgroundColor: string } {
 </script>
 
 <template>
-  <Drawer
-    :fixed="true"
-    :direction="'bottom'"
-    :open="store.gradingStudentValue !== null"
-  >
+  <Drawer :fixed="true" :direction="'bottom'" :open="store.gradingStudentValue !== null">
     <DrawerContent data-vaul-no-drag :class="'card-primary change-grade-drawer'">
-      <Card
-        :class="'change-grade-drawer__card border-0 shadow-none bg-transparent'"
-      >
+      <Card :class="'change-grade-drawer__card border-0 shadow-none bg-transparent'">
         <ChangeStudentGradeDrawerTitle />
         <CardTitle :class="'text-responsive-primary'">
           Изменение оценки
@@ -67,34 +61,22 @@ function gradeOptionStyle(gradeValue: string): { backgroundColor: string } {
         <ChangeStudentGradeCurrentStatus />
         <CardContent :class="'change-grade-drawer__content'">
           <div class="change-grade-drawer__grid change-grade-drawer__grid--numeric">
-            <Button
-              v-for="option in numericGradeOptions"
-              :key="option.value"
-              class="change-grade-drawer__button"
-              :variant="'ghost'"
-              v-on:click="gradeStudent(option.value)"
-            >
-              <span
-                class="change-grade-drawer__button-value text-responsive-secondary"
-                :style="gradeOptionStyle(option.value)"
-              >
+            <Button v-for="option in numericGradeOptions" :key="option.value" class="change-grade-drawer__button"
+              :variant="'ghost'" v-on:click="gradeStudent(option.value)">
+              <span class="change-grade-drawer__button-value text-responsive-secondary"
+                :style="gradeOptionStyle(option.value)">
                 {{ option.label }}
               </span>
             </Button>
           </div>
 
           <div class="change-grade-drawer__grid change-grade-drawer__grid--status">
-            <Button
-              v-for="option in statusGradeOptions"
-              :key="option.value"
-              class="change-grade-drawer__button change-grade-drawer__button--status"
-              :variant="'ghost'"
-              v-on:click="gradeStudent(option.value)"
-            >
+            <Button v-for="option in statusGradeOptions" :key="option.value"
+              class="change-grade-drawer__button change-grade-drawer__button--status" :variant="'ghost'"
+              v-on:click="gradeStudent(option.value)">
               <span
                 class="change-grade-drawer__button-value change-grade-drawer__button-value--status text-responsive-secondary"
-                :style="gradeOptionStyle(option.value)"
-              >
+                :style="gradeOptionStyle(option.value)">
                 {{ option.label }}
               </span>
             </Button>
@@ -142,11 +124,9 @@ function gradeOptionStyle(gradeValue: string): { backgroundColor: string } {
 .change-grade-drawer__button {
   min-height: 3rem;
   width: 100%;
-  border: 1px solid hsl(0 0% 100% / 0.05);
+  border: 1px solid var(--panel-border-color);
   border-radius: 0.88rem;
-  background:
-    linear-gradient(180deg, hsl(220 12% 25% / 0.94), hsl(220 12% 19% / 0.98)),
-    var(--bg-primary-accent-2);
+  background: var(--panel-bg-gradient), var(--panel-bg);
   padding: 0.35rem;
   box-shadow: var(--shadow-primary);
 }
@@ -172,6 +152,7 @@ function gradeOptionStyle(gradeValue: string): { backgroundColor: string } {
 }
 
 @media (max-width: 640px) {
+
   .change-grade-drawer__grid--numeric,
   .change-grade-drawer__grid--status {
     grid-template-columns: repeat(2, minmax(0, 1fr));

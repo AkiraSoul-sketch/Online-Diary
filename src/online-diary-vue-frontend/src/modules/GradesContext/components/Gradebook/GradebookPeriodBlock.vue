@@ -43,14 +43,15 @@ const props = withDefaults(
 .period-block__item {
   display: grid;
   gap: 0.1rem;
-  border: 1px solid hsl(0 0% 100% / 0.06);
+  border: 1px solid var(--panel-border-color);
   border-radius: 0.8rem;
-  background: hsl(220 10% 22% / 0.5);
+  background: var(--panel-bg-gradient), var(--panel-bg);
   padding: 0.35rem 0.45rem;
 }
 
 .period-block__item small {
-  color: hsl(0 0% 100% / 0.58);
+  color: var(--panel-text-color);
+  opacity: 0.88;
   font-size: 0.62rem;
   line-height: 1.1;
 }
@@ -84,7 +85,7 @@ const props = withDefaults(
   padding: 0.24rem 0.55rem;
   border-radius: 999px;
   white-space: nowrap;
-  background: hsl(220 10% 22% / 0.38);
+  background: var(--panel-bg);
 }
 
 .period-block--compact .period-block__item small,
@@ -103,11 +104,12 @@ const props = withDefaults(
 }
 
 .period-block--compact .period-block__item--accent {
-  border-color: hsl(0 0% 100% / 0.08);
+  border-color: var(--panel-active-border);
   background-image: none;
 }
 
 @media (max-width: 820px) {
+
   .period-block--compact .period-block__item small,
   .period-block--compact .period-block__item strong {
     font-size: 0.7rem;

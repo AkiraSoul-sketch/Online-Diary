@@ -23,6 +23,23 @@
     hsl(0, 0%, 98%),
     hsl(0, 0%, 94%)
   );
+  /* Panel / card variables (adaptable for light/dark via .dark overrides) */
+  --panel-border-color: hsl(0 0% 0% / 0.1);
+  --panel-bg-gradient: linear-gradient(
+    180deg,
+    hsl(0 0% 100% / 0.9),
+    hsl(0 0% 97% / 0.95)
+  );
+  --panel-bg: var(--bg-primary-accent-2);
+  --panel-bg-active-gradient: linear-gradient(
+    180deg,
+    hsl(102 24% 96% / 0.9),
+    hsl(0 0% 97% / 0.95)
+  );
+  --panel-bg-active: var(--bg-primary-accent);
+  --panel-text-color: var(--fg-primary);
+  --panel-active-border: hsl(102 48% 52% / 0.42);
+  --panel-focus-outline: hsl(102 62% 50% / 0.7);
   --bg-secondary-gradient: linear-gradient(
     to bottom,
     hsl(22, 91%, 68%),
@@ -89,6 +106,24 @@
     hsl(0, 0%, 36%),
     hsl(0, 0%, 30%)
   );
+
+  /* Panel / card variables overrides for dark theme */
+  --panel-border-color: hsl(0 0% 100% / 0.06);
+  --panel-bg-gradient: linear-gradient(
+    180deg,
+    hsl(220 12% 25% / 0.96),
+    hsl(220 12% 21% / 0.98)
+  );
+  --panel-bg: var(--bg-primary);
+  --panel-bg-active-gradient: linear-gradient(
+    180deg,
+    hsl(102 34% 24% / 0.98),
+    hsl(220 12% 18% / 0.98)
+  );
+  --panel-bg-active: var(--bg-primary);
+  --panel-text-color: var(--fg-primary);
+  --panel-active-border: hsl(102 48% 52% / 0.42);
+  --panel-focus-outline: hsl(102 62% 50% / 0.7);
   --bg-sixth-gradient: linear-gradient(
     to bottom,
     hsl(104, 44%, 48%),
