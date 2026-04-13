@@ -7,6 +7,7 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { computed } from "vue";
 import type {
   AdminPanelMenuCategory,
   AdminPanelMenuCategoryItem,
@@ -16,6 +17,16 @@ import { classConstructor } from "@/modules/Common/ComponentsLogic/classConstruc
 
 const props = defineProps<AdminPanelMenuCategory>();
 const adminStore = useAdminStore();
+
+const isActive = computed(() => adminStore.menuTitle === props.menuName);
+
+const triggerButtonClass = computed(() =>
+  classConstructor(
+    "admin-panel-trigger text-responsive-secondary px-4 py-2 transition-colors",
+    resolveButtonClass(props),
+    isActive.value ? "bg-accent text-white shadow-sm" : "bg-transparent"
+  ),
+);
 
 function resolveButtonClass(category: AdminPanelMenuCategory): string {
   switch (category.type) {
@@ -42,17 +53,25 @@ function hasMenuItems() {
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger :class="'rounded-none'">
-      <Button :variant="'primary'" :class="classConstructor('text-responsive-secondary', resolveButtonClass(props))">{{
-        props.menuName
-      }}</Button>
+      <Button :variant="'primary'" :class="triggerButtonClass">{{ props.menuName }}</Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent v-if="hasMenuItems()">
-      <DropdownMenuGroup>
-        <RouterLink v-on:click="() => setAdminMenuTitle(item)" v-for="item in props.items" :key="item.menuName"
-          :to="item.route">
+      <DropdownMenuGroup class="py-1">
+        <RouterLink v-for="item in props.items" :key="item.menuName" :to="item.route"
+          @click="() => setAdminMenuTitle(item)" :class="'admin-panel-menu__link block px-3 py-2 rounded text-sm'">
           <DropdownMenuLabel>{{ item.menuName }}</DropdownMenuLabel>
         </RouterLink>
       </DropdownMenuGroup>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
+
+<style scoped>
+:deep(.admin-panel-trigger):hover {
+  background-color: var(--bg-primary-hover) !important;
+}
+
+.admin-panel-menu__link:hover {
+  background-color: var(--bg-primary-hover);
+}
+</style>

@@ -23,7 +23,7 @@ useAuthenticationStatusStore();
 
     <ODHeader />
     <RouterView :class="'content-slot'" />
-    <ODFooter />
+    <!-- <ODFooter /> -->
 
   </section>
   <ODSideBar />

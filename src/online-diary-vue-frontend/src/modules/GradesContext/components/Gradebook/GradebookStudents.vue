@@ -25,12 +25,10 @@ function studentNameText(student: StudentInfo): string {
   height: 100%;
   min-width: 0;
   padding-inline: 0.85rem;
-  border: 1px solid hsl(0 0% 100% / 0.06);
+  border: 1px solid var(--panel-border-color);
   border-radius: 0.88rem;
-  background:
-    linear-gradient(180deg, hsl(220 12% 25% / 0.96), hsl(220 12% 21% / 0.98)),
-    var(--bg-primary-accent-2);
-  color: var(--fg-primary);
+  background: var(--panel-bg-gradient), var(--panel-bg);
+  color: var(--panel-text-color);
   box-shadow: var(--shadow-primary);
 }
 

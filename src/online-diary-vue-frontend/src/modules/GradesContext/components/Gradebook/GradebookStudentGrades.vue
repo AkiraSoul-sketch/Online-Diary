@@ -16,13 +16,8 @@ function pickStudentForGraduation(grade: Grade): void {
 </script>
 
 <template>
-  <button
-    v-for="grade of props.student.grades"
-    :key="props.student.id + '-' + grade.theme"
-    class="grade-block"
-    type="button"
-    v-on:click="pickStudentForGraduation(grade)"
-  >
+  <button v-for="grade of props.student.grades" :key="props.student.id + '-' + grade.theme" class="grade-block"
+    type="button" v-on:click="pickStudentForGraduation(grade)">
     <span class="grade-block__value" :style="{ backgroundColor: resolveGradebookColor(grade) }">
       {{ grade.gradeValue ?? "•" }}
     </span>
@@ -33,12 +28,10 @@ function pickStudentForGraduation(grade: Grade): void {
 .grade-block {
   display: grid;
   place-items: center;
-  border: 1px solid hsl(0 0% 100% / 0.05);
+  border: 1px solid var(--panel-border-color);
   border-radius: 0.88rem;
-  background:
-    linear-gradient(180deg, hsl(220 12% 25% / 0.94), hsl(220 12% 19% / 0.98)),
-    var(--bg-primary-accent-2);
-  color: var(--fg-primary);
+  background: var(--panel-bg-gradient), var(--panel-bg);
+  color: var(--panel-text-color);
   cursor: pointer;
   transition:
     transform 0.18s ease,
@@ -49,10 +42,8 @@ function pickStudentForGraduation(grade: Grade): void {
 
 .grade-block:hover {
   transform: translateY(-1px);
-  border-color: hsl(102 45% 50% / 0.35);
-  background:
-    linear-gradient(180deg, hsl(102 24% 24% / 0.96), hsl(220 12% 19% / 0.98)),
-    var(--bg-primary-accent);
+  border-color: var(--panel-active-border);
+  background: var(--panel-bg-active-gradient), var(--panel-bg-active);
 }
 
 .grade-block__value {
@@ -67,7 +58,7 @@ function pickStudentForGraduation(grade: Grade): void {
 }
 
 .grade-block:focus-visible {
-  outline: 2px solid hsl(102 62% 50% / 0.7);
+  outline: 2px solid var(--panel-focus-outline);
   outline-offset: 2px;
 }
 </style>

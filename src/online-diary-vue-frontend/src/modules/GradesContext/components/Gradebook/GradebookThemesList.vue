@@ -31,30 +31,22 @@ function pickTheme(themeIndex: number): void {
 </script>
 
 <template>
-  <aside
-    class="themes-panel"
-    :class="[
-      'card-primary',
-      {
-        'themes-panel--embedded': props.embedded,
-        'themes-panel--drawer': props.drawerMode,
-      },
-    ]"
-  >
+  <aside class="themes-panel" :class="[
+    'card-primary',
+    {
+      'themes-panel--embedded': props.embedded,
+      'themes-panel--drawer': props.drawerMode,
+    },
+  ]">
     <div class="themes-panel__header">
       <h2 class="themes-panel__title">Темы</h2>
       <p class="themes-panel__caption">Выберите тему, чтобы прокрутить журнал к нужной колонке.</p>
     </div>
 
     <div class="themes-panel__list">
-      <button
-        v-for="theme in themes"
-        :key="theme.index"
-        class="themes-panel__item"
-        :class="{ 'themes-panel__item--active': theme.index === activeThemeIndex }"
-        type="button"
-        @click="pickTheme(theme.index)"
-      >
+      <button v-for="theme in themes" :key="theme.index" class="themes-panel__item"
+        :class="{ 'themes-panel__item--active': theme.index === activeThemeIndex }" type="button"
+        @click="pickTheme(theme.index)">
         <div class="themes-panel__item-copy">
           <strong class="themes-panel__item-title">{{ theme.title }}</strong>
           <span class="themes-panel__item-meta">№{{ theme.index }} · {{ formatThemeDate(theme.date) }}</span>
@@ -72,7 +64,7 @@ function pickTheme(themeIndex: number): void {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 0.75rem;
-  border: 1px solid hsl(0 0% 100% / 0.05);
+  border: 1px solid var(--panel-border-color);
   border-radius: 1.25rem;
   padding: clamp(0.85rem, 1.5vw, 1rem);
   overflow: hidden;
@@ -116,7 +108,8 @@ function pickTheme(themeIndex: number): void {
 
 .themes-panel__caption {
   margin: 0;
-  color: hsl(0 0% 100% / 0.68);
+  color: var(--panel-text-color);
+  opacity: 0.68;
   font-size: 0.82rem;
   line-height: 1.35;
 }
@@ -137,9 +130,9 @@ function pickTheme(themeIndex: number): void {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.7rem;
-  border: 1px solid hsl(0 0% 100% / 0.06);
+  border: 1px solid var(--panel-border-color);
   border-radius: 0.95rem;
-  background: hsl(220 12% 22% / 0.76);
+  background: var(--panel-bg);
   padding: 0.8rem 0.9rem;
   text-align: left;
   transition:
@@ -148,10 +141,8 @@ function pickTheme(themeIndex: number): void {
 }
 
 .themes-panel__item--active {
-  border-color: hsl(102 48% 52% / 0.42);
-  background:
-    linear-gradient(180deg, hsl(102 34% 25% / 0.92), hsl(220 12% 22% / 0.88)),
-    hsl(220 12% 22% / 0.76);
+  border-color: var(--panel-active-border);
+  background: var(--panel-bg-active-gradient), var(--panel-bg-active);
 }
 
 .themes-panel__item-copy {
@@ -168,11 +159,13 @@ function pickTheme(themeIndex: number): void {
 .themes-panel__item-icon {
   display: block;
   flex-shrink: 0;
-  color: hsl(0 0% 100% / 0.54);
+  color: var(--panel-text-color);
+  opacity: 0.72;
 }
 
 .themes-panel__item-meta {
-  color: hsl(0 0% 100% / 0.68);
+  color: var(--panel-text-color);
+  opacity: 0.68;
   font-size: 0.78rem;
   line-height: 1.2;
 }

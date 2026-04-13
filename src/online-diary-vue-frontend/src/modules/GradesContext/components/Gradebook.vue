@@ -144,7 +144,7 @@ onBeforeUnmount(() => {
   min-height: 0;
   height: 100%;
   overflow: hidden;
-  border: 1px solid hsl(0 0% 100% / 0.04);
+  border: 1px solid var(--panel-border-color);
   border-radius: 1.25rem;
   padding: 0.25rem;
 }
