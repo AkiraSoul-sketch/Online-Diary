@@ -2,23 +2,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import InputWithIcon from "@/modules/Common/Components/InputWithIcon.vue";
 import { SearchIcon } from "lucide-vue-next";
-import { onMounted, ref, watch, type Ref } from "vue";
+import { onMounted, ref, type Ref } from "vue";
 import type { AdminActivityItem } from "../admin.activity.models";
 import { useAdminActivityStore } from "../admin.activity.store";
-import { useCommonStore } from "@/modules/Common/Stores/common.store";
 import { useWindowSize } from "@vueuse/core";
 
 const activities: Ref<AdminActivityItem[]> = ref([]);
 const store = useAdminActivityStore();
 const windowSize = useWindowSize();
-
-watch(() => windowSize.width.value, (width) => {
-  console.log(width);
-},
-  {
-    immediate: true,
-    flush: "post",
-  })
 
 onMounted(() => {
   store.init(30);

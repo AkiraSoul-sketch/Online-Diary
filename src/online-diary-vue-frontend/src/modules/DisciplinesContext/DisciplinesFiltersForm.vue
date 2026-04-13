@@ -57,25 +57,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="card-primary rounded-md h-max border shrink-0">
-    <div class="p-4 bg-apricat-cream text-responsive-secondary font-semibold rounded-t-md">
+  <div class="filters-container card-primary rounded-md">
+    <div class="text-responsive-primary font-semibold p-4">
       Фильтрация
     </div>
-    <div class="p-4">
-      <div class="text-responsive-tertiary flex-column-layout gap-2">
+    <div class="filters-layout">
+      <div class="filters-body">
 
-        <InputWithIcon :label="'Дисциплина'" :class="'text-responsive-tertiary'" :place-holder="'название'"
+        <InputWithIcon :class="'filters-item text-responsive-tertiary'" :label="'Дисциплина'" :place-holder="'название'"
           :icon="SearchIcon" />
 
-        <AccentSelect :placeholder="'выбрать группу'" :label="'Группы'" :items="groups" :item-key="(g) => g.id"
-          :item-display-text="(g) => g.name" />
+        <AccentSelect :class="'filters-item'" :placeholder="'выбрать преподавателя'" :label="'Преподаватели'"
+          :items="teachers" :item-key="(t) => t.id" :item-display-text="(t) => t.name" />
 
-        <AccentSelect :placeholder="'выбрать семестр'" :label="'Семестр'" :items="semesters" :item-key="(s) => s.id"
-          :item-display-text="(s) => s.number" />
+        <AccentSelect :class="'filters-item'" :placeholder="'выбрать группу'" :label="'Группы'" :items="groups"
+          :item-key="(g) => g.id" :item-display-text="(g) => g.name" />
 
-        <AccentSelect :placeholder="'выбрать преподавателя'" :label="'Преподаватели'" :items="teachers"
-          :item-key="(t) => t.id" :item-display-text="(t) => t.name" />
-
+        <AccentSelect :class="'filters-item'" :placeholder="'выбрать семестр'" :label="'Семестр'" :items="semesters"
+          :item-key="(s) => s.id" :item-display-text="(s) => s.number" />
+      </div>
+      <div :class="'checkbox-row-container'">
         <Field :orientation="'horizontal'">
           <Checkbox :id="'archived-filter'" :default-value="false" />
           <FieldContent>
@@ -84,11 +85,69 @@ onMounted(() => {
             </FieldLabel>
           </FieldContent>
         </Field>
-
-        <Button :variant="'secondary'" :class="'mx-auto'">
+      </div>
+      <div :class="'filters-button-container'">
+        <Button :variant="'secondary'" :class="'mx-auto filters-button'">
           <Label :class="'text-responsive-tertiary font-prussian-blue'">Сбросить</Label>
         </Button>
       </div>
     </div>
   </div>
 </template>
+
+<style lang="css" scoped>
+.filters-container {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.filters-layout {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filters-body {
+  display: grid;
+  grid-template-columns: 1 / 1;
+  gap: 0.5em;
+}
+
+.filters-item {
+  min-width: 0;
+  display: flex;
+  padding: 0 1em;
+  gap: 1em;
+}
+
+.filters-item>* {
+  min-width: 0;
+}
+
+.checkbox-row-container {
+  display: flex;
+  margin-top: 1em;
+  justify-content: center;
+}
+
+.checkbox-row-container>* {
+  width: fit-content;
+}
+
+.filters-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0.5em;
+}
+
+.filters-button {
+  padding: 0.5em;
+  min-width: 75%;
+  margin-bottom: 0.5em;
+  height: auto !important;
+}
+</style>

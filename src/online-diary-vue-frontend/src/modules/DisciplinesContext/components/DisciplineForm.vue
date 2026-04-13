@@ -7,15 +7,13 @@ import Label from "@/components/ui/label/Label.vue";
 import Separator from "@/components/ui/separator/Separator.vue";
 import BlockText from "@/modules/Common/Components/BlockText.vue";
 import BooleanBlockText from "@/modules/Common/Components/BooleanBlockText.vue";
-import { useMediaScreenTypeTracker } from "@/modules/Common/Composables/useMediaScreenTypeTracker";
 
 // форма для конкретной дисциплины. Версия для экранов LG, XL и XXL.
 
-const { isLG, isXL, isXXL } = useMediaScreenTypeTracker();
 </script>
 
 <template>
-  <Card v-if="isLG() || isXL() || isXXL()" :class="'p-0 gap-4 card-primary'">
+  <Card :class="'p-0 gap-4 card-primary'">
 
     <CardHeader :class="'p-4 bg-jade-green rounded-t-md text-responsive-secondary font-semibold'">
       Информация дисциплины
