@@ -54,23 +54,87 @@ watch(
 </script>
 
 <template>
-  <section :ref="container.element" :class="'block my-6 px-4 gap-4'">
-    <section :ref="statistics.element" class="p-0 flex flex-wrap gap-4">
+  <section :ref="container.element" :class="'disciplines-page-container'">
+    <div :ref="statistics.element" :class="'statistics-container one'">
       <StatisticsCard :title="'Всего'" :value="12" />
       <StatisticsCard :title="'Преподаются'" :value="8" />
       <StatisticsCard :title="'Не преподаются'" :value="8" />
-    </section>
-    <section :class="'my-4 flex flex-col flex-1 min-h-0 min-w-0 gap-4 lg:flex-row'">
-      <div :ref="filter.element" :class="'shrink-0 gap-4 flex flex-col'">
-        <DisciplinesListFilters v-if="isLG() || isXL() || isXXL()" />
-        <DisciplineForm />
-      </div>
-      <!-- <DisciplinesSection @open-mobile-filters="toggleMobileFilters" v-if="dataContainerHeight > 0"
-        :data-height-limit="dataContainerHeight" /> -->
-    </section>
+    </div>
+    <div :class="'aside-container two'">
+      <DisciplinesListFilters :class="'filters-container'" />
+      <DisciplineForm :class="'selected-container'" />
+    </div>
+    <div :class="'three scroller'">
+      <DisciplinesSection :class="'items-container'" @open-mobile-filters="toggleMobileFilters"
+        :data-height-limit="dataContainerHeight" />
+    </div>
   </section>
-
-  <DisciplinesListFilters_mobile :is-open="isOpen" @mobile-close="closeMobileFilters"
-    v-if="isXS() || isSM() || isMD()" />
-  <DisciplineForm_mobile :is-open="false" />
 </template>
+
+<style lang="css" scoped>
+.disciplines-page-container {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  box-sizing: border-box;
+
+  padding: 1em;
+  gap: 1em;
+  display: grid;
+
+  grid-template-areas:
+    "one one one"
+    "two three three"
+    "two three three";
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 148px minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.one {
+  grid-area: one;
+}
+
+.two {
+  grid-area: two;
+}
+
+.three {
+  grid-area: three;
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  box-sizing: border-box;
+  padding-bottom: 1em;
+}
+
+.three>* {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.aside-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  min-width: 0;
+  min-height: 0;
+}
+
+.selected-container {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.statistics-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  height: 2.5em;
+}
+</style>
