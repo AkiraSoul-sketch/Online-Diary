@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import Separator from "@/components/ui/separator/Separator.vue";
 import AdminPanelMenu from "./components/AdminPanelMenu/AdminPanelMenu.vue";
-import { useAdminStore } from "./admin.store";
-
-const adminStore = useAdminStore();
 
 // TODO: 2. Переработать страницу Пользователи
 // TODO: 3. Переработать страницу учебные планы.
@@ -12,15 +8,26 @@ const adminStore = useAdminStore();
 </script>
 
 <template>
-  <section :class="'full-size flex-column-layout flex-constrained-column'">
-    <div :class="'flex flex-col w-full self-center'">
-      <AdminPanelMenu :class="'self-center'" />
-      <h3 :class="'text-responsive-primary font-semibold  mx-10 self-start py-3'">
-        {{ adminStore.menuTitle }}
-      </h3>
-    </div>
-    <section :class="'flex flex-1 min-h-0'">
-      <RouterView />
-    </section>
+  <section class="admin-panel-container">
+    <AdminPanelMenu />
+    <RouterView :class="'admin-panel-content-slot'" />
   </section>
 </template>
+
+<style scoped lang="css">
+.admin-panel-container {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.admin-panel-content-slot {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+</style>

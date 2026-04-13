@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { inject, onMounted } from 'vue';
 import type { Discipline, DisciplineGroup, DisciplineSemester, DisciplineTeacher } from './discipline.models';
 import { useDisciplinesStore } from './discipline.store';
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
@@ -12,20 +12,15 @@ import FieldContent from '@/components/ui/field/FieldContent.vue';
 import { FieldLabel } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import type { DisciplinesViewProps } from './disciplines.view.props';
+import CloseButton from '../Common/Components/CloseButton.vue';
 
 
 const store = useDisciplinesStore();
 const teachers: DisciplineTeacher[] = [];
 const semesters: DisciplineSemester[] = [];
 const groups: DisciplineGroup[] = [];
-
-const emits = defineEmits<{
-    (e: 'mobile-close'): void
-}>();
-
-const props = defineProps<{
-    isOpen: boolean;
-}>();
+const viewManager = inject<DisciplinesViewProps>("disciplinesViewManager");
 
 onMounted(() => {
     const disciplines: Discipline[] = store.disciplines;
@@ -61,19 +56,21 @@ onMounted(() => {
 </script>
 
 <template>
-    <Drawer :open="props.isOpen">
+    <Drawer :open="viewManager?.isFiltersDrawerOpen()">
         <DrawerContent class="card-primary rounded-md h-max border shrink-0">
             <div :class="'flex flex-row justify-between p-4'">
                 <div class="bg-apricat-cream text-responsive-secondary font-semibold rounded-t-md">
                     Фильтрация
                 </div>
-                <DrawerClose>
+                <CloseButton :onClick="() => viewManager?.toggleFiltersDrawer()" />
+                <!-- <DrawerClose>
                     <DrawerTrigger>
-                        <Button v-on:click="emits('mobile-close')" :variant="'primary'" :class="'rounded-full'">
+                        <Button v-on:click="viewManager?.toggleFiltersDrawer" :variant="'primary'"
+                            :class="'rounded-full'">
                             <CrossIcon :size="16" />
                         </Button>
                     </DrawerTrigger>
-                </DrawerClose>
+                </DrawerClose> -->
             </div>
             <div class="p-4">
                 <div class="text-responsive-tertiary flex-column-layout gap-2">

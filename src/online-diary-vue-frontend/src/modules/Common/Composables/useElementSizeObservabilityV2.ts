@@ -12,6 +12,10 @@ export function useElementSizeObservabilityV2(loggingOptions?: LoggingOptions) {
   const width = computed(() => $size.value.width);
   const height = computed(() => $size.value.height);
 
+  function observe(el: HTMLElement): void {
+    element.value = el;
+  }
+
   // наблюдать за изменениями размера элемента
   watch(
     () => element.value,
@@ -38,7 +42,7 @@ export function useElementSizeObservabilityV2(loggingOptions?: LoggingOptions) {
     observer?.disconnect();
   });
 
-  return { element, width, height };
+  return { element, width, height, observe };
 }
 
 type LoggingOptions = {

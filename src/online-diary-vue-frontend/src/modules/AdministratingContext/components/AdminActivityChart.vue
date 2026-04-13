@@ -2,7 +2,6 @@
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import { type ChartConfig } from "@/components/ui/chart";
 import ChartContainer from "@/components/ui/chart/ChartContainer.vue";
-import { useGlobalContainerStore } from "@/modules/Common/Stores/globalContainer.store";
 import {
   VisTooltip,
   VisXYContainer,
@@ -10,6 +9,7 @@ import {
   VisAxis,
   VisCrosshair,
 } from "@unovis/vue";
+import CardHeader from "@/components/ui/card/CardHeader.vue";
 
 const chartData = [
   { weekDay: 1, activity: 10 },
@@ -29,46 +29,79 @@ function resolveWeekDayText(i: number): string {
   return days[i - 1];
 }
 
-// используется, чтобы обновлять график при ресайзе страницы.
-const globalContainerStore = useGlobalContainerStore();
-
 const chartConfig = {
   activity: {
     label: "Активность",
     color: "#CCCCCC 50%",
   },
 } satisfies ChartConfig;
+
 </script>
 
 <template>
-  <div :class="'my-2 card-primary rounded-md flex flex-col p-2 min-h-0 min-w-0 shrink'" ref="container">
-    <CardTitle :class="'font-normal p-2 text-responsive-primary'">Активность</CardTitle>
-    <Card :class="' p-0 flex-column-layout flex-constrained-column shrink border-none shadow-none rounded-sm'">
-      <CardContent :class="'card-primary flex-constrained shrink'">
-        <ChartContainer :config="chartConfig">
-          <VisXYContainer :key="globalContainerStore.width" :data="chartData">
-            <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity"
-              :color="chartConfig.activity.color" />
+  <Card :class="'card-primary borderless shadow-none chart-card'">
+    <CardHeader>
+      <CardTitle :class="'text-responsive-primary'">Активность</CardTitle>
+    </CardHeader>
+    <CardContent :class="'chart-card-content'">
+      <ChartContainer :config="chartConfig" :class="'chart-container'">
+        <VisXYContainer :data="chartData" :class="'vis-chart'">
+          <VisStackedBar :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="chartConfig.activity.color"
+            :class="'stacked-bar'" />
 
-            <VisAxis type="x" label="День недели" :tick-format="(i: number) => {
-              if (i < 1 || i > 7) return;
-              return resolveWeekDayText(i);
-            }
-              " :grid-line="true" :tickValues="chartData.map((d) => d.weekDay)" />
-            <VisAxis type="y" label="Активность" />
-            <VisTooltip />
-            <VisCrosshair :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="'#a1fb95'"
-              :strokeColor="'#000000'" :strokeWidth="'5px'" :template="(d: Data) =>
-                [d.activity, resolveWeekDayText(d.weekDay)].join(', ')
-                " />
-          </VisXYContainer>
-        </ChartContainer>
-      </CardContent>
-    </Card>
-  </div>
+          <VisAxis type="x" label="День недели" :tick-format="(i: number) => {
+            if (i < 1 || i > 7) return;
+            return resolveWeekDayText(i);
+          }
+            " :grid-line="true" :tickValues="chartData.map((d) => d.weekDay)" />
+          <VisAxis type="y" label="Активность" />
+          <VisTooltip />
+          <VisCrosshair :x="(d: Data) => d.weekDay" :y="(d: Data) => d.activity" :color="'#a1fb95'"
+            :strokeColor="'#000000'" :strokeWidth="'5px'" :template="(d: Data) =>
+              [d.activity, resolveWeekDayText(d.weekDay)].join(', ')
+              " />
+        </VisXYContainer>
+      </ChartContainer>
+    </CardContent>
+  </Card>
 </template>
 
 <style scoped lang="css">
+.chart-card {
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.chart-card-content {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.vis-chart {
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+  display: flex;
+}
+
+.stacked-bar {
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+}
+
 ::v-deep svg path.css-ix1mbc-bar {
   stroke: #000 !important;
   stroke-width: 1px !important;

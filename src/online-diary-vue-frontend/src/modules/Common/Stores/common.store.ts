@@ -6,36 +6,51 @@ export const useCommonStore = defineStore("common", () => {
   const viewPortHeight: Ref<number> = ref(window.innerHeight);
   const sideBarHidden: Ref<boolean> = ref(false);
   const headerHeight: Ref<number> = ref(0);
+  const footerHeight: Ref<number> = ref(0);
   const isAfterLogin: Ref<boolean> = ref(false);
 
   /**
    * Обновляет текущее значение ширины области просмотра.
    *
-   * @param number - Новое значение ширины viewport в пикселях.
+   * @param input - Новое значение ширины viewport в пикселях.
    * @returns Ничего не возвращает.
    */
-  function adjustWidth(number: number): void {
-    viewPortWidth.value = number;
+  function adjustViewPortWidth(input: number): void {
+    if (input < 0) return;
+    viewPortWidth.value = input;
   }
 
   /**
    * Обновляет значение высоты области просмотра.
    *
-   * @param number - Новая высота viewport в пикселях.
+   * @param input - Новая высота viewport в пикселях.
    * @returns Ничего не возвращает.
    */
-  function adjustHeight(number: number): void {
-    viewPortHeight.value = number;
+  function adjustViewPortHeight(input: number): void {
+    if (input < 0) return;
+    viewPortHeight.value = input;
   }
 
   /**
    * Изменяет высоту заголовка, обновляя значение `headerHeight`.
    *
-   * @param number Новое значение высоты заголовка.
+   * @param input Новое значение высоты заголовка.
    * @returns Ничего не возвращает.
    */
-  function adjustHeaderHeight(number: number): void {
-    headerHeight.value = number;
+  function adjustHeaderHeight(input: number): void {
+    if (input < 0) return;
+    headerHeight.value = input;
+  }
+
+  /**
+   * Изменяет высоту нижнего колонтитула (footer), обновляя значение `footerHeight`.
+   *
+   * @param input Новая высота footer в пикселях. Если значение отрицательное, операция игнорируется.
+   * @returns Ничего не возвращает.
+   */
+  function adjustFooterHeight(input: number): void {
+    if (input < 0) return;
+    footerHeight.value = input;
   }
 
   /**
@@ -62,13 +77,15 @@ export const useCommonStore = defineStore("common", () => {
   return {
     viewPortHeight,
     viewPortWidth,
-    sideBarHidden,
     headerHeight,
+    footerHeight,
+    sideBarHidden,
     isAfterLogin,
     setIsAfterLoginV2,
-    adjustHeight,
-    adjustWidth,
     toggleSideBar,
     adjustHeaderHeight,
+    adjustFooterHeight,
+    adjustViewPortHeight,
+    adjustViewPortWidth,
   };
 });

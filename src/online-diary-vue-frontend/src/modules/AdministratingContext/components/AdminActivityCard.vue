@@ -6,14 +6,10 @@ import CardTitle from "@/components/ui/card/CardTitle.vue";
 import Label from "@/components/ui/label/Label.vue";
 import Separator from "@/components/ui/separator/Separator.vue";
 import { UserIcon } from "lucide-vue-next";
-
-
-// TODO: сделать что-то
 </script>
 
 <template>
-  <Card
-    :class="'border-none item-bg-primary-accent my-1 min-w-0 min-h-0 grid grid-cols-[auto_auto_1fr] w-full rounded-sm'">
+  <Card :class="'border-none item-bg-primary-accent my-1 grid grid-cols-[auto_auto_1fr] w-full rounded-sm'">
     <div :class="'flex flex-col gap-1 justify-between'">
       <CardHeader :class="'p-1 text-center inline-flex items-center  w-full'">
 
