@@ -28,6 +28,13 @@
 embedding_model/
 generative_model/
 
+# zig:
+.zig-cache
+.zig-cache/*
+**/*/.zig-cache
+**/*/.zig-cache/
+**/*/.zig-cache/*
+
 # Editor directories and files
 .github
 *.github
