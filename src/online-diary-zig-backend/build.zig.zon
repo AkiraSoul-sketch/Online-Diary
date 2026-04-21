@@ -1,6 +1,12 @@
 .{
     .name = .online_diary_zig_backend,
     .version = "0.0.1",
+    .dependencies = .{
+        .httpz = .{
+            .url = "git+https://github.com/karlseguin/http.zig?ref=master#a996009c3673862734d764e0338bc8ead73f1ab8",
+            .hash = "httpz-0.0.0-PNVzrAe3BwDqESvfZXPGh4vM2J8JXWltsHxXYLZ8ShQe",
+        },
+    },
     .minimum_zig_version = "0.16.0",
     .paths = .{""},
     .fingerprint = 0xfd74b4541c854f8d,
