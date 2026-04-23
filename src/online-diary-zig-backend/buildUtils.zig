@@ -20,7 +20,7 @@ pub const BuildContext: type = struct {
     }
 
     pub fn createExecutable(
-        self: *const BuildContext, 
+        self: *const BuildContext,
         name: []const u8,
         use_llvm: bool,
         use_lld: bool) *Build.Step.Compile {
@@ -30,32 +30,32 @@ pub const BuildContext: type = struct {
     }
 };
 
-pub fn createForExecutable(b: *Build,source_name: []const u8,source_file: []const u8, mode: ?OptimizeMode) BuildContext {        
-    const optimize = createOptimizeMode(b, mode);        
+pub fn createForExecutable(b: *Build,source_name: []const u8,source_file: []const u8, mode: ?OptimizeMode) BuildContext {
+    const optimize = createOptimizeMode(b, mode);
     const create_options = createExeCreateOptions(b, source_file, optimize);
-    const main_exe = b.addModule(source_name, create_options);    
+    const main_exe = b.addModule(source_name, create_options);
     return BuildContext{
         .main_exe = main_exe,
         .optimize = optimize,
         .target = create_options.target,
-        .build = b,        
+        .build = b,
     };
 }
 
 fn createOptimizeMode(b: *Build, mode: ?OptimizeMode) OptimizeMode {
-    const resolved_mode = if (mode == null) .Debug else mode.?;        
+    const resolved_mode = if (mode == null) .Debug else mode.?;
     const optimize_options = Build.StandardOptimizeOptionOptions{
-        .preferred_optimize_mode = resolved_mode 
-    };                 
+        .preferred_optimize_mode = resolved_mode
+    };
 
     return b.standardOptimizeOption(optimize_options);
 }
 
 fn createExeCreateOptions(
     b: *Build,
-    source_file: []const u8,        
+    source_file: []const u8,
     optimize: OptimizeMode) CreateOptions {
-    const target = b.standardTargetOptions(.{}); 
+    const target = b.standardTargetOptions(.{});
     const source_file_path = b.path(source_file);
     return CreateOptions{
         .root_source_file = source_file_path,
@@ -65,9 +65,9 @@ fn createExeCreateOptions(
 }
 
 fn createExeOptions(
-    name: []const u8, 
-    context: *const BuildContext, 
-    use_llvm: bool, 
+    name: []const u8,
+    context: *const BuildContext,
+    use_llvm: bool,
     use_lld: bool) Build.ExecutableOptions {
     return Build.ExecutableOptions{
         .use_llvm = use_llvm,
