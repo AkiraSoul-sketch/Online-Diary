@@ -1,6 +1,0 @@
-. {
-    .name = "uuid7",
-    .root = "uuid7.zig",
-    .deps = .{},
-    .expose_to_root = true,
-}
