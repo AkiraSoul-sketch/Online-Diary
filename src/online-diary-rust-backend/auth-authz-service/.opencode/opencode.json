@@ -1,0 +1,15 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+        "docsrs-mcp": {
+        "type": "local",
+        "command": ["/home/ramwsh/.cargo/bin/docsrs-mcp"],
+        "enabled": true
+        },
+        "rust-analyzer-mcp": {
+        "type": "local",
+        "command": ["/home/ramwsh/.cargo/bin/rust-analyzer-mcp"],
+        "enabled": true
+        }
+    }
+}
